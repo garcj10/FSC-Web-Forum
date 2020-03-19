@@ -1,0 +1,230 @@
+/* alex this is for header two files*/
+
+body {
+
+    width: 100%;
+}
+
+
+.navbar-header button {
+    background-color: #006f71;
+}
+
+
+.header_two_one {
+    background-color: #006f71;
+
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+}
+
+.navbar .navbar-default .navbar-fixed-top .navbar-inverse {
+    background-color: #006f71;
+}
+
+.index-login-form {
+    padding: 15% 10% 0% 10%;
+}
+
+.index_page img {
+    width: 100%;
+    height: 94vh;
+    position: absolute;
+
+}
+
+
+
+
+.text-box1 {
+    text-align: center;
+
+
+}
+
+.text-box1 h1,
+label {
+    font-size: 6vw;
+    font-family: 'Permanent Marker', cursive;
+
+}
+
+label {
+    font-size: 4vh;
+}
+
+
+
+.index-login-form {
+    padding: 15% 10% 0% 10%;
+}
+
+
+
+
+
+/*animation */
+
+.index_banner1 {
+    animation: slide1 15s linear infinite;
+}
+
+
+.index_banner2 {
+    animation: slide2 15s linear infinite;
+}
+
+.index_banner3 {
+    animation: slide3 15s linear infinite;
+}
+
+.index_banner4 {
+    animation: slide4 15s linear infinite;
+}
+
+@keyframes slide1 {
+    0% {
+        visibility: visible;
+        opacity: 0.9;
+    }
+
+    25% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    50% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    75% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    100% {
+        visibility: visible;
+        opacity: 0.3;
+    }
+}
+
+
+
+@keyframes slide2 {
+    0% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    25% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    50% {
+        visibility: visible;
+        opacity: 0.9;
+    }
+
+    75% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    100% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+}
+
+
+@keyframes slide3 {
+    0% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    25% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    50% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    75% {
+        visibility: visible;
+        opacity: 0.9;
+    }
+
+    100% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+}
+
+
+@keyframes slide4 {
+    0% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    25% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    50% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    75% {
+        visibility: hidden;
+        opacity: 0.3;
+    }
+
+    100% {
+        visibility: visible;
+        opacity: 0.9;
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 768px) {
+    .index_page {
+        display: none;
+    }
+
+
+
+    .text-box1 h1 {
+        font-size: 15vw;
+
+    }
+
+    /* show it on small screens */
+}
+
+
+
+/* profile page*/
+
+
+.profile_img {
+    margin-top: 10%;
+}
+
+.register_profile_margin {
+    width: 50%;
+    margin-top: 5%;
+}
