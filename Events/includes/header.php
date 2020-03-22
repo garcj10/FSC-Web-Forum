@@ -48,7 +48,9 @@
                 </ul>
  
      <ul class="nav navbar-nav navbar-right">
-      <!--  <li><a href="dashboard.php" style="color: #f3f3f3">My Dashboard</a></li> -->  
+     <?php if(isset($_SESSION['is_Admin'])) { ?>
+      <li><a href="create_events.php" style="color: #f3f3f3">Create Events</a></li> 
+      <?php } ?>
     <li><a href="my_account.php" style="color: #f3f3f3">My Account</a></li>
      <li><a href="includes/logout.php" style="color: #f3f3f3">Sign out</a></li></ul> </div></div>
     </nav>

@@ -39,19 +39,14 @@ body {
 
 }
 
-
-
-
 .text-box1 {
     text-align: center;
-
-
 }
 
 .text-box1 h1,
 label {
     font-size: 6vw;
-    font-family: 'Permanent Marker', cursive;
+    font-family: "Helvetica, sans-serif";
 
 }
 

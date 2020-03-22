@@ -48,6 +48,7 @@ $db = new Pdocon;
         echo "Name: " . $first_Name . '&nbsp;' . $last_Name . "<br>" . "Email: " . $email . "<br>" . "Ram ID: " . $ram_ID . "<br>" . "Department: " . $department . "<br>" . "Occupation: " . $occupation . "<br>" . "Are you an admin: " . $is_Admin;
     }
   ?> 
+   
     <div class="row">
       <div class="col-md-4 col-md-offset-4">
         <form class="form-horizontal" role="form" method="post" action="" enctype="multipart/form-data">
@@ -124,12 +125,13 @@ $db = new Pdocon;
   
           <div class="form-group"> 
             <div class="col-sm-offset-2 col-sm-10 text-center">
-              <button type="submit" class="btn btn-primary pull-right" name="submit_update">Update</button>
-              <a class="pull-left btn btn-danger" href="my_account.php"> Cancel</a>
+              <button type="submit" class="btn btn-primary" name="submit_update">Update</button>
             </div>
           </div>
 </form> 
   </div>
 </div> 
+   
+<script>
     
 <?php include('includes/footer.php'); ?>

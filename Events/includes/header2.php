@@ -50,8 +50,6 @@ if(isset($_SESSION['user_is_logged_in'])){
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                   <ul class="nav navbar-nav navbar-right">
-                      <li><a href="index.php" style="color: #f3f3f3">Login</a></li>
-                      </ul> 
             </div>
         </div>
     </nav>
