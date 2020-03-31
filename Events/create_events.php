@@ -40,7 +40,7 @@ if(isset($_POST['create_event'])){
           
           $admin_Id =  $_SESSION['admin_data']['adminId'];
           
-          $db->query("INSERT INTO events(admin_Id, event_Id, event_Title, event_Type, description, location, date, time) VALUES(:adminId, NULL, :title, :description, :eventType, :location, :date, :time)");
+          $db->query("INSERT INTO events(admin_Id, event_Id, event_Title, event_Type, description, location, date, time) VALUES(:adminId, NULL, :title, :eventType, :description, :location, :date, :time)");
             
           $db->bindvalue(':adminId', $admin_Id, PDO::PARAM_INT);
           $db->bindvalue(':title', $c_title, PDO::PARAM_STR);
@@ -51,11 +51,12 @@ if(isset($_POST['create_event'])){
           $db->bindvalue(':time', $c_time, PDO::PARAM_STR);
         
           $run = $db->execute(); 
-        
+          
            echo '<div class="alert alert-success text-center">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                   <strong>Success!</strong> Event created successfully.
                   </div>';
+          
       }
 }
 
@@ -81,12 +82,22 @@ if(isset($_POST['create_event'])){
             </div>
             </div>
  
-          <div class="form-group">
+         <div class="form-group">
             <label class="control-label col-sm-2" for="eventType"></label>
             <div class="col-sm-10">
-              <input type="eventType" name="eventType" class="form-control" id="eventType" placeholder="Enter Event Type" required>
+               <select type="" name="eventType" class="form-control" id="eventType" required>
+        <option value="">Select Event Type</option>
+                                    <option value="Athletics">Athletics</option>
+                                    <option value="Clubs">Club</option>
+                                     <option value="FSC">FSC</option>
+                                      <option value="Academics">Academics</option>
+                                       <option value="Tutoring">Tutoring</option>
+                                        <option value="Admissions">Admissions</option>
+                                </select>
             </div>
           </div>
+        
+
           
           <div class="form-group">
             <label class="control-label col-sm-2" for="location"></label>

@@ -117,6 +117,7 @@ if(isset($_POST['submit_login'])) {
                 </div>');
         
         redirect('my_account.php');
+        
     } else {
         
          echo '<div class="alert alert-danger text-center">

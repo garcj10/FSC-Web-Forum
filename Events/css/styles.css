@@ -1,10 +1,21 @@
 /* alex this is for header two files*/
-
-body {
-
+.width {
     width: 100%;
+
+}
+nav{
+    -bottom: 15%;
 }
 
+nav ul {
+    font-size: 2vh;
+    text-transform: uppercase;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 
 .navbar-header button {
     background-color: #006f71;
@@ -34,13 +45,24 @@ body {
 
 .index_page img {
     width: 100%;
-    height: 94vh;
+    height: 95.75vh;
     position: absolute;
+
+    ;
 
 }
 
+.myregister {
+
+    padding: 0% 10% 0% 10%;
+
+}
+
+
 .text-box1 {
     text-align: center;
+
+
 }
 
 .text-box1 h1,
@@ -61,7 +83,9 @@ label {
 }
 
 
-
+.register_form label {
+    font-size: 16px;
+}
 
 
 /*animation */
@@ -195,12 +219,25 @@ label {
     }
 }
 
+.register_form {
+    padding: 6%;
+    margin: 10% 0% 0% 0%;
+    border-right: 5px solid green;
+
+}
+
+.register_view {
+    padding: 18% 0% 0% 5%;
+    font-size: 2vh;
+    text-transform: uppercase;
+}
+
+
+
 @media screen and (min-width: 0px) and (max-width: 768px) {
     .index_page {
         display: none;
     }
-
-
 
     .text-box1 h1 {
         font-size: 15vw;
@@ -208,18 +245,4 @@ label {
     }
 
     /* show it on small screens */
-}
-
-
-
-/* profile page*/
-
-
-.profile_img {
-    margin-top: 10%;
-}
-
-.register_profile_margin {
-    width: 50%;
-    margin-top: 5%;
 }

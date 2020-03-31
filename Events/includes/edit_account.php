@@ -100,7 +100,9 @@ if(isset($_POST['submit_update'])){
   }
     
     // Process whether the user chooses yes/no on admin:
+    if(($_SESSION['is_Admin']) != true)  {
         $raw_admin  = cleandata($_POST['admin']);
+    }
       
         $c_admin = sanitize($raw_admin);
     
