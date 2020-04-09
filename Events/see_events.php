@@ -3,9 +3,15 @@
 include('includes/functions.php');
 
 require('includes/pdocon.php');
-?> 
+?>
+<script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
 
-<! CSS that sytles the side bar and table >
+    <!-- CSS that styles the side bar and table -->
+
+</script>
 <style>
 * {
   box-sizing: border-box;
@@ -195,12 +201,12 @@ tr:nth-child(even) {
 
 <! Side Bar Form with Filters >
  <form name="filter" method="GET" action="see_events.php">
-<input type="submit" name="all" value="All Events" class="dropdown-btn">
+<input type="submit" name="all" value="All Events" class="dropdown-btn" default>
 <br>
 <button type="button" class="dropdown-btn">Event Type<i class="fa fa-caret-down"></i></button>
 <div class="dropdown-content">
 <input type="submit" name="fsc" value="FSC">
-<input type="submit" name="club" value="Club">
+<input type="submit" name="clubs" value="Clubs">
 <input type="submit" name="athletics" value="Athletics">
 <input type="submit" name="tutoring" value="Tutoring">
 <input type="submit" name="academics" value="Academics">
@@ -251,6 +257,11 @@ $db = new Pdocon;
       
 date_default_timezone_set('America/New_York');
 $fulldate = date('Y-m-d');
+
+// Initial event count to be displayed
+$eventCount = 10;
+// Event count to be incremented when "More events" button is clicked
+$eventCountIncrement = 10;
       
 /* FOR FILTERING CURRENT DATE, FUTURE, OR PREVIOUS DATES:
 
@@ -261,73 +272,100 @@ $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
 $row = $db->fetchMultiple(); */
       
 // DISPLAYS ALL EVENTS BY DEFAULT (MOST RECENTLY CREATED)
-$db->query('SELECT * FROM events');  
+$db->query('SELECT * FROM events');
 $row = $db->fetchMultiple();
 if ($row) {
-    // output data of each row
+    /* output data of each row
+     * event_Type is used within load-events.php to keep track of which
+     * table is being viewed
+     */
 	if (isset($_GET['all'])) {
-        $db->query('SELECT * FROM events'); 
+        $db->query('SELECT * FROM events LIMIT :eventCount');
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
+        $event_Type = 'all';
 	}  
 	else if (isset($_GET['fsc'])) {
         $event_Type = 'FSC';
-        $db->query('SELECT * FROM events WHERE event_Type =:FSC');
+        $db->query('SELECT * FROM events WHERE event_Type =:FSC LIMIT :eventCount');
         $db->bindValue(':FSC', $event_Type, PDO::PARAM_STR);
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
 	} 
-	else if (isset($_GET['club'])) {
-        $event_Type = 'Club';
-        $db->query('SELECT * FROM events WHERE event_Type =:club');
-        $db->bindValue(':club', $event_Type, PDO::PARAM_STR);
+	else if (isset($_GET['clubs'])) {
+        $event_Type = 'Clubs';
+        $db->query('SELECT * FROM events WHERE event_Type =:clubs LIMIT :eventCount');
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
+        $db->bindValue(':clubs', $event_Type, PDO::PARAM_STR);
         $row = $db->fetchMultiple();
 	} 
 	else if (isset($_GET['athletics'])) {
         $event_Type = 'Athletics';
-        $db->query('SELECT * FROM events WHERE event_Type =:athletics');
+        $db->query('SELECT * FROM events WHERE event_Type =:athletics LIMIT :eventCount');
         $db->bindValue(':athletics', $event_Type, PDO::PARAM_STR);
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
 	} 
 	else if (isset($_GET['tutoring'])) {
         $event_Type = 'Tutoring';
-        $db->query('SELECT * FROM events WHERE event_Type =:tutoring');
+        $db->query('SELECT * FROM events WHERE event_Type =:tutoring LIMIT :eventCount');
         $db->bindValue(':tutoring', $event_Type, PDO::PARAM_STR);
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
 	} 
 	else if (isset($_GET['academics'])) {
         $event_Type = 'Academics';
-        $db->query('SELECT * FROM events WHERE event_Type =:academics');
+        $db->query('SELECT * FROM events WHERE event_Type =:academics LIMIT :eventCount');
         $db->bindValue(':academics', $event_Type, PDO::PARAM_STR);
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
 	} 
 	else if (isset($_GET['admissions'])) {
         $event_Type = 'Admissions';
-        $db->query('SELECT * FROM events WHERE event_Type =:admissions');
+        $db->query('SELECT * FROM events WHERE event_Type =:admissions LIMIT :eventCount');
         $db->bindValue(':admissions', $event_Type, PDO::PARAM_STR);
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
 	} 
 	else if (isset($_GET['newest'])) {
-        $db->query('SELECT * FROM events WHERE date <=:fulldate ORDER BY date DESC');
+        $db->query('SELECT * FROM events WHERE date <=:fulldate ORDER BY date DESC LIMIT :eventCount');
         $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
+        $event_Type = 'newest';
 	} 
     else if (isset($_GET['oldest'])) {
-         $db->query('SELECT * FROM events WHERE date <=:fulldate ORDER BY date ASC');
+         $db->query('SELECT * FROM events WHERE date <=:fulldate ORDER BY date ASC LIMIT :eventCount');
         $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
+        $event_Type = 'oldest';
 	} 
     else if (isset($_GET['upcoming'])) {
-         $db->query('SELECT * FROM events WHERE date >=:fulldate ORDER BY date ASC');
+         $db->query('SELECT * FROM events WHERE date >=:fulldate ORDER BY date ASC LIMIT :eventCount');
         $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
+        $event_Type = 'upcoming';
 	} 
 	else if (isset($_GET['time'])) {
-	    $db->query('SELECT * FROM events ORDER BY time');
+	    $db->query('SELECT * FROM events ORDER BY time LIMIT :eventCount');
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
+        $event_Type = 'time';
 	}	
 	else if (isset($_GET['location'])) {
-        $db->query('SELECT * FROM events ORDER BY location');
+        $db->query('SELECT * FROM events ORDER BY location LIMIT :eventCount');
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
-	} 
+        $event_Type = 'location';
+	}
+	else {
+        $db->query('SELECT * FROM events LIMIT :eventCount');
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
+        $row = $db->fetchMultiple();
+        $event_Type = 'all';
+    }
 ?>
 </script>
 <! Table that Displays Information >
@@ -355,11 +393,13 @@ if ($row) {
         $date = $event["date"];
         
         echo "<tr><td>" . $event["event_Title"]. "</td><td>" . $event["event_Type"]. "</td><td>" . $event["description"]. "</td><td>" . $event["location"]. "</td><td>" .  date('n/d/Y', strtotime($date)) . "</td><td>" . date('g:i A', strtotime($time)) . "</td></tr>";
+        //echo "<div>"." hello this is where comments will go"."</div>";
     }
 //}
 ?>
 </tbody>	
 </table>
+<button id="moreEvents">SHOW MORE EVENTS</button>
 <! Will execute if nothing is in the table >
 <?php
 }
@@ -368,4 +408,33 @@ else { echo "No events found."; }
   </div>
   </div>
 </div>
+<script>
+
+$(document).ready(function() {
+    var eventCount = <?php echo $eventCount ?>;
+    var eventCountInc = <?php echo $eventCountIncrement ?>;
+    var event_type = "<?php echo $event_Type ?>";
+    var fullDate = "<?php echo $fulldate ?>";
+    // Refreshes the table being viewed on an interval
+    setInterval(update_content,60000); // 60 seconds
+
+    // When "more events" button is clicked - Increases the limit
+    // of the query to be executed withing update_content
+    $("#moreEvents").click(function(){
+        eventCount = eventCount + eventCountInc;
+        //alert(userchoice);
+        update_content();
+    });
+
+    // Runs load-event.php which updates the events table
+    function update_content(){
+        //alert("RELOADED");
+        $("#myTable").load("includes/load-events.php", {
+            eventNewCount: eventCount,
+            event_Type: event_type,
+            fulldate: fullDate
+        });
+    }
+});
+      </script>
 <?php include('includes/footer.php'); ?>

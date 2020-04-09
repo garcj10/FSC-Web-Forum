@@ -1,11 +1,26 @@
 <?php
 class Pdocon {
 
+    /*
+     * Comment out cloudways account and uncomment local server information
+     * for use on local environment --IMPORTANT-- make sure to leave the cloudways
+     * server details uncommented before committing or do not commit pdocon.php at all
+     */
+    // CloudWays Database Information:
+    private $host       = "localhost";
+    private $user       = "xfhbbaqwxr";
+    private $pass       = "V3K2XgpGtk";
+    private $dbnm       = "xfhbbaqwxr";
+
+    /*
     // Database Information:
         private $host       = "localhost";
         private $user       = "root";
         private $pass       = "";
         private $dbnm       = "app";
+    */
+
+
 
     // Holds database connection:
         private $dbh;
