@@ -54,8 +54,6 @@ if(isset($_POST['submit_login'])) {
     $rowFaculty = $dbFaculty->fetchSingle(); 
     
     if($row) {
-        $dbUsers_firstName   =   $row['first_Name'];
-        $dbUsers_lastName   =   $row['last_Name']; 
 //****************************************************
 // STORES USER DATA TO BE USED THROUGHOUT THE SESSION
         $_SESSION['user_data'] = array(
@@ -64,7 +62,8 @@ if(isset($_POST['submit_login'])) {
         'lastName' => $row['last_Name'],
         'id' => $row['user_Id'],
         'email' => $row['email'],
-        'userType' => $row['user_Type']
+        'userType' => $row['user_Type'],
+        'hashedPass' => $row['password']
         );
     
 //****************************************************
@@ -76,8 +75,7 @@ if(isset($_POST['submit_login'])) {
         'id' => $rowAdmin['user_Id'],
         'adminId' => $rowAdmin['admin_Id'],
         );
-           $_SESSION['is_Admin'] = true;
-    } 
+    }
 
 //****************************************************
 // RETRIEVES STUDENT DATA TO BE USED THROUGHOUT THE SESSION
@@ -93,7 +91,6 @@ if(isset($_POST['submit_login'])) {
                 'clubs' => $rowStudent['student_Clubs'],
                 'sports' => $rowStudent['student_Sports']
         ); 
-              $_SESSION['is_Student'] = true;
         }
         
         if($rowFaculty)
@@ -106,15 +103,9 @@ if(isset($_POST['submit_login'])) {
                 'department' => $rowFaculty['department'],
                 'occupation' => $rowFaculty['occupation']
         ); 
-              $_SESSION['is_Faculty'] = true;
         }
         
          $_SESSION['user_is_logged_in']  =  true;
-        
-        keepmsg('<div class="alert alert-success text-center">
-                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <strong>Welcome </strong>' . $dbUsers_firstName . '
-                </div>');
         
         redirect('my_account.php');
         

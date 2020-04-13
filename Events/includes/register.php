@@ -119,7 +119,7 @@ if(isset($_POST['submit_registry'])){
                  'id' => $rowAdmin['user_Id'],
                  'adminId' => $rowAdmin['admin_Id'],
              );
-       }
+       } 
             echo '<div class="alert alert-success text-center">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                   <strong>Success!</strong> Registered successfully.

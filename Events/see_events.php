@@ -3,7 +3,7 @@
 include('includes/functions.php');
 
 require('includes/pdocon.php');
-?>
+?> 
 <script
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -16,9 +16,17 @@ require('includes/pdocon.php');
 * {
   box-sizing: border-box;
 }
-
+h2
+{
+    font-family: "Helvetica, sans-serif";
+}
+.search-container {
+        font-family: "Helvetica, sans-serif";
+    font-size: 20;
+}
 body {
   margin: 0;
+margin-top: 70;
 }
 
 .verticalLine {
@@ -131,6 +139,7 @@ body {
   margin-left: 200px; /* Same as the width of the sidenav */
   font-size: 20px; /* Increased text to enable scrolling */
   padding: 0px 10px;
+    
 }
 
 /* Add an active class to the active dropdown button */
@@ -175,7 +184,7 @@ body {
 
 /* Table Design */
 table {
-  font-family: arial, sans-serif;
+     font-family: "Helvetica, sans-serif";
   border-collapse: collapse;
   width: 100%;
 
@@ -191,9 +200,6 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
-    .event_page{
-        margin-top: 10%;
-    }
 </style>
  <div class="row event_page">
    <div class="column side">
@@ -201,7 +207,7 @@ tr:nth-child(even) {
 
 <! Side Bar Form with Filters >
  <form name="filter" method="GET" action="see_events.php">
-<input type="submit" name="all" value="All Events" class="dropdown-btn" default>
+<input type="submit" name="all" value="All Events" class="dropdown-btn">
 <br>
 <button type="button" class="dropdown-btn">Event Type<i class="fa fa-caret-down"></i></button>
 <div class="dropdown-content">
@@ -224,8 +230,9 @@ tr:nth-child(even) {
 <br>
 <input type="submit" name="location" value="Location" class="dropdown-btn">
 </form>
-</div>
+</div> 
 
+       
 <script>
 /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
 var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -254,60 +261,119 @@ for (i = 0; i < dropdown.length; i++) {
 <?php
 // Create connection
 $db = new Pdocon;
+
+// Initial event count to be displayed
+$eventCount = 5;
+// Event count to be incremented when "More events" button is clicked
+$eventCountIncrement = 5;
       
 date_default_timezone_set('America/New_York');
 $fulldate = date('Y-m-d');
-
-// Initial event count to be displayed
-$eventCount = 10;
-// Event count to be incremented when "More events" button is clicked
-$eventCountIncrement = 10;
       
-/* FOR FILTERING CURRENT DATE, FUTURE, OR PREVIOUS DATES:
+ /* FOR FILTERING CURRENT DATE, FUTURE, OR PREVIOUS DATES:
 
-$db->query('SELECT * FROM events WHERE date >=:fulldate'); 
+$db->query('SELECT * FROM events WHERE date =:fulldate'); 
+
+// VARIABLE TO STORE TOMORROW'S DATE
+$tomorrow = date('Y-m-d', strtotime("+1 day"));
     
 $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
       
 $row = $db->fetchMultiple(); */
       
-// DISPLAYS ALL EVENTS BY DEFAULT (MOST RECENTLY CREATED)
-$db->query('SELECT * FROM events');
+// DISPLAYS ALL EVENTS BY DEFAULT
+$db->query('SELECT * FROM events'); 
 $row = $db->fetchMultiple();
 if ($row) {
-    /* output data of each row
+     /* output data of each row
      * event_Type is used within load-events.php to keep track of which
      * table is being viewed
      */
 	if (isset($_GET['all'])) {
-        $db->query('SELECT * FROM events LIMIT :eventCount');
+       $db->query('SELECT * FROM events LIMIT :eventCount');
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
         $event_Type = 'all';
 	}  
 	else if (isset($_GET['fsc'])) {
-        $event_Type = 'FSC';
+      $event_Type = 'FSC';
         $db->query('SELECT * FROM events WHERE event_Type =:FSC LIMIT :eventCount');
         $db->bindValue(':FSC', $event_Type, PDO::PARAM_STR);
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
 	} 
+    else if (isset($_GET['search'])) {
+		$searchItem = $_GET['searchItem'];
+        
+        // Selects everything from the database that is similar to what the user entered:
+        $db->query('SELECT * FROM `events` WHERE `event_Title` LIKE :searchItem OR event_Type LIKE :searchItem OR description LIKE :searchItem OR date LIKE :searchItem OR time LIKE :searchItem OR location LIKE :searchItem');
+
+        // If the user enters a date, it formats it accordingly. Ex. If they enter 4/2 instead of 4/2/2020, it will still fetch the results.
+       if(date('n/j/y', strtotime($searchItem)) == ($searchItem) OR date('n/j/Y', strtotime($searchItem)) == ($searchItem) OR date('n/j', strtotime($searchItem)) == ($searchItem)  OR date('n/d', strtotime($searchItem)) == ($searchItem) OR date('m/j', strtotime($searchItem)) == ($searchItem) OR date('m/d', strtotime($searchItem)) == ($searchItem)) 
+        {
+           // Converts dates the user entered into a format the DB can read:
+           $dbFormat = date('Y-m-d', strtotime($searchItem));
+           
+            $db->query('SELECT * FROM `events` WHERE `date` LIKE :dbFormat');
+            $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
+            $row = $db->fetchMultiple();
+        } 
+      
+        // If user enters a time with AM or PM, searches the database:
+        else if (date('g:iA', strtotime($searchItem)) == ($searchItem) OR date('g:ia', strtotime($searchItem)) == ($searchItem))
+       {
+            $dbFormat = date('H:i:s', strtotime($searchItem));
+            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat');
+            $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
+            $row = $db->fetchMultiple();
+        }  
+        
+        // If the user enters a time without the AM or PM:
+        else if (date('g:i', strtotime($searchItem)) == ($searchItem))
+       {
+            // Converts the time to the format the database can read:
+            $hour = (int)date('H', strtotime($searchItem));
+            $minute = (int)date('i', strtotime($searchItem));
+            if ($hour < 10 AND $minute > "00")
+            {
+                $format = $hour + 12 . ":" . $minute . ":00";
+            } else if ($hour < 10) {
+                 $format = $hour + 12 . ":00" . ":00";
+            } else if ($minute > "00") {
+                $format = $hour . ":" . $minute . ":00";
+            } else {
+                 $format = $hour . ":00" . ":00";
+            }
+            
+            $dbFormat = date($format, strtotime($searchItem));
+            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat');
+            $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
+            $row = $db->fetchMultiple();
+       }
+        // If the user doesn't enter a date or time, searches for everything else:
+        else {
+        $searchItem = "%".$searchItem."%";
+        $db->bindValue(':searchItem', $searchItem, PDO::PARAM_STR);
+        $row = $db->fetchMultiple();
+       }
+	}
+    
 	else if (isset($_GET['clubs'])) {
-        $event_Type = 'Clubs';
-        $db->query('SELECT * FROM events WHERE event_Type =:clubs LIMIT :eventCount');
+        $event_Type = 'Club';
+        $db->query('SELECT * FROM events WHERE event_Type =:club LIMIT :eventCount');
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
-        $db->bindValue(':clubs', $event_Type, PDO::PARAM_STR);
+        $db->bindValue(':club', $event_Type, PDO::PARAM_STR);
         $row = $db->fetchMultiple();
 	} 
 	else if (isset($_GET['athletics'])) {
-        $event_Type = 'Athletics';
+         $event_Type = 'Athletics';
         $db->query('SELECT * FROM events WHERE event_Type =:athletics LIMIT :eventCount');
         $db->bindValue(':athletics', $event_Type, PDO::PARAM_STR);
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
 	} 
 	else if (isset($_GET['tutoring'])) {
-        $event_Type = 'Tutoring';
+         $event_Type = 'Tutoring';
         $db->query('SELECT * FROM events WHERE event_Type =:tutoring LIMIT :eventCount');
         $db->bindValue(':tutoring', $event_Type, PDO::PARAM_STR);
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
@@ -328,39 +394,38 @@ if ($row) {
         $row = $db->fetchMultiple();
 	} 
 	else if (isset($_GET['newest'])) {
-        $db->query('SELECT * FROM events WHERE date <=:fulldate ORDER BY date DESC LIMIT :eventCount');
+       $db->query('SELECT * FROM events WHERE date <=:fulldate ORDER BY date DESC LIMIT :eventCount');
         $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
         $event_Type = 'newest';
 	} 
     else if (isset($_GET['oldest'])) {
-         $db->query('SELECT * FROM events WHERE date <=:fulldate ORDER BY date ASC LIMIT :eventCount');
+        $db->query('SELECT * FROM events WHERE date <=:fulldate ORDER BY date ASC LIMIT :eventCount');
         $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
         $event_Type = 'oldest';
 	} 
     else if (isset($_GET['upcoming'])) {
-         $db->query('SELECT * FROM events WHERE date >=:fulldate ORDER BY date ASC LIMIT :eventCount');
+        $db->query('SELECT * FROM events WHERE date >=:fulldate ORDER BY date ASC LIMIT :eventCount');
         $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
         $event_Type = 'upcoming';
 	} 
-	else if (isset($_GET['time'])) {
-	    $db->query('SELECT * FROM events ORDER BY time LIMIT :eventCount');
+	else if (isset($_GET['time'])) {  $db->query('SELECT * FROM events ORDER BY time LIMIT :eventCount');
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
         $event_Type = 'time';
 	}	
 	else if (isset($_GET['location'])) {
-        $db->query('SELECT * FROM events ORDER BY location LIMIT :eventCount');
+       $db->query('SELECT * FROM events ORDER BY location LIMIT :eventCount');
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
         $event_Type = 'location';
-	}
-	else {
+	} 
+    else {
         $db->query('SELECT * FROM events LIMIT :eventCount');
         $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
@@ -369,7 +434,11 @@ if ($row) {
 ?>
 </script>
 <! Table that Displays Information >
-<?php echo "Today's Date: " . date('n/d/Y', strtotime($fulldate))?>
+<?php echo "Date: " . date('n/j/y', strtotime($fulldate))?>
+<form name="filter" method="GET" action="see_events.php">
+<input type="text" name="searchItem" style="width:800px" placeholder="Enter a search term..">
+<input type="submit" name="search"  value="Search">
+</form>
 <br>
 <! Table Header >
 <table>
@@ -385,21 +454,30 @@ if ($row) {
 </thead>
 <! Table Row for each Event Entry >
 <tbody id="myTable">
+
 <?php
 //while($row = $result->fetch_assoc()){
    foreach($row as $event)
     {
         $time = $event["time"];
         $date = $event["date"];
-        
-        echo "<tr><td>" . $event["event_Title"]. "</td><td>" . $event["event_Type"]. "</td><td>" . $event["description"]. "</td><td>" . $event["location"]. "</td><td>" .  date('n/d/Y', strtotime($date)) . "</td><td>" . date('g:i A', strtotime($time)) . "</td></tr>";
-        //echo "<div>"." hello this is where comments will go"."</div>";
+    
+        echo "<tr><td>" . $event["event_Title"] . "</td><td>" . $event["event_Type"] . "</td><td>" . $event["description"]. "</td><td>" . $event["location"]. "</td><td>" .  date('n/j/y', strtotime($date)) . "</td><td>" . date('g:iA', strtotime($time)); 
+       
+    // If an event row has a capacity, then allow them to sign up:
+    if ($event["capacity"])
+    {
+    ?>  <div class="form-group"><button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button></div> <?php 
+      }; 
+       
+       echo "</td></tr>";
     }
+ 
 //}
 ?>
 </tbody>	
 </table>
-<button id="moreEvents">SHOW MORE EVENTS</button>
+<button id="moreEvents">Load More Events..</button>
 <! Will execute if nothing is in the table >
 <?php
 }

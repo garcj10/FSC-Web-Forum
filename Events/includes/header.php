@@ -9,7 +9,7 @@
     $last_Name = $_SESSION['user_data']['lastName'];
         
     } else { 
-    
+
         header("Location: logout.php");
     } 
 ?>
@@ -51,7 +51,7 @@
                     </ul>
 
                    <ul class="nav navbar-nav navbar-right">
-     <?php if(isset($_SESSION['is_Admin'])) { ?>
+     <?php if(isset($_SESSION['admin_data'])) { ?>
       <li><a href="create_events.php" style="color: #f3f3f3">Create Events</a></li> 
       <?php } ?>
     <li><a href="my_account.php" style="color: #f3f3f3">My Account</a></li>
