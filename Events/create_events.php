@@ -76,7 +76,6 @@ if(isset($_POST['create_event'])){
     
          $run = $db->execute();
         }
-    
           
            echo '<div class="alert alert-success text-center">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Event created successfully.
