@@ -11,7 +11,7 @@ $db = new Pdocon;
 if(isset($_POST['submit_update'])){
  
 // If the student session exists, process this data:
-  if(isset($_SESSION['is_Student'])){
+  if(isset($_SESSION['student_data'])){
 
         $raw_RAM_ID      =   cleandata($_POST['ramID']);
         $raw_major       =   cleandata($_POST['major']);
@@ -56,7 +56,7 @@ if(isset($_POST['submit_update'])){
   }
     
 // If the faculty session exists, process this data:
-  if(isset($_SESSION['is_Faculty'])){
+  if(isset($_SESSION['faculty_data'])){
       
         $raw_RAM_ID      =   cleandata($_POST['ramID']);
         $raw_Department = cleandata($_POST['department']);
@@ -100,9 +100,8 @@ if(isset($_POST['submit_update'])){
   }
     
     // Process whether the user chooses yes/no on admin:
-    if(isset($_SESSION['is_Admin']))  {
+    if(!isset($_SESSION['admin_data']))  {
         $raw_admin  = cleandata($_POST['admin']);
-    }
         $c_admin = sanitize($raw_admin);
     
        if($c_admin == "Yes")
@@ -122,7 +121,7 @@ if(isset($_POST['submit_update'])){
            
             $db->bindvalue(':user_Id', $user_Id, PDO::PARAM_INT);
            
-            $run2 = $db->execute();
+            $run = $db->execute();
          
             $db->query('SELECT * FROM admin WHERE user_Id=:user_Id'); 
             $db->bindvalue(':user_Id', $user_Id, PDO::PARAM_INT);
@@ -133,12 +132,11 @@ if(isset($_POST['submit_update'])){
                  'id' => $rowAdmin['user_Id'],
                  'adminId' => $rowAdmin['admin_Id'],
              );
-            $_SESSION['is_Admin'] = true;
-           }
-       } 
+           }   
+       }
+    }
     
         if($run){
-        
             echo '<div class="alert alert-success text-center">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                    User info updated successfully.
@@ -151,5 +149,5 @@ if(isset($_POST['submit_update'])){
               <strong>Sorry!</strong> User could not be updated. Please try again later
             </div>';
         } 
-    } 
+} 
 ?> 
