@@ -9,10 +9,10 @@ require('includes/pdocon.php');
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
 
-    <!-- CSS that styles the side bar and table -->
-
 </script>
+
 <style>
+<!-- CSS that styles the side bar and table -->
 * {
   box-sizing: border-box;
 }
@@ -266,6 +266,8 @@ $db = new Pdocon;
 $eventCount = 5;
 // Event count to be incremented when "More events" button is clicked
 $eventCountIncrement = 5;
+
+$searchItem="";
       
 date_default_timezone_set('America/New_York');
 $fulldate = date('Y-m-d');
@@ -304,9 +306,7 @@ if ($row) {
 	} 
     else if (isset($_GET['search'])) {
 		$searchItem = $_GET['searchItem'];
-        
-        // Selects everything from the database that is similar to what the user entered:
-        $db->query('SELECT * FROM `events` WHERE `event_Title` LIKE :searchItem OR event_Type LIKE :searchItem OR description LIKE :searchItem OR date LIKE :searchItem OR time LIKE :searchItem OR location LIKE :searchItem');
+        $event_Type = 'search';
 
         // If the user enters a date, it formats it accordingly. Ex. If they enter 4/2 instead of 4/2/2020, it will still fetch the results.
        if(date('n/j/y', strtotime($searchItem)) == ($searchItem) OR date('n/j/Y', strtotime($searchItem)) == ($searchItem) OR date('n/j', strtotime($searchItem)) == ($searchItem)  OR date('n/d', strtotime($searchItem)) == ($searchItem) OR date('m/j', strtotime($searchItem)) == ($searchItem) OR date('m/d', strtotime($searchItem)) == ($searchItem)) 
@@ -314,7 +314,8 @@ if ($row) {
            // Converts dates the user entered into a format the DB can read:
            $dbFormat = date('Y-m-d', strtotime($searchItem));
            
-            $db->query('SELECT * FROM `events` WHERE `date` LIKE :dbFormat');
+            $db->query('SELECT * FROM `events` WHERE `date` LIKE :dbFormat LIMIT :eventCount');
+            $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
             $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
             $row = $db->fetchMultiple();
         } 
@@ -323,7 +324,8 @@ if ($row) {
         else if (date('g:iA', strtotime($searchItem)) == ($searchItem) OR date('g:ia', strtotime($searchItem)) == ($searchItem))
        {
             $dbFormat = date('H:i:s', strtotime($searchItem));
-            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat');
+            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat LIMIT :eventCount');
+            $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
             $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
             $row = $db->fetchMultiple();
         }  
@@ -346,13 +348,17 @@ if ($row) {
             }
             
             $dbFormat = date($format, strtotime($searchItem));
-            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat');
+            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat LIMIT :eventCount');
+            $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
             $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
             $row = $db->fetchMultiple();
        }
         // If the user doesn't enter a date or time, searches for everything else:
         else {
         $searchItem = "%".$searchItem."%";
+        // Selects everything from the database that is similar to what the user entered:
+        $db->query('SELECT * FROM `events` WHERE `event_Title` LIKE :searchItem OR event_Type LIKE :searchItem OR description LIKE :searchItem OR date LIKE :searchItem OR time LIKE :searchItem OR location LIKE :searchItem LIMIT :eventCount');
+        $db->bindValue(':eventCount', $eventCount, PDO::PARAM_INT);
         $db->bindValue(':searchItem', $searchItem, PDO::PARAM_STR);
         $row = $db->fetchMultiple();
        }
@@ -457,6 +463,7 @@ if ($row) {
 
 <?php
 //while($row = $result->fetch_assoc()){
+
    foreach($row as $event)
     {
         $time = $event["time"];
@@ -489,28 +496,32 @@ else { echo "No events found."; }
 <script>
 
 $(document).ready(function() {
+
     var eventCount = <?php echo $eventCount ?>;
     var eventCountInc = <?php echo $eventCountIncrement ?>;
     var event_type = "<?php echo $event_Type ?>";
     var fullDate = "<?php echo $fulldate ?>";
+    var searchItem = "<?php echo $searchItem ?>";
+
     // Refreshes the table being viewed on an interval
     setInterval(update_content,60000); // 60 seconds
 
     // When "more events" button is clicked - Increases the limit
-    // of the query to be executed withing update_content
+    // of the query to be executed within update_content
     $("#moreEvents").click(function(){
         eventCount = eventCount + eventCountInc;
-        //alert(userchoice);
+        //alert("CLICKED");
         update_content();
     });
 
-    // Runs load-event.php which updates the events table
+    // Runs load-events.php which updates the events table
     function update_content(){
-        //alert("RELOADED");
+        //alert(event_type);
         $("#myTable").load("includes/load-events.php", {
             eventNewCount: eventCount,
             event_Type: event_type,
-            fulldate: fullDate
+            fulldate: fullDate,
+            searchItem: searchItem
         });
     }
 });

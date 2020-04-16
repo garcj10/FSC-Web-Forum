@@ -115,7 +115,7 @@ if(isset($_POST['create_event'])){
                         <select type="" name="eventType" class="form-control" id="eventType" required>
                             <option value="">Select Event Type</option>
                             <option value="Athletics">Athletics</option>
-                            <option value="Clubs">Club</option>
+                            <option value="Club">Club</option>
                             <option value="FSC">FSC</option>
                             <option value="Academics">Academics</option>
                             <option value="Tutoring">Tutoring</option>
