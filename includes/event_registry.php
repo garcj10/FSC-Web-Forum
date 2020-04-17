@@ -133,7 +133,7 @@
                        
                            echo "<div class='alert alert-success text-center'>
                                   <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                                  <strong>Success!</strong> Confirmation successfully sent.<a href='see_events.php'> Back to Events</a>
+                                  <strong>Success!</strong> Confirmation successfully sent.<a href='../see_events.php'> Back to Events</a>
                                  </div>";
                             
                             } else {
@@ -141,7 +141,7 @@
                             
                             echo "<div class='alert alert-danger text-center'>
                                   <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                                  <strong>Sorry!</strong> The email could not be sent. Please Try Again. <a href='see_events.php'> Back to Events</a>
+                                  <strong>Sorry!</strong> The email could not be sent. Please Try Again. <a href='../see_events.php'> Back to Events</a>
                                  </div>";
                     }
                 }

@@ -2,7 +2,7 @@
 //Include functions:
 include('includes/header.php'); 
 
-include('edit_account.php');
+include('includes/edit_account.php');
 
 // Insantiate database object:
 $db = new Pdocon;

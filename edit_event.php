@@ -60,13 +60,28 @@ if(isset($_POST['update_event'])){
           $db->bindvalue(':date', $c_date, PDO::PARAM_STR);
           $db->bindvalue(':time', $c_time, PDO::PARAM_STR);
           
-        $run = $db->execute(); 
+            $run = $db->execute(); 
        
             $db->query('SELECT * FROM events WHERE event_Title =:title');
             $db->bindvalue(':title', $c_title, PDO::PARAM_STR);
             $row = $db->fetchSingle();
+            
+    $run = $db->execute(); 
+       
+            $db->query('SELECT * FROM events WHERE event_Title =:title');
+            $db->bindvalue(':title', $c_title, PDO::PARAM_STR);
+            $row = $db->fetchSingle();
+          
+        if($row['capacity'] != null)
+        {   
+            $event_Id  = $row['event_Id'];
+          
+            $db->query("INSERT INTO events_List(list_Id, event_Id) VALUES(NULL, :event_Id)");
+        
+            $db->bindvalue(':event_Id', $event_Id, PDO::PARAM_INT);
     
-        $run = $db->execute();
+         $run = $db->execute();
+        }
     
     if($run) {
           

@@ -6,7 +6,6 @@ $db = new Pdocon;
 $eventNewCount = $_POST['eventNewCount'];
 $event_Type = $_POST['event_Type'];
 $fulldate = $_POST['fulldate'];
-$searchItem = $_POST['searchItem'];
 
 $db->query('SELECT * FROM events');
 $row = $db->fetchMultiple();
@@ -22,9 +21,11 @@ if ($row) {
         $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
         $db->bindValue(':FSC', $event_Type, PDO::PARAM_STR);
         $row = $db->fetchMultiple();
-    }   else if ($event_Type == "search") {
-		//$searchItem = $_GET['searchItem'];
-
+    }   else if (isset($_GET['search'])) {
+		$searchItem = $_GET['searchItem'];
+        
+        // Selects everything from the database that is similar to what the user entered:
+        $db->query('SELECT * FROM `events` WHERE `event_Title` LIKE :searchItem OR event_Type LIKE :searchItem OR description LIKE :searchItem OR date LIKE :searchItem OR time LIKE :searchItem OR location LIKE :searchItem');
 
         // If the user enters a date, it formats it accordingly. Ex. If they enter 4/2 instead of 4/2/2020, it will still fetch the results.
        if(date('n/j/y', strtotime($searchItem)) == ($searchItem) OR date('n/j/Y', strtotime($searchItem)) == ($searchItem) OR date('n/j', strtotime($searchItem)) == ($searchItem)  OR date('n/d', strtotime($searchItem)) == ($searchItem) OR date('m/j', strtotime($searchItem)) == ($searchItem) OR date('m/d', strtotime($searchItem)) == ($searchItem)) 
@@ -32,9 +33,8 @@ if ($row) {
            // Converts dates the user entered into a format the DB can read:
            $dbFormat = date('Y-m-d', strtotime($searchItem));
            
-            $db->query('SELECT * FROM `events` WHERE `date` LIKE :dbFormat LIMIT :eventCount');
+            $db->query('SELECT * FROM `events` WHERE `date` LIKE :dbFormat');
             $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
-            $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
             $row = $db->fetchMultiple();
         } 
       
@@ -42,9 +42,8 @@ if ($row) {
         else if (date('g:iA', strtotime($searchItem)) == ($searchItem) OR date('g:ia', strtotime($searchItem)) == ($searchItem))
        {
             $dbFormat = date('H:i:s', strtotime($searchItem));
-            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat LIMIT :eventCount');
+            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat');
             $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
-            $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
             $row = $db->fetchMultiple();
         }  
         
@@ -66,22 +65,18 @@ if ($row) {
             }
             
             $dbFormat = date($format, strtotime($searchItem));
-            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat LIMIT :eventCount');
+            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat');
             $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
-            $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
             $row = $db->fetchMultiple();
        }
         // If the user doesn't enter a date or time, searches for everything else:
         else {
         $searchItem = "%".$searchItem."%";
-        // Selects everything from the database that is similar to what the user entered:
-        $db->query('SELECT * FROM `events` WHERE `event_Title` LIKE :searchItem OR event_Type LIKE :searchItem OR description LIKE :searchItem OR date LIKE :searchItem OR time LIKE :searchItem OR location LIKE :searchItem LIMIT :eventCount');
         $db->bindValue(':searchItem', $searchItem, PDO::PARAM_STR);
-        $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
        }
 	}
-    else if ($event_Type == "Club") {
+    else if ($event_Type == "Clubs") {
         $event_Type = 'Club';
         $db->query('SELECT * FROM events WHERE event_Type =:club LIMIT :eventCount');
         $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
@@ -145,10 +140,13 @@ if ($row) {
     // If an event row has a capacity, then allow them to sign up:
     if ($event["capacity"])
     {
-    ?>  <div class="form-group"><button type="submit" action="../see_events.php" name="signup" class="btn btn-link"><a href="event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button></div> <?php 
-
+    ?>  <div class="form-group"><button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button>
+     
+     <button type="submit" action="see_events.php" name="comment" class="btn btn-link"><a href="comments.php?event_id=<?php echo $event["event_Id"] ?>"/>Leave a Comment</button><?php 
       }; 
+       
        echo "</td></tr>";
     }
+ 
 }
 ?>

@@ -77,10 +77,22 @@ if(isset($_POST['create_event'])){
          $run = $db->execute();
         }
           
-           echo '<div class="alert alert-success text-center">
+          if ($run)
+          {
+                 echo '<div class="alert alert-success text-center">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Event created successfully.
                   </div>';
-      }
+              
+        header("Refresh:2; url=my_account.php", true, 303);
+        
+            } else {
+                 echo '<div class="alert alert-danger text-center">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Sorry!</strong>Event could not be created.
+            </div>';
+    }
+}
+
 }
 ?> 
  
@@ -115,7 +127,7 @@ if(isset($_POST['create_event'])){
                         <select type="" name="eventType" class="form-control" id="eventType" required>
                             <option value="">Select Event Type</option>
                             <option value="Athletics">Athletics</option>
-                            <option value="Club">Club</option>
+                            <option value="Clubs">Club</option>
                             <option value="FSC">FSC</option>
                             <option value="Academics">Academics</option>
                             <option value="Tutoring">Tutoring</option>
