@@ -527,17 +527,18 @@ $(document).ready(function() {
 
 
     function update_content(){
+        alert("inside update content");
         $.get('includes/load-events.php',{
             eventNewCount: eventCount,
             event_Type: event_type,
             fulldate: fullDate,
             searchItem: searchItem
         }
-        ).done(function(data, textStatus, jqXHR)
+        ).done(function(data, textStatus)
         {
             alert(textStatus);
             alert(data);
-            $('#myTable').html(data);
+            //$('#myTable').html(data);
 
         }).fail(function(jqXHR, textStatus, errorThrown)
         {
