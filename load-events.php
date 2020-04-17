@@ -1,5 +1,5 @@
 <?php 
-require('pdocon.php');
+require('includes/pdocon.php');
 
 $db = new Pdocon;
 
@@ -145,7 +145,7 @@ if ($row) {
     // If an event row has a capacity, then allow them to sign up:
     if ($event["capacity"])
     {
-    ?>  <div class="form-group"><button type="submit" action="../see_events.php" name="signup" class="btn btn-link"><a href="event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button></div> <?php 
+    ?>  <div class="form-group"><button type="submit" action="../see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["/>Register</button></div> <?php 
 
       }; 
        echo "</td></tr>";
