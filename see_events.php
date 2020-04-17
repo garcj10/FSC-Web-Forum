@@ -537,10 +537,14 @@ $(document).ready(function() {
         ).done(function(data, textStatus, jqXHR)
         {
             alert(textStatus);
+            alert(data);
+            alert(jgXHR);
 
         }).fail(function(jqXHR, textStatus, errorThrown)
         {
             alert(textStatus);
+            alert(data);
+            alert(jgXHR);
         });
     }
 });
