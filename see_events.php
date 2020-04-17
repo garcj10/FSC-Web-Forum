@@ -504,7 +504,7 @@ $(document).ready(function() {
     var searchItem = "<?php echo $searchItem ?>";
 
     // Refreshes the table being viewed on an interval
-    setInterval(update_content,60000); // 60 seconds
+    setInterval(update_content,600000); // 600 seconds
 
     // When "more events" button is clicked - Increases the limit
     // of the query to be executed within update_content
@@ -515,13 +515,32 @@ $(document).ready(function() {
     });
 
     // Runs load-events.php which updates the events table
+    /*
     function update_content(){
         //alert(event_type);
-        $("#myTable").load("https://phpstack-386240-1214474.cloudwaysapps.com/load-events.php", {
+        $("#myTable").load("includes/load-events.php", {
             eventNewCount: eventCount,
             event_Type: event_type,
             fulldate: fullDate,
             searchItem: searchItem
+        });
+    }
+
+     */
+    function update_content(){
+        $.post('includes/load-events.php',{
+            eventNewCount: eventCount,
+            event_Type: event_type,
+            fulldate: fullDate,
+            searchItem: searchItem
+        }
+        ).done(function(data, textStatus, jqXHR)
+        {
+            alert(textStatus);
+
+        }).fail(function(jqXHR, textStatus, errorThrown)
+        {
+            alert(textStatus);
         });
     }
 });
