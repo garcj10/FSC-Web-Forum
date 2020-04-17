@@ -3,10 +3,10 @@ require('pdocon.php');
 
 $db = new Pdocon;
 
-$eventNewCount = $_GET['eventNewCount'];
-$event_Type = $_GET['event_Type'];
-$fulldate = $_GET['fulldate'];
-$searchItem = $_GET['searchItem'];
+$eventNewCount = $_POST['eventNewCount'];
+$event_Type = $_POST['event_Type'];
+$fulldate = $_POST['fulldate'];
+$searchItem = $_POST['searchItem'];
 
 
 $db->query('SELECT * FROM events');
