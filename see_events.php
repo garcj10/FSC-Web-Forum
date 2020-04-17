@@ -3,13 +3,9 @@
 include('includes/functions.php');
 
 require('includes/pdocon.php');
-?> 
-<script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
+?>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-</script>
 
 <style>
 <!-- CSS that styles the side bar and table -->
@@ -528,7 +524,7 @@ $(document).ready(function() {
 
      */
     function update_content(){
-        $.post('includes/load-events.php',{
+        $.get('includes/load-events.php',{
             eventNewCount: eventCount,
             event_Type: event_type,
             fulldate: fullDate,
@@ -538,12 +534,11 @@ $(document).ready(function() {
         {
             alert(textStatus);
             alert(data);
-            alert(jgXHR);
 
         }).fail(function(jqXHR, textStatus, errorThrown)
         {
             alert(textStatus);
-            alert(data);
+            alert(errorThrown);
             alert(jgXHR);
         });
     }
