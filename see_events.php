@@ -527,7 +527,7 @@ $(document).ready(function() {
 
 
     function update_content(){
-        $.post('includes/load-events.php',{
+        $.get('includes/load-events.php',{
             eventNewCount: eventCount,
             event_Type: event_type,
             fulldate: fullDate,
