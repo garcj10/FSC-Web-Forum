@@ -517,7 +517,7 @@ $(document).ready(function() {
     // Runs load-events.php which updates the events table
     function update_content(){
         //alert(event_type);
-        $("#myTable").load("load-events.php", {
+        $("#myTable").load("https://phpstack-386240-1214474.cloudwaysapps.com/load-events.php", {
             eventNewCount: eventCount,
             event_Type: event_type,
             fulldate: fullDate,
