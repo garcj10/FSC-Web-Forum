@@ -537,13 +537,12 @@ $(document).ready(function() {
         {
             alert(textStatus);
             alert(data);
-            $('#myTable').html(data);
+            //$('#myTable').html(data);
 
         }).fail(function(jqXHR, textStatus, errorThrown)
         {
             alert(textStatus);
             alert(errorThrown);
-            alert(jgXHR);
         });
     }
 });
