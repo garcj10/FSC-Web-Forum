@@ -8,6 +8,7 @@ $event_Type = $_POST['event_Type'];
 $fulldate = $_POST['fulldate'];
 $searchItem = $_POST['searchItem'];
 
+
 $db->query('SELECT * FROM events');
 $row = $db->fetchMultiple();
 if ($row) {
