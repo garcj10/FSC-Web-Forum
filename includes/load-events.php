@@ -8,34 +8,16 @@ $event_Type = $_POST['event_Type'];
 $fulldate = $_POST['fulldate'];
 $searchItem = $_POST['searchItem'];
 */
-$eventNewCount = 3;
+if(isset($_GET['eventNewCount']))
+{
+    $eventNewCount = $_GET['eventNewCount'];
+} else{
+    $eventNewCount = 2;
+}
+
 $event_Type = 'all';
 $fulldate = date('Y-m-d');
 $searchItem = "";
-
-
-if(isset($_GET['eventNewCount'])){
-    $eventNewCount1 = $_GET['eventNewCount'];
-    ?><script>
-        var test = '<?php echo $eventNewCount1 ?>';
-    alert(test);
-    </script><?php
-}else{
-    ?><script>
-        alert("error getting eventCount");
-    </script> <?php
-}
-        if(isset($_GET['event_Type'])){
-    $test1 = $_GET['event_Type'];
-    ?><script>
-        var test1 = "<?php echo $test1 ?>";
-        alert(test1);
-    </script><?php
-}else{
-    ?><script>
-        alert("error getting eventType");
-    </script> <?php
-}
 
 
 $db->query('SELECT * FROM events');
