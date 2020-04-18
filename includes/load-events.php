@@ -13,8 +13,19 @@ $event_Type = 'all';
 $fulldate = date('Y-m-d');
 $searchItem = "";
 
+if(isset($_GET['event_Type'])){
+    $test1 = (string)($_GET['event_Type']);
+    ?><script>
+        var test1 = "<?php echo $test1 ?>";
+        alert(test1);
+    </script><?php
+}else{
+    ?><script>
+        alert("error getting eventType");
+    </script> <?php
+}
 if(isset($_GET['eventNewCount'])){
-    $eventNewCount = (int)($_GET['eventNewCount']);
+    $eventNewCount = (string)($_GET['eventNewCount']);
     ?><script>
         var test = "<?php echo $eventNewCount ?>";
     alert(test);
@@ -32,7 +43,7 @@ if ($row) {
     // output data of each row
     if ($event_Type == "all") {
         $db->query('SELECT * FROM events LIMIT :eventCount');
-        $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
+        $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_STR);
         $row = $db->fetchMultiple();
     } else if ($event_Type == "FSC") {
         $event_Type = 'FSC';
