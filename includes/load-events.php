@@ -14,9 +14,9 @@ $fulldate = date('Y-m-d');
 $searchItem = "";
 
 if(isset($_GET['eventNewCount'])){
-    $test = $_GET['eventNewCount'];
+    $eventNewCount = $_GET['eventNewCount'];
     ?><script>
-        var test = "<?php echo $test ?>";
+        var test = "<?php echo $eventNewCount ?>";
     alert(test);
     </script><?php
 }else{
@@ -25,9 +25,6 @@ if(isset($_GET['eventNewCount'])){
     </script> <?php
 }
 
-$event_Type = "all";
-$fulldate = "2020-04-17";
-$searchItem = "";
 
 $db->query('SELECT * FROM events');
 $row = $db->fetchMultiple();
