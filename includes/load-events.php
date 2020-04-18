@@ -8,6 +8,10 @@ $event_Type = $_POST['event_Type'];
 $fulldate = $_POST['fulldate'];
 $searchItem = $_POST['searchItem'];
 */
+$eventNewCount = 2;
+$event_Type = "all";
+$fulldate = "2020-04-17";
+$searchItem = "";
 
 $db->query('SELECT * FROM events');
 $row = $db->fetchMultiple();
