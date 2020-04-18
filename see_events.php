@@ -259,9 +259,9 @@ for (i = 0; i < dropdown.length; i++) {
 $db = new Pdocon;
 
 // Initial event count to be displayed
-$eventCount = 5;
+$eventCount = 3;
 // Event count to be incremented when "More events" button is clicked
-$eventCountIncrement = 5;
+$eventCountIncrement = 1;
 
 $searchItem="";
       
