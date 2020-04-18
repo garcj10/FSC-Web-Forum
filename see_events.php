@@ -526,7 +526,7 @@ $(document).ready(function() {
 
     function update_content(){
         alert("inside update content");
-        $.get('includes/load-events.php',{
+        $.get('includes/ajaxtest.php',{
             eventNewCount: eventCount,
             event_Type: event_type,
             fulldate: fullDate,
