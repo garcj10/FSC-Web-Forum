@@ -17,7 +17,7 @@ $searchItem = "";
 if(isset($_GET['eventNewCount'])){
     $eventNewCount1 = $_GET['eventNewCount'];
     ?><script>
-        var test = '<?php echo $eventNewCount1 ?>';
+        var test = "<?php echo $eventNewCount1 ?>";
     alert(test);
     </script><?php
 }else{
