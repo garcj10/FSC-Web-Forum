@@ -2,12 +2,12 @@
 require('pdocon.php');
 
 $db = new Pdocon;
-
+/*
 $eventNewCount = $_POST['eventNewCount'];
 $event_Type = $_POST['event_Type'];
 $fulldate = $_POST['fulldate'];
 $searchItem = $_POST['searchItem'];
-
+*/
 
 $db->query('SELECT * FROM events');
 $row = $db->fetchMultiple();
