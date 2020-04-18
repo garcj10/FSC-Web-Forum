@@ -25,9 +25,9 @@ if(isset($_GET['event_Type'])){
     </script> <?php
 }
 if(isset($_GET['eventNewCount'])){
-    $eventNewCount = (string)($_GET['eventNewCount']);
+    $eventNewCount1 = (string)($_GET['eventNewCount']);
     ?><script>
-        var test = "<?php echo $eventNewCount ?>";
+        var test = "<?php echo $eventNewCount1 ?>";
     alert(test);
     </script><?php
 }else{
