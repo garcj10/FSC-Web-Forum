@@ -522,9 +522,7 @@ $(document).ready(function() {
             searchItem: searchItem
         });
     }
-
      */
-
 
     function update_content(){
         alert("inside update content");

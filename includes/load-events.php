@@ -8,10 +8,21 @@ $event_Type = $_POST['event_Type'];
 $fulldate = $_POST['fulldate'];
 $searchItem = $_POST['searchItem'];
 */
+$eventNewCount = 3;
+$event_Type = 'all';
+$fulldate = date('Y-m-d');
+$searchItem = "";
+
 if(isset($_GET['eventNewCount'])){
-    $eventNewCount = $_GET['eventNewCount'];
+    $test = $_GET['eventNewCount'];
+    ?><script>
+        var test = "<?php echo $test ?>";
+    alert(test);
+    </script><?php
 }else{
-    $eventNewCount = 3;
+    ?><script>
+        alert("error getting eventCount");
+    </script> <?php
 }
 
 $event_Type = "all";
