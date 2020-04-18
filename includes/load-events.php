@@ -8,9 +8,11 @@ $event_Type = $_POST['event_Type'];
 $fulldate = $_POST['fulldate'];
 $searchItem = $_POST['searchItem'];
 */
+
 if(isset($_GET['eventNewCount']))
 {
-    $eventNewCount = $_GET['eventNewCount'];
+    $eventNewCount = 5;
+    //$eventNewCount = $_GET['eventNewCount'];
 } else{
     $eventNewCount = 2;
 }
