@@ -13,7 +13,7 @@ if(isset($_GET['eventNewCount']))
 {
     $eventNewCount = 5;
 
-    echo "<tr>".$_GET['eventNewCount']."</tr>";
+    echo "<tr><td>".$_GET['eventNewCount']."</td></tr>";
 } else{
     $eventNewCount = 2;
 }
