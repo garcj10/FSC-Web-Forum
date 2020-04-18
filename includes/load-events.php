@@ -14,7 +14,7 @@ $fulldate = date('Y-m-d');
 $searchItem = "";
 
 if(isset($_GET['event_Type'])){
-    $test1 = (string)($_GET['event_Type']);
+    $test1 = ($_GET['event_Type']);
     ?><script>
         var test1 = "<?php echo $test1 ?>";
         alert(test1);
@@ -25,7 +25,7 @@ if(isset($_GET['event_Type'])){
     </script> <?php
 }
 if(isset($_GET['eventNewCount'])){
-    $eventNewCount1 = (string)($_GET['eventNewCount']);
+    $eventNewCount1 = ($_GET['eventNewCount']);
     ?><script>
         var test = "<?php echo $eventNewCount1 ?>";
     alert(test);
