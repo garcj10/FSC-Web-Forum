@@ -8,7 +8,12 @@ $event_Type = $_POST['event_Type'];
 $fulldate = $_POST['fulldate'];
 $searchItem = $_POST['searchItem'];
 */
-$eventNewCount = 2;
+if(isset($_GET['eventNewCount'])){
+    $eventNewCount = $_GET['eventNewCount'];
+}else{
+    $eventNewCount = 3;
+}
+
 $event_Type = "all";
 $fulldate = "2020-04-17";
 $searchItem = "";
