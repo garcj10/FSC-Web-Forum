@@ -14,18 +14,6 @@ $fulldate = date('Y-m-d');
 $searchItem = "";
 
 
-if(isset($_GET['eventNewCount'])){
-    $eventNewCount1 = $_GET['eventNewCount'];
-    ?><script>
-        var test = "<?php echo $eventNewCount1 ?>";
-    alert(test);
-    </script><?php
-}else{
-    ?><script>
-        alert("error getting eventCount");
-    </script> <?php
-}
-
 
 $db->query('SELECT * FROM events');
 $row = $db->fetchMultiple();
