@@ -12,23 +12,26 @@ $searchItem = $_POST['searchItem'];
 if(isset($_GET['eventNewCount']))
 {
     $rawCount = $_GET['eventNewCount'];
-    $eventNewCount = (int)sanitize($rawCount);
-    echo "<tr><td>event count ".$_GET['eventNewCount']."</td>";
+    //$eventNewCount = (int)sanitize($rawCount);
+    $eventNewCount = 4;
+    echo "<tr><td>event count ".var_dump($rawCount)."</td>";
 } else{
     $eventNewCount = 2;
 }
 if(isset($_GET['event_Type']))
 {
-    echo "<td>event type ".$_GET['event_Type']."</td>";
+    $raweventType = $_GET['event_Type'];
+    echo "<td>event type ".var_dump($raweventType)."</td>";
 }
 if(isset($_GET['fulldate']))
 {
-
-    echo "<td>fulldate ".$_GET['fulldate']."</td>";
+    $rawfulldate = $_GET['fulldate'];
+    echo "<td>fulldate ".var_dump($rawfulldate)."</td>";
 }
 if(isset($_GET['searchItem']))
 {
-    echo "<td>searchitem ".$_GET['searchItem']."</td></tr>";
+    $rawsearchitem = $_GET['searchItem'];
+    echo "<td>searchitem ".var_dump($rawsearchitem)."</td></tr>";
 }
 
 $event_Type = 'all';
