@@ -13,8 +13,8 @@ if(isset($_GET['eventNewCount']))
 {
     $rawCount = $_GET['eventNewCount'];
     //$eventNewCount = (int)sanitize($rawCount);
-    $eventNewCount = 4;
-    echo "<tr><td>event count ".var_dump($rawCount)."</td>";
+    $eventNewCount = (int)$rawCount;
+    echo "<tr><td>event count ".$eventNewCount."</td>";
 } else{
     $eventNewCount = 2;
 }
