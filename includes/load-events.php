@@ -12,7 +12,7 @@ $searchItem = $_POST['searchItem'];
 if(isset($_GET['eventNewCount']))
 {
     $rawCount = $_GET['eventNewCount'];
-    $eventNewCount = sanitize($rawCount);
+    $eventNewCount = (int)sanitize($rawCount);
     echo "<tr><td>event count ".$_GET['eventNewCount']."</td>";
 } else{
     $eventNewCount = 2;
