@@ -20,8 +20,8 @@ if(isset($_GET['eventNewCount']))
 }
 if(isset($_GET['event_Type']))
 {
-    $raweventType = $_GET['event_Type'];
-    echo "<td>event type ".var_dump($raweventType)."</td>";
+    $event_Type = $_GET['event_Type'];
+    echo "<td>event type ".$event_Type."</td>";
 }
 if(isset($_GET['fulldate']))
 {
@@ -34,7 +34,7 @@ if(isset($_GET['searchItem']))
     echo "<td>searchitem ".var_dump($rawsearchitem)."</td></tr>";
 }
 
-$event_Type = 'all';
+//$event_Type = 'all';
 $fulldate = date('Y-m-d');
 $searchItem = "";
 
