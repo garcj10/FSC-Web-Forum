@@ -525,7 +525,7 @@ $(document).ready(function() {
      */
 
     function update_content(){
-        alert("inside update content");
+        //alert("inside update content");
         $.get('includes/load-events.php',{
             eventNewCount: eventCount,
             event_Type: event_type,
@@ -534,8 +534,8 @@ $(document).ready(function() {
         }
         ).done(function(data, textStatus)
         {
-            alert(textStatus);
-            alert(data);
+            //alert(textStatus);
+            //alert(data);
             $('#myTable').html(data);
 
         }).fail(function(jqXHR, textStatus, errorThrown)

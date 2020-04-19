@@ -14,24 +14,24 @@ if(isset($_GET['eventNewCount']))
     $rawCount = $_GET['eventNewCount'];
     //$eventNewCount = (int)sanitize($rawCount);
     $eventNewCount = (int)$rawCount;
-    echo "<tr><td>event count ".$eventNewCount."</td>";
+    //echo "<tr><td>event count ".$eventNewCount."</td>";
 } else{
     $eventNewCount = 2;
 }
 if(isset($_GET['event_Type']))
 {
     $event_Type = $_GET['event_Type'];
-    echo "<td>event type ".$event_Type."</td>";
+    //echo "<td>event type ".$event_Type."</td>";
 }
 if(isset($_GET['fulldate']))
 {
     $fulldate = $_GET['fulldate'];
-    echo "<td>fulldate ".var_dump($fulldate)."</td>";
+    //echo "<td>fulldate ".var_dump($fulldate)."</td>";
 }
 if(isset($_GET['searchItem']))
 {
     $searchItem = $_GET['searchItem'];
-    echo "<td>searchitem ".$searchItem."</td></tr>";
+    //echo "<td>searchitem ".$searchItem."</td></tr>";
 }
 
 //$event_Type = 'all';
