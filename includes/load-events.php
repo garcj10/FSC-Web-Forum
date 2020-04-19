@@ -25,18 +25,18 @@ if(isset($_GET['event_Type']))
 }
 if(isset($_GET['fulldate']))
 {
-    $rawfulldate = $_GET['fulldate'];
-    echo "<td>fulldate ".var_dump($rawfulldate)."</td>";
+    $fulldate = $_GET['fulldate'];
+    echo "<td>fulldate ".var_dump($fulldate)."</td>";
 }
 if(isset($_GET['searchItem']))
 {
-    $rawsearchitem = $_GET['searchItem'];
-    echo "<td>searchitem ".var_dump($rawsearchitem)."</td></tr>";
+    $searchItem = $_GET['searchItem'];
+    echo "<td>searchitem ".var_dump($searchItem)."</td></tr>";
 }
 
 //$event_Type = 'all';
-$fulldate = date('Y-m-d');
-$searchItem = "";
+//$fulldate = date('Y-m-d');
+//$searchItem = "";
 
 
 $db->query('SELECT * FROM events');
