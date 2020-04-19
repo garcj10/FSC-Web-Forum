@@ -519,11 +519,22 @@ $(document).ready(function() {
      // Runs load-events.php which updates the events table
     function update_content(){
         //alert(event_type);
-        $("#myTable").load("includes/load-events.php", {
-            eventNewCount: eventCount,
-            event_Type: event_type,
-            fulldate: fullDate,
-            searchItem: searchItem
+        $.get('includes/load-events.php',{
+                eventNewCount: eventCount,
+                event_Type: event_type,
+                fulldate: fullDate,
+                searchItem: searchItem
+            }
+        ).done(function(data, textStatus)
+        {
+            //alert(textStatus);
+            //alert(data);
+            $('#myTable').html(data);
+
+        }).fail(function(jqXHR, textStatus, errorThrown)
+        {
+            alert(textStatus);
+            alert(errorThrown);
         });
     }
 });
