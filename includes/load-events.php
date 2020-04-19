@@ -11,7 +11,8 @@ $searchItem = $_POST['searchItem'];
 
 if(isset($_GET['eventNewCount']))
 {
-    $eventNewCount = 5;
+    $rawCount = $_GET['eventNewCount'];
+    $eventNewCount = sanitize($rawCount);
     echo "<tr><td>event count ".$_GET['eventNewCount']."</td>";
 } else{
     $eventNewCount = 2;
