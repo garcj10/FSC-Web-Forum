@@ -31,7 +31,7 @@ if(isset($_GET['fulldate']))
 if(isset($_GET['searchItem']))
 {
     $searchItem = $_GET['searchItem'];
-    echo "<td>searchitem ".var_dump($searchItem)."</td></tr>";
+    echo "<td>searchitem ".$searchItem."</td></tr>";
 }
 
 //$event_Type = 'all';
