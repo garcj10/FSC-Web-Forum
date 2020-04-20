@@ -35,8 +35,7 @@ if ($row) {
         $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
         $db->bindValue(':FSC', $event_Type, PDO::PARAM_STR);
         $row = $db->fetchMultiple();
-    }  }   else if ($event_Type == "search") {
-		//$searchItem = $_GET['searchItem'];
+    }  else if ($event_Type == "search") {
 
         // If the user enters a date, it formats it accordingly. Ex. If they enter 4/2 instead of 4/2/2020, it will still fetch the results.
        if(date('n/j/y', strtotime($searchItem)) == ($searchItem) OR date('n/j/Y', strtotime($searchItem)) == ($searchItem) OR date('n/j', strtotime($searchItem)) == ($searchItem)  OR date('n/d', strtotime($searchItem)) == ($searchItem) OR date('m/j', strtotime($searchItem)) == ($searchItem) OR date('m/d', strtotime($searchItem)) == ($searchItem)) 
@@ -78,8 +77,9 @@ if ($row) {
             }
             
             $dbFormat = date($format, strtotime($searchItem));
-            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat');
+            $db->query('SELECT * FROM `events` WHERE `time` LIKE :dbFormat LIMIT :eventCount');
             $db->bindValue(':dbFormat', $dbFormat, PDO::PARAM_STR);
+           $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
             $row = $db->fetchMultiple();
        }
         // If the user doesn't enter a date or time, searches for everything else:
@@ -146,22 +146,25 @@ if ($row) {
         $db->bindValue(':eventCount', $eventNewCount, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
     }
-     foreach($row as $event)
-    {
-        $time = $event["time"];
-        $date = $event["date"];
-    
-        echo "<tr><td>" . $event["event_Title"] . "</td><td>" . $event["event_Type"] . "</td><td>" . $event["description"]. "</td><td>" . $event["location"]. "</td><td>" .  date('n/j/y', strtotime($date)) . "</td><td>" . date('g:iA', strtotime($time)); 
-       
-    // If an event row has a capacity, then allow them to sign up:
-    if ($event["capacity"])
-    {
-    ?>  <div class="form-group"><button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button>
-     
-     <button type="submit" action="see_events.php" name="comment" class="btn btn-link"><a href="comments.php?event_id=<?php echo $event["event_Id"] ?>"/>Leave a Comment</button><?php 
-      }; 
-       
-       echo "</td></tr>";
+     foreach($row as $event) {
+         $time = $event["time"];
+         $date = $event["date"];
 
+         echo "<tr><td>" . $event["event_Title"] . "</td><td>" . $event["event_Type"] . "</td><td>" . $event["description"] . "</td><td>" . $event["location"] . "</td><td>" . date('n/j/y', strtotime($date)) . "</td><td>" . date('g:iA', strtotime($time));
+
+         // If an event row has a capacity, then allow them to sign up:
+         if ($event["capacity"]) {
+             ?>
+             <div class="form-group">
+             <button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a
+                         href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register
+             </button>
+
+             <button type="submit" action="see_events.php" name="comment" class="btn btn-link"><a
+                     href="comments.php?event_id=<?php echo $event["event_Id"] ?>"/>Leave a Comment</button><?php
+         };
+
+         echo "</td></tr>";
+     }
 }
 ?>

@@ -3,14 +3,9 @@
 include('includes/functions.php');
 
 require('includes/pdocon.php');
-?> 
-<script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
+?>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-
-</script>
 <style>
 <!-- CSS that styles the side bar and table -->
 * {
@@ -265,9 +260,9 @@ $db = new Pdocon;
 $eventCount = 5;
 // Event count to be incremented when "More events" button is clicked
 $eventCountIncrement = 5;
-      
-$searchItem="";
-    
+// search variable used for load-events (needed because searchItem may be altered to %searchItem%)
+$searchI="";
+
 date_default_timezone_set('America/New_York');
 $fulldate = date('Y-m-d');
       
@@ -305,7 +300,7 @@ if ($row) {
 	} 
     else if (isset($_GET['search'])) {
 		$searchItem = $_GET['searchItem'];
-        
+        $searchI = $searchItem;
         // Selects everything from the database that is similar to what the user entered:
        $event_Type = 'search';
 
@@ -503,7 +498,7 @@ $(document).ready(function() {
     var eventCountInc = <?php echo $eventCountIncrement ?>;
     var event_type = "<?php echo $event_Type ?>";
     var fullDate = "<?php echo $fulldate ?>";
-    var searchItem = "<?php echo $searchItem ?>";
+    var searchItem = "<?php echo $searchI ?>";
 
     // Refreshes the table being viewed on an interval
     setInterval(update_content,60000); // 60 seconds
