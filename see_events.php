@@ -435,6 +435,7 @@ if ($row) {
     }
 ?>
 </script>
+      <div id="demo"></div>
 <! Table that Displays Information >
 <?php echo "Date: " . date('n/j/y', strtotime($fulldate))?>
 <form name="filter" method="GET" action="see_events.php">
@@ -469,11 +470,21 @@ if ($row) {
     // If an event row has a capacity, then allow them to sign up:
     if ($event["capacity"])
     {
-    ?>  <div class="form-group"><button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button>
+    ?>
+    <div class="form-group">
+              <div class="registerDiv">
+    <button type="submit"  name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
+
+        Register
+    </button>
+              </div>
      
-     <button type="submit" action="see_events.php" name="comment" class="btn btn-link"><a href="comments.php?event_id=<?php echo $event["event_Id"] ?>"/>Leave a Comment</button><?php 
-      }; 
-       
+    <button type="submit" action="see_events.php" name="comment" class="btn btn-link">
+        <a href="comments.php?event_id=<?php echo $event["event_Id"] ?>"/>Leave a Comment
+    </button>
+    <?php
+      };
+    //action="see_events.php"
        echo "</td></tr>";
     }
  
@@ -532,6 +543,45 @@ $(document).ready(function() {
             alert(errorThrown);
         });
     }
+
+    $('.registerDiv button').click(function() {
+        var txt;
+        var event_id = $(this).attr('value');
+        //alert(event_id);
+        var email = "<?php echo $_SESSION['user_data']['email']?>";
+        var user_Id ="<?php echo $_SESSION['user_data']['id']?>";
+        var first_Name ="<?php echo $_SESSION['user_data']['firstName']?>";
+        var last_Name ="<?php echo $_SESSION['user_data']['lastName']?>";
+        if (confirm("Are you sure you would like to register for this event?")) {
+            //txt = "You pressed OK!";
+            $.post('includes/event_registry.php',{
+                    event_id: event_id,
+                    email: email,
+                    user_Id: user_Id,
+                    first_Name: first_Name,
+                    last_Name: last_Name
+                }
+            ).done(function(data, textStatus)
+            {
+                //alert(textStatus);
+                //alert(data);
+                $('#demo').html(data);
+                $(this).hide();
+
+            }).fail(function(jqXHR, textStatus, errorThrown)
+            {
+                alert(textStatus);
+                alert(errorThrown);
+            });
+
+        } else {
+            //txt = "You pressed Cancel!";
+
+            //alert(email);
+        }
+        //document.getElementById("demo").innerHTML = txt;
+        return false;
+    });
 });
       </script>
 <?php include('includes/footer.php'); ?>
