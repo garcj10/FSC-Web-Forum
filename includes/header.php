@@ -56,5 +56,8 @@
       <?php } ?>
     <li><a href="my_account.php" style="color: #f3f3f3">My Account</a></li>
       <li><a href="see_events.php" style="color: #f3f3f3">Dashboard</a></li>
-     <li><a href="includes/logout.php" style="color: #f3f3f3">Sign out</a></li></ul> </div></div>
+     <li><a href="includes/logout.php" style="color: #f3f3f3">Sign out</a></li></ul> </div>
+     </div>
+     
+     
     </nav>

@@ -28,7 +28,7 @@ $db = new Pdocon;
         $ram_ID = $_SESSION['faculty_data']['RAMID'];
         $department = $_SESSION['faculty_data']['department'];
         $occupation = $_SESSION['faculty_data']['occupation'];
-        if(($_SESSION['admin_data'])) { 
+        if(isset($_SESSION['admin_data'])) { 
             $is_Admin = "Yes";
         } else {
             $is_Admin = "No";
@@ -210,7 +210,8 @@ $db = new Pdocon;
             
             foreach($row as $event)
             { 
-            ?> <div class="form-group"><button type="submit" action="my_account.php" name="edit" class="btn btn-link"><a href="edit_event.php?event_id=<?php echo $event["event_Id"] ?>"/><?php echo $event["event_Title"] ." (click to edit)"; ?></button></div> <?php
+        ?><div class="form-group"><form action='edit_event.php' method='post'><?php echo $event["event_Title"] . " -";?> <button class="btn btn-link" type='hidden' name='id' value=' <?php echo $event["event_Id"] ?>'>Edit</button></form></div>
+			<?php
             }
         } 
         

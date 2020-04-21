@@ -60,7 +60,7 @@ if(isset($_POST['create_event'])){
           $db->bindvalue(':date', $c_date, PDO::PARAM_STR);
           $db->bindvalue(':time', $c_time, PDO::PARAM_STR);
           
-        $run = $db->execute(); 
+            $run = $db->execute(); 
        
             $db->query('SELECT * FROM events WHERE event_Title =:title');
             $db->bindvalue(':title', $c_title, PDO::PARAM_STR);
@@ -74,7 +74,7 @@ if(isset($_POST['create_event'])){
         
             $db->bindvalue(':event_Id', $event_Id, PDO::PARAM_INT);
     
-         $run = $db->execute();
+            $run = $db->execute();
         }
           
           if ($run)
@@ -117,7 +117,7 @@ if(isset($_POST['create_event'])){
                 <div class="form-group">
                     <label class="control-label " for="description"></label>
                     <div class="col-sm-12">
-                        <textarea class="form-control" rows="3" type="description" name="description" class="form-control" id="description" placeholder="Enter Description" required></textarea>
+                        <textarea class="form-control" rows="3" style=resize:none type="description" name="description" class="form-control" id="description" placeholder="Enter Description" required></textarea>
                     </div>
                 </div>
 

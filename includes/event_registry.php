@@ -114,18 +114,15 @@
                     date_default_timezone_set('America/New_York');
                     $fulldate = date('Y-m-d');
                 
-                    $first_Name = $_SESSION['user_data']['firstName'];
-                    $last_Name = $_SESSION['user_data']['lastName']; 
-                    
-                    $fullname = $first_Name . " " . $last_Name;
+                    $firstName = $_SESSION['user_data']['firstName'];
                             
-                    $msg   =   $event_Title . ": " . date('n/d/Y', strtotime($date)) . ", " . date('g:i A', strtotime($time)) . "<br><br>" . $description;
+                    $msg   =   $event_Title . "- " . date('n/d/Y', strtotime($date)) . ", " . date('g:i A', strtotime($time)) . "\n\n" . $description;
 
                     // Create and send email:
                     $to        =   $email;
                   
-                    $email_subject = "Subject: Event Confirmation for FSCEvents";
-                    $email_body = "\nDear $fullname, \n\nThis message is to confirm you've signed up for an event.\n\n"."Here are the details:" ."\n\n$msg \n\n";
+                    $email_subject = "Event Confirmation for FSCEvents";
+                    $email_body = "\nDear $firstName, \n\nThis message is to confirm you've signed up for an event.\n\n"."Here are the details:" ."\n\n$msg \n\n";
                     $headers = "From: noreply@fscevents.com"; 
          
                     if(mail($to,$email_subject,$email_body,$headers))

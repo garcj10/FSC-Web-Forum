@@ -267,9 +267,7 @@ date_default_timezone_set('America/New_York');
 $fulldate = date('Y-m-d');
       
  /* FOR FILTERING CURRENT DATE, FUTURE, OR PREVIOUS DATES:
-
 $db->query('SELECT * FROM events WHERE date =:fulldate'); 
-
 // VARIABLE TO STORE TOMORROW'S DATE
 $tomorrow = date('Y-m-d', strtotime("+1 day"));
     
@@ -470,8 +468,9 @@ if ($row) {
     if ($event["capacity"])
     {
     ?>  <div class="form-group"><button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button>
-     
-     <button type="submit" action="see_events.php" name="comment" class="btn btn-link"><a href="comments.php?event_id=<?php echo $event["event_Id"] ?>"/>Leave a Comment</button><?php 
+    
+    
+        <div class="form-group"><form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'><button type="submit" action="see_events.php" name='id' class="btn btn-link" value='<?php echo $event["event_Id"] ?>'>Leave a Comment</button></form></div>  <?php  
       }; 
        
        echo "</td></tr>";

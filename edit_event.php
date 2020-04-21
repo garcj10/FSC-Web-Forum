@@ -6,7 +6,7 @@ require('includes/pdocon.php');
 
 $db = new Pdocon;
 
-    $event_Id = $_GET['event_id'];
+    $event_Id = $_POST['id'];
     
     $db->query('SELECT * FROM events WHERE event_Id =:event_id');
     $db->bindValue(':event_id', $event_Id, PDO::PARAM_INT);
@@ -60,31 +60,51 @@ if(isset($_POST['update_event'])){
           $db->bindvalue(':date', $c_date, PDO::PARAM_STR);
           $db->bindvalue(':time', $c_time, PDO::PARAM_STR);
           
-            $run = $db->execute(); 
+        $run = $db->execute(); 
        
             $db->query('SELECT * FROM events WHERE event_Title =:title');
             $db->bindvalue(':title', $c_title, PDO::PARAM_STR);
             $row = $db->fetchSingle();
-            
-    $run = $db->execute(); 
-       
-            $db->query('SELECT * FROM events WHERE event_Title =:title');
-            $db->bindvalue(':title', $c_title, PDO::PARAM_STR);
-            $row = $db->fetchSingle();
-          
+    
+        
+        // Checks if a capacity was entered:
         if($row['capacity'] != null)
         {   
             $event_Id  = $row['event_Id'];
-          
-            $db->query("INSERT INTO events_List(list_Id, event_Id) VALUES(NULL, :event_Id)");
-        
+            
+            $db->query('SELECT COUNT(*) AS count FROM events_List WHERE event_Id =:event_Id');
             $db->bindvalue(':event_Id', $event_Id, PDO::PARAM_INT);
+            $row = $db->fetchSingle();
+          
+            // If there is no list for that event yet, creates one:
+            if($row['count'] == 0)
+            {
+                 $db->query("INSERT INTO events_List(list_Id, event_Id) VALUES(NULL, :event_Id)");
+        
+                $db->bindvalue(':event_Id', $event_Id, PDO::PARAM_INT);
     
-         $run = $db->execute();
+                $run = $db->execute();
+            }
+        
+        // If a capacity was removed from an event, delete that event list:
+        } else {
+                $db->query('SELECT * FROM events_list WHERE event_Id =:event_Id');
+                $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+                $list_Id = $row['list_Id'];
+                
+                $db->query("DELETE FROM attendees WHERE list_Id=:list_Id");
+                $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
+                $run = $db->execute();
+            
+                $db->query('DELETE FROM events_list WHERE event_Id =:event_Id');
+                $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
+                $run = $db->execute();         
         }
     
+        $run = $db->execute();
+    
     if($run) {
-          
            echo '<div class="alert alert-success text-center">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Event updated successfully.
                   </div>';
@@ -99,9 +119,86 @@ if(isset($_POST['update_event'])){
     }
         
       }
+
+if(isset($_POST['delete_event'])){
+
+// Get the list_Id for the specified event.
+$db->query('SELECT * FROM events_list WHERE event_Id =:event_Id');
+$db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
+$row = $db->fetchSingle();
+$list_Id = $row['list_Id'];
+
+// If the list Id is successfully found, delete all attendees and events_List under that list Id, and delete the event itself.
+if($row['list_Id'])
+{
+    $db->query('DELETE FROM attendees WHERE list_Id=:list_Id');
+    $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
+    $run = $db->execute();
+    
+    $db->query('DELETE FROM events_List WHERE event_Id=:event_Id');
+    $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
+    $run = $db->execute();
+}
+    
+    $db->query('DELETE FROM events WHERE event_Id=:event_Id');
+    $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
+    $run = $db->execute();
+    
+// If the delete is successful, move on to deleting the event_List with that list Id:
+if($run)
+{
+     echo '<div class="alert alert-success text-center">
+                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Event has been deleted.
+                  </div>';
+        
+        }
+    } 
 ?> 
  
 <link href="css/style_dash.css" rel="stylesheet" type="text/css">
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
 
 <div class="events">
     <div class="row">
@@ -120,7 +217,7 @@ if(isset($_POST['update_event'])){
                 <div class="form-group">
                     <label class="control-label " for="description"></label>
                     <div class="col-sm-12">
-                        <textarea class="form-control" rows="3" type="description" name="description" class="form-control" id="description" placeholder="Enter Description" required><?php echo $description; ?></textarea>
+                        <textarea class="form-control" style=resize:none rows="3" type="description" name="description" class="form-control" id="description" placeholder="Enter Description" required><?php echo $description; ?></textarea>
                     </div>
                 </div>
 
@@ -130,7 +227,7 @@ if(isset($_POST['update_event'])){
                         <select type="" name="eventType" class="form-control" id="eventType" required>
                             <option value="<?php echo $event_Type; ?>" selected><?php echo $event_Type; ?></option>
                             <option value="Athletics">Athletics</option>
-                            <option value="Clubs">Club</option>
+                            <option value="Club">Club</option>
                             <option value="FSC">FSC</option>
                             <option value="Academics">Academics</option>
                             <option value="Tutoring">Tutoring</option>
@@ -164,12 +261,64 @@ if(isset($_POST['update_event'])){
                          </div>
                        </div>
 
-                 <div class="form-group"> 
-            <div class="col-sm-offset-2 col-sm-10 text-center">
+            <div class="form-group"> 
+                <label class="control-label col-sm-12"></label>
+                
+			<form action='edit_event.php' method='post'><input type='hidden' name='id' value=' <?php echo $event_Id ?>'>
+               <label class="control-label col-sm-12"></label>
               <button type="update" class="pull-right btn btn-primary center" name="update_event" required>Submit Changes</button>
-              <a class="pull-left btn btn-danger" href="my_account.php">Back to My Account</a>
+                </form>
+            
+			<button type="button" id="myBtn" class="pull-left btn btn-danger">Delete this Event</button>
+            
             </div>
-          </div>
+            
+			
+			<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+        <div class="modal-body">
+		<h2 >Are you sure you want to delete this event?</h2>
+        </div>
+        <div class="modal-footer">
+			<form action='edit_event.php' method='post'> <input type='hidden' name='id' value=' <?php echo $event_Id ?>'>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Go Back</button>
+		  <button type="submit" class="btn btn-default" name="delete_event">Yes</button>
+		  </form>
+        </div>
+      </div>
+  </div>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("btn btn-default")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+  
         </div>
     </div>
 </div>

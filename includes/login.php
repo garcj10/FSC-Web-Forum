@@ -88,8 +88,6 @@ if(isset($_POST['submit_login'])) {
                 'RAMID' => $rowStudent['RAM_ID'],
                 'major' => $rowStudent['major'],
                 'collegeLevel' => $rowStudent['college_Level'],
-                'clubs' => $rowStudent['student_Clubs'],
-                'sports' => $rowStudent['student_Sports']
         ); 
         }
         
@@ -105,9 +103,9 @@ if(isset($_POST['submit_login'])) {
         ); 
         }
         
-         $_SESSION['user_is_logged_in']  =  true;
+        $_SESSION['user_is_logged_in']  =  true;
         
-        redirect('my_account.php');
+          header("Refresh:0; url=my_account.php", true, 303);
         
     } else {
         

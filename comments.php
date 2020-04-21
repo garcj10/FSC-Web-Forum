@@ -102,73 +102,77 @@ margin-bottom:4px;
 <?php
 $db = new Pdocon;
 
-$event_Id = $_GET['event_id'];
+$event_Id = $_POST['id'];
+
 date_default_timezone_set('America/New_York');
 $fulldate = date('Y-m-d H:i:s');
+
 if(isset($_POST['commentSubmit'])){	
 
-	   $user_Id = $_SESSION['user_data']['id'];
-    
+	    $user_Id = $_SESSION['user_data']['id'];
+
 	   $usercomment = $_POST['usercomment'];
-        
+
         $db->query("INSERT INTO feedback(feedback_Id, user_Id, event_Id, date, usercomment) VALUES(NULL, :user_Id, :event_Id, :fulldate, :usercomment)");
-    
+
         $db->bindValue(':usercomment', $usercomment, PDO::PARAM_STR);
         $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
         $db->bindValue(':user_Id', $user_Id, PDO::PARAM_INT);
         $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
-        
+
         $run = $db->execute();
 	}
 
  if (isset($_POST['delete_comment'])){
         
-            $feedback_Id = $_GET['feedback_id'];	
-        
+            $feedback_Id = $_POST['feedback_id'];	
+
             $db->query("DELETE FROM feedback WHERE feedback_Id=:feedback_Id");
-    
+
             $db->bindValue(':feedback_Id', $feedback_Id, PDO::PARAM_INT);
-		
+
             $run = $db->execute();         
     }
 
 if (isset($_POST['edit_comment'])){
-    $feedback_Id = $_GET['feedback_id'];	
-    
+     $feedback_Id = $_POST['feedback_id'];	
+
     $db->query('SELECT * FROM feedback WHERE feedback_Id=:feedback_Id'); 
-    
+
     $db->bindValue(':feedback_Id', $feedback_Id, PDO::PARAM_INT);
-    
+
     $row = $db->fetchSingle(); 
-    
+
     $usercomment = $row['usercomment'];
     ?> 
     
-    <form method='POST'>
+    <form action='comments.php' method='post'><input type='hidden' name='feedback_id' value='<?php echo $feedback_Id; ?>'><input type='hidden' name='id' value='<?php echo $feedback_Id; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'>
 
-<textarea class="form-control" autofocus rows="3" type="comment" name="update_comment" class="form-control" id="update_comment"><?php echo $usercomment; ?></textarea>
+<textarea class="form-control" autofocus rows="3" type="comment" name="update_comment" class="form-control" id="feedback_id"><?php echo $usercomment; ?></textarea>
                 
  <div class="form-group">
     <button type="updateSubmit" name="updateSubmit">Send</button>
 </div>
 </form> <?php
     
-} else { if (isset($_POST['updateSubmit']))
-    {
-        $feedback_Id = $_GET['feedback_id'];
-        $update_comment = $_POST['update_comment'];
-		
-        $db->query("UPDATE feedback SET usercomment=:update_comment, date=:fulldate WHERE feedback_Id=:feedback_Id");
+} else { 
     
+    if (isset($_POST['updateSubmit']))
+    {
+        $feedback_Id = $_POST['feedback_id'];
+        $update_comment = $_POST['update_comment'];
+
+        $db->query("UPDATE feedback SET usercomment=:update_comment, date=:fulldate WHERE feedback_Id=:feedback_Id");
+
         $db->bindValue(':update_comment', $update_comment, PDO::PARAM_STR);
         $db->bindValue(':feedback_Id', $feedback_Id, PDO::PARAM_INT);
         $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
-		
+
         $run = $db->execute();      
     }
 ?>  
                
-<form method='POST'>
+    <form action='comments.php' method='post'><input type='hidden' name='id' value=' <?php echo $event_Id; ?>'>
 
 <textarea class="form-control" rows="3" type="comment" name="usercomment" class="form-control" id="usercomment" placeholder="Add a comment.."></textarea>
                 
@@ -207,22 +211,27 @@ foreach($row as $comment) { ?>
 			echo nl2br($comment['usercomment']);	
     ?> </p>
     
-    <form class='delete-form' method='POST' action="comments.php?event_id=<?php echo $event_Id; ?>&feedback_id=<?php echo $comment["feedback_Id"]; ?>">
+        	<form class="delete-form" action='comments.php' method='post'><input type='hidden' name='feedback_id' value='<?php echo $comment['feedback_Id']; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'>
+        	
 			<input type='hidden' name='feedback_Id' value="<?php echo $comment['feedback_Id'] ?>"> 
 			
 			<?php if($comment['user_Id'] == $row['user_Id']) { ?>
 			<button type='submit' name='delete_comment'>Delete</button> <?php } ?>
-		</form>
-			
-		<form class='edit-form' method='POST' action="comments.php?event_id=<?php echo $event_Id; ?>&feedback_id=<?php echo $comment["feedback_Id"]; ?>">
-			<input type='hidden' name='feedback_id' value="<?php echo $comment['feedback_Id']; ?>" >
-			<input type='hidden' name='user_Id' value="echo $comment['user_Id']; ?>">
+		    </form>
+    
+    	    <form class="edit-form" action='comments.php' method='post'><input type='hidden' name='feedback_id' value='<?php echo $feedback_Id; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'>
+               
+			<input type='hidden' name='feedback_id' value="<?php echo $comment['feedback_Id']; ?>">
+			<input type='hidden' name='user_Id' value="<?php echo $comment['user_Id']; ?>">
 			<input type='hidden' name='date' value="<?php echo $comment['date']; ?>" >
 			<input type='hidden' name='edit_comment' value="<?php echo $comment['usercomment']; ?>">
+          
            <?php if($comment['user_Id'] == $row['user_Id']) { ?>
-            <button>Edit</button> <?php } ?>
-		
-    </form>
+            <button type="submit" name="edit_comment" value="<?php echo $comment['usercomment']; ?>">Edit</button> <?php } ?>
+            </form>
+    
+    
+    
 </div>    
-     <?php }  ?>
+     <?php  }  ?>
 
