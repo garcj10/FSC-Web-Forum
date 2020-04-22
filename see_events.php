@@ -200,29 +200,29 @@ tr:nth-child(even) {
  <div class="sidenav">
 
 <! Side Bar Form with Filters >
- <form name="filter" method="GET" action="see_events.php">
-<input type="submit" name="all" value="All Events" class="dropdown-btn">
+ <form id="sidemenuform" name="filter" onsubmit="return false" >
+<input class="sidemenu" type="submit" name="all" value="All Events" class="dropdown-btn" >
 <br>
 <button type="button" class="dropdown-btn">Event Type<i class="fa fa-caret-down"></i></button>
 <div class="dropdown-content">
-<input type="submit" name="fsc" value="FSC">
-<input type="submit" name="clubs" value="Clubs">
-<input type="submit" name="athletics" value="Athletics">
-<input type="submit" name="tutoring" value="Tutoring">
-<input type="submit" name="academics" value="Academics">
-<input type="submit" name="admissions" value="Admissions">
+<input class="sidemenu" type="submit" name="FSC" value="FSC">
+<input class="sidemenu" type="submit" name="Club" value="Clubs">
+<input class="sidemenu" type="submit" name="Athletics" value="Athletics">
+<input class="sidemenu" type="submit" name="Tutoring" value="Tutoring">
+<input class="sidemenu" type="submit" name="Academics" value="Academics">
+<input class="sidemenu" type="submit" name="Admissions" value="Admissions">
 </div>
 <br>
 <button type="button" class="dropdown-btn">Date<i class="fa fa-caret-down"></i></button>
 <div class="dropdown-content">
-<input type="submit" name="oldest" value="Date (oldest)">
-<input type="submit" name="newest" value="Date (newest)">
-<input type="submit" name="upcoming" value="Date (upcoming)">
+<input class="sidemenu" type="submit" name="oldest" value="Date (oldest)">
+<input class="sidemenu" type="submit" name="newest" value="Date (newest)">
+<input class="sidemenu" type="submit" name="upcoming" value="Date (upcoming)">
 </div>
 <br>
-<input type="submit" name="time" value="Time" class="dropdown-btn">
+<input class="sidemenu" type="submit" name="time" value="Time" class="dropdown-btn">
 <br>
-<input type="submit" name="location" value="Location" class="dropdown-btn">
+<input class="sidemenu" type="submit" name="location" value="Location" class="dropdown-btn">
 </form>
 </div> 
 
@@ -503,7 +503,7 @@ $(document).ready(function() {
     setInterval(update_content,60000); // 60 seconds
 
     // When "more events" button is clicked - Increases the limit
-   // of the query to be executed within update_content
+    // of the query to be executed within update_content
     $("#moreEvents").click(function(){
         eventCount = eventCount + eventCountInc;
          //alert("CLICKED");
@@ -531,6 +531,15 @@ $(document).ready(function() {
             alert(errorThrown);
         });
     }
+
+    //function will take the value in "name" and use it as the event type
+    $(".sidemenu").click(function(){
+        var val = $(this).attr('name');
+        //alert(val);
+        event_type = val;
+        eventCount = 5;
+        update_content();
+    });
 });
       </script>
 <?php include('includes/footer.php'); ?>
