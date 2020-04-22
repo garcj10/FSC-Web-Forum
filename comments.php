@@ -10,6 +10,8 @@ body {
   margin: 0;
 margin-top: 70;
     background-color: #ddd;
+        font-family: 'Oswald', sans-serif;
+    font-weight:300;
 }
     
 textarea{
@@ -17,6 +19,8 @@ textarea{
 	height: 80px;
 	background-color: #fff;
 	resize:none;	
+        font-family: 'Oswald', sans-serif;
+    font-weight:300;
 }
 
 
@@ -27,10 +31,11 @@ height: 30px;
 background-color: #282828;
 border:none;
 color:#fff;
-font-family: "Helvetica, sans-serif";
-font-weight: 400;
 cursor: pointer;
 margin-bottom:4px;
+font-family: 'Oswald', sans-serif;
+font-weight:300;
+font-size: 15px;
 
 }
 
@@ -48,12 +53,12 @@ margin-bottom:4px;
 
 .comment-box p{
 	
-	font-family: "Helvetica, sans-serif";
+    font-family: 'Oswald', sans-serif;
+    font-weight:300;
 	font-size: 14px;
 	line-height:16px;
 	color: #282828;
-	font-weight:100;
-
+    font-size:20px;
 }
 
 .edit-form{
@@ -203,13 +208,13 @@ foreach($row as $comment) { ?>
     $db->query('SELECT * FROM feedback WHERE user_Id=:user_Id');
     $user_Id = $_SESSION['user_data']['id'];
     $db->bindValue(':user_Id', $user_Id, PDO::PARAM_INT);
-    $row = $db->fetchSingle(); 
+    $row = $db->fetchSingle();
     
-                
+             
             echo $firstName. " " . $lastName . " - " . $email . "<br><br>";
 			echo "Last updated: " . date('n/j/y, g:ia', strtotime($datetime)) . "<br><br>";
-			echo nl2br($comment['usercomment']);	
-    ?> </p>
+			echo nl2br($comment['usercomment']);
+                 ?> </div>
     
         	<form class="delete-form" action='comments.php' method='post'><input type='hidden' name='feedback_id' value='<?php echo $comment['feedback_Id']; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'>
         	

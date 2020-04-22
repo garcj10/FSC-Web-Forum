@@ -4,24 +4,31 @@ include('includes/functions.php');
 
 require('includes/pdocon.php');
 ?>
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
 
 <style>
+    
 <!-- CSS that styles the side bar and table -->
 * {
   box-sizing: border-box;
 }
 h2
 {
-    font-family: "Helvetica, sans-serif";
+    font-family: "Oswald, sans-serif";
+      font-weight:300;
 }
 .search-container {
-        font-family: "Helvetica, sans-serif";
-    font-size: 20;
+        font-family: "Oswald, sans-serif";
+          font-weight:300;
 }
+    
+
 body {
   margin: 0;
 margin-top: 70;
+      font-family: "Oswald, sans-serif";
+      font-weight:300;
 }
 
 .verticalLine {
@@ -179,7 +186,7 @@ margin-top: 70;
 
 /* Table Design */
 table {
-     font-family: "Helvetica, sans-serif";
+font-family: "Oswald, sans-serif";
   border-collapse: collapse;
   width: 100%;
 
@@ -195,6 +202,7 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 </style>
+
  <div class="row event_page">
    <div class="column side">
  <div class="sidenav">

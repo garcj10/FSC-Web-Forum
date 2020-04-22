@@ -158,7 +158,7 @@ if($run)
 <link href="css/style_dash.css" rel="stylesheet" type="text/css">
 
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
+body {font-family: Oswald, sans-serif;}
 
 /* The Modal (background) */
 .modal {
@@ -206,6 +206,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
             <form class="form-horizontal" role="form" method="post" action="" enctype="multipart/form-data">
 
                 <h2 align="center">Edit Event</h2>
+                
+                 <a href="my_account.php" class="pull-right"><button type="button" class="btn btn-link">Back to My Account</button></a>
 
                 <div class="form-group">
                     <label class="control-label " for="title"></label>

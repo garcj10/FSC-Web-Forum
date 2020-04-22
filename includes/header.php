@@ -26,6 +26,8 @@
     <script src="js/jquery.js"></script>
     <script src="js/scripts.js"></script>
     <!--  CSS -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;700&display=swap" rel="stylesheet">
+   
     <link href="css/styles.css" rel="stylesheet" type="text/css">
 
     <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script> -->
@@ -58,6 +60,5 @@
       <li><a href="see_events.php" style="color: #f3f3f3">Dashboard</a></li>
      <li><a href="includes/logout.php" style="color: #f3f3f3">Sign out</a></li></ul> </div>
      </div>
-     
-     
     </nav>
+    </div>

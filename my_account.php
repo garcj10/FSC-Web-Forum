@@ -35,9 +35,9 @@ $db = new Pdocon;
         }
      }
 ?>
-<link href="css/style_dash.css" rel="stylesheet" type="text/css">
 
-<div class="row myrow ">
+<div class="myrow">
+   
     <div class="box">
         <div class="col-sm-6 register_form">
 

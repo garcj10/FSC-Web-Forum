@@ -26,7 +26,7 @@ if(isset($_SESSION['user_is_logged_in'])){
     <!-- <link href="css/custom.css" rel="stylesheet"> -->
 
     <!--  Google font -->
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;700&display=swap" rel="stylesheet">
 
     <!--  CSS -->
     <link href="css/styles.css" rel="stylesheet">
@@ -51,8 +51,9 @@ if(isset($_SESSION['user_is_logged_in'])){
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.php" style="color: #f3f3f3">Login</a></li>
+                    <li><a href="index.php">Login</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+    </body>
