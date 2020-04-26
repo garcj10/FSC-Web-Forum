@@ -439,6 +439,7 @@ if ($row) {
 <input type="text" name="searchItem" style="width:800px" placeholder="Enter a search term..">
 <input type="submit" name="search"  value="Search">
 </form>
+    <div name="registerOutcome" id="registerOutcome"></div>
 <br>
 <! Table Header >
 <table>
@@ -467,7 +468,13 @@ if ($row) {
     // If an event row has a capacity, then allow them to sign up:
     if ($event["capacity"])
     {
-    ?>  <div class="form-group"><button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button>
+    ?>
+    <div class="form-group">
+    <div class="registerDiv">
+        <button type="submit"  name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
+        Register
+        </button>
+    </div>
     
     
         <div class="form-group"><form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'><button type="submit" action="see_events.php" name='id' class="btn btn-link" value='<?php echo $event["event_Id"] ?>'>Leave a Comment</button></form></div>  <?php  
@@ -531,6 +538,36 @@ $(document).ready(function() {
             alert(errorThrown);
         });
     }
+
+    // Sends an AJAX request to the event_registry.php page when an
+    // events register button is pressed. Requests will contain the events ID
+    $(document).on("click", ".registerDiv button", function(){
+        // takes the event id from the register button value attribute
+        var event_id = $(this).attr('value');
+
+        // will execute the ajax request only if the confirm prompt returns true
+        if (confirm("Are you sure you would like to register for this event?")) {
+            $.post('includes/event_registry.php',{
+                    event_id: event_id
+                }
+            ).done(function(data, textStatus)
+            {
+                // loads the outcome into the #registerOutcome div at the top of the page
+                $('#registerOutcome').html(data);
+
+            }).fail(function(jqXHR, textStatus, errorThrown)
+            {
+                alert(textStatus);
+                alert(errorThrown);
+            });
+            // hides the register button after it is clicked
+            $(this).hide();
+
+        } else {
+
+        }
+        return false;
+    });
 
     //function will take the value in "name" and use it as the event type
     $(".sidemenu").click(function(){

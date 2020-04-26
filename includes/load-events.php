@@ -156,9 +156,11 @@ if ($row) {
          if ($event["capacity"]) {
              ?>
              <div class="form-group">
-             <button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a
-                         href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register
-             </button>
+             <div class="registerDiv">
+                 <button type="submit"  name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
+                     Register
+                 </button>
+             </div>
 
              <button type="submit" action="see_events.php" name="comment" class="btn btn-link"><a
                      href="comments.php?event_id=<?php echo $event["event_Id"] ?>"/>Leave a Comment</button><?php

@@ -1,6 +1,7 @@
-<?php include('../see_events.php');
+<?php
+    require('pdocon.php');
 ?>
-
+<!--
 <h3 align="center">Please enter your password to confirm you'll be attending this event:</h3>
   
  <div class="row">
@@ -28,28 +29,30 @@
               <a class="pull-left btn btn-danger" href="../see_events.php"> Cancel</a>
             </div>
           </div>
-          
-<?php 
-
-            if(isset($_POST['confirm']))
+          -->
+<?php
+session_start();
+            if(isset($_POST['event_id']))
             {
-                $raw_password       =   cleandata($_POST['password']);
-                $hashed_password    =   hashpassword($raw_password);
+                //$raw_password       =   cleandata($_POST['password']);
+                //$hashed_password    =   hashpassword($raw_password);
                 
                 $email = $_SESSION['user_data']['email'];
                 $password = $_SESSION['user_data']['hashedPass'];
-                
-                 $db->query('SELECT * FROM fsc_Users WHERE email=:email AND password=:password'); 
-                
+
+                $db = new Pdocon;
+
+                $db->query('SELECT * FROM fsc_Users WHERE email=:email AND password=:password');
                 $db->bindValue(':email', $email, PDO::PARAM_STR);
-                $db->bindValue(':password', $hashed_password, PDO::PARAM_STR);
+                $db->bindValue(':password', $password, PDO::PARAM_STR);
     
                 $row = $db->fetchSingle();
                 
                 if ($row)
                 {
                 // Retrieves the event ID based on which event the user clicked.
-                $event_Id = $_GET['event_id'];
+                $raw_id = $_POST['event_id'];
+                $event_Id = (int)$raw_id;
                 
                 $db->query('SELECT * FROM events WHERE event_Id =:event_id');
                 $db->bindValue(':event_id', $event_Id, PDO::PARAM_INT);
@@ -130,7 +133,8 @@
                        
                            echo "<div class='alert alert-success text-center'>
                                   <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                                  <strong>Success!</strong> Confirmation successfully sent.<a href='../see_events.php'> Back to Events</a>
+                                  <strong>Success!</strong> Confirmation successfully sent.
+                                  <!--<a href='../see_events.php'> Back to Events</a>-->
                                  </div>";
                             
                             } else {
@@ -138,7 +142,8 @@
                             
                             echo "<div class='alert alert-danger text-center'>
                                   <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                                  <strong>Sorry!</strong> The email could not be sent. Please Try Again. <a href='../see_events.php'> Back to Events</a>
+                                  <strong>Sorry!</strong> The email could not be sent. Please Try Again. 
+                                  <!--<a href='../see_events.php'> Back to Events</a>-->
                                  </div>";
                     }
                 }
