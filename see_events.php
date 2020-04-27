@@ -307,7 +307,7 @@ $db = new Pdocon;
 // Initial event count to be displayed
 $eventCount =6;
 // Event count to be incremented when "More events" button is clicked
-$eventCountIncrement = 3;
+$eventCountIncrement = 6;
 // search variable used for load-events (needed because searchItem may be altered to %searchItem%)
 $searchI="";
 
