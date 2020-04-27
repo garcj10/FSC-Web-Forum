@@ -6,15 +6,13 @@ class Pdocon {
     private $user       = "xfhbbaqwxr";
     private $pass       = "V3K2XgpGtk";
     private $dbnm       = "xfhbbaqwxr";
-
     /*
     // Database Information:
         private $host       = "localhost";
         private $user       = "root";
         private $pass       = "";
         private $dbnm       = "app";
-    */
-
+*/
     // Holds database connection:
         private $dbh;
     

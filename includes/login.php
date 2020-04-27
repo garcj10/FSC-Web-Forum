@@ -105,7 +105,7 @@ if(isset($_POST['submit_login'])) {
         
         $_SESSION['user_is_logged_in']  =  true;
         
-          header("Refresh:0; url=my_account.php", true, 303);
+        redirect('my_account.php');
         
     } else {
         

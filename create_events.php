@@ -104,6 +104,7 @@ if(isset($_POST['create_event'])){
             <form class="form-horizontal" role="form" method="post" action="" enctype="multipart/form-data">
 
                 <h2 align="center">Create Event</h2>
+                 <a href="my_account.php" class="pull-right"><button type="button" class="btn btn-link">Back to My Account</button></a>
 
 
 
@@ -124,7 +125,7 @@ if(isset($_POST['create_event'])){
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="eventType"></label>
                     <div class="col-sm-12">
-                        <select type="" name="eventType" class="form-control" id="eventType" required>
+                        <select type="" style="font-family: Oswald" name="eventType" class="form-control" id="eventType" required>
                             <option value="">Select Event Type</option>
                             <option value="Athletics">Athletics</option>
                             <option value="Club">Club</option>
@@ -146,7 +147,7 @@ if(isset($_POST['create_event'])){
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="date"></label>
                     <div class="col-sm-12">
-                        <input type="date" name="date" class="form-control" id="date" required>
+                        <input type="date" name="date" class="form-control" min="<?php echo date("Y-m-d");?>" id="date" required>
                     </div>
                 </div>
 
@@ -163,7 +164,7 @@ if(isset($_POST['create_event'])){
 
                 <div class="form-group">
                     <div class=" text-center">
-                        <button type="createEvent" class="btn btn-primary center" name="create_event">Create Event</button>
+                        <button class="button" type="createEvent" class="btn btn-primary center" name="create_event">Create Event</button>
                     </div>
                 </div>
         </div>

@@ -1,13 +1,10 @@
 <?php include('includes/login.php'); ?>
-
-
-<div class="width">
+  
     <div class="row index_row">
 
         <div class="col-md-5 col-sm-12">
 
-            <div class="container-fluid ">
-
+            <div class="container-fluid">
                 <div class="index-login-form">
                     <div class="mylogin">
                         <div class="slide_one position">
@@ -15,13 +12,14 @@
                                 <h1>LOGIN</h1>
                             </div>
                         </div>
+                
                         
                          <a class="pull-right"><button type="button" class="btn btn-link button1">Register</button></a>
 
                         <form method="post" action="index.php">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Enter Email" required>
+                                <label for="exampleInputEmail1">Email</label>
+                                <input type="email" name="email" class="form-control" id="email" placeholder ="Enter Email" required>
                                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                             <div class="form-group">
@@ -29,8 +27,7 @@
                                 <input type="password" name="password" class="form-control" id="pwd" placeholder="Enter Password" required>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary text-center" name="submit_login">Login</button>
-
+                                <button class="button" type="submit" class="btn btn-primary text-center" name="submit_login">Login</button>
                                 <!-- <a href="register_account.php">Register</a>-->
                             </div>
                         </form>
@@ -47,10 +44,12 @@
                     <form role="form" method="post" action="register_account.php" enctype="multipart/form-data" class="second_form">
                         
                         
-                     <a class="pull-right"><button type="button" class="btn btn-link button2">Login</button></a>
+                   <a class="pull-right"><button type="button" class="btn btn-link button2">Have an Account?</button></a>
 
 
                         <div class="form-group ">
+                           
+                           
                             <label for="fname">First Name</label>
                             <input type="firstName" name="firstName" class="form-control" id="firstName" placeholder="Enter First Name" required>
                         </div>
@@ -83,8 +82,7 @@
                             <!-- Admin Registry -->
 
                             <div class="form-group ">
-                                <label class="control-label " for="admin"></label>
-
+                                <label class="label " for="admin"></label>
                                 <select type="" name="admin" class="form-control" id="admin">
                                     <option value="">Would you like to become an admin?</option>
                                     <option value="Yes">Yes</option>
@@ -103,7 +101,7 @@
                         <!-- Register/Cancel Buttons -->
                         <div class="form-group">
                             <div class=" text-center">
-                                <button type="submit" class="btn btn-primary " name="submit_registry">Register</button>
+                                <button class="button" type="submit" class="btn btn-primary " name="submit_registry">Register</button>
                             </div>
                         </div>
                 </div>
@@ -113,7 +111,7 @@
 
         </div>
 
-        <div class="col-md-7   index_page">
+        <div class="col-md-7 index_page">
 
         <div class="index_banner1">
             <img src="images/books.jpeg" alt="" />

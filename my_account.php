@@ -37,7 +37,8 @@ $db = new Pdocon;
 ?>
 <link href="css/style_dash.css" rel="stylesheet" type="text/css">
 
-<div class="row myrow ">
+<div class="row myrow">
+   
     <div class="box">
         <div class="col-sm-6 register_form">
 
@@ -124,7 +125,7 @@ $db = new Pdocon;
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10 text-center">
-                    <button type="submit" class="btn btn-primary " name="submit_update">Update</button>
+                    <button class="button" type="submit" class="btn btn-primary " name="submit_update">Update</button>
                 </div>
             </div>
         </form>
@@ -200,7 +201,7 @@ $db = new Pdocon;
         
          if(isset($_SESSION['admin_data']))
         { ?>
-            <h4>Events You've Created:</h4>
+            <h3>Events You've Created:</h3>
         <?php  
          
         $admin_Id = $_SESSION['admin_data']['adminId'];

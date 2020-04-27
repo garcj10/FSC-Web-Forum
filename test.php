@@ -11,7 +11,33 @@ require('includes/pdocon.php');
 <link href="css/style_dash.css" rel="stylesheet" type="text/css">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker'>
+                    <input type='date' style=text-align:center class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker').datetimepicker({
+                    defaultDate: "11/1/2013",
+                    disabledDates: [
+                        moment("12/25/2013"),
+                        new Date(2013, 11 - 1, 21),
+                        "11/22/2013 00:53"
+                    ]
+                });
+            });
+        </script>
+    </div>
+</div>
 <style>
 	
 	.pad{
@@ -163,30 +189,32 @@ require('includes/pdocon.php');
                     </i>EVENT TYPE</>
                 </div>
                 <ul class="submenu">
-                    <li class="sidemenu" name="all"><a href="# " class="all" name="all">ALL EVENTS</a></li>
-                    <li class="sidemenu" name="FSC"><a href="# " class="test" name="fsc">FSC</a></li>
-                    <li class="sidemenu" name="Club"><a href="#" name="club ">CLUB</a></li>
-                    <li class="sidemenu" name="Athletics"><a href="#" name="athletics">ATHLETICS</a></li>
-                    <li class="sidemenu" name="Tutoring"><a href="#" name="tutoring">TUTORING</a></li>
-                    <li class="sidemenu" name="Academics"><a href="#" name="academics">ACADEMICS</a></li>
-                    <li class="sidemenu" name="Admissions"><a href="#" name="admissions">ADMISSIONS</a></li>
+                   <li><a href="#" class="all" name="all">ALL EVENTS</a></li>
+                    <li><a href="# " class="test" name="fsc">FSC</a></li>
+                    <li><a href="#" name="club ">CLUB</a></li>
+                    <li><a href="#" name="athletics">ATHLETICS</a></li>
+                    <li><a href="#" name="tutoring">TUTORING</a></li>
+                    <li><a href="#" name="academics">ACADEMICS</a></li>
+                    <li><a href="#" name="admissions">ADMISSIONS</a></li>
+
+
                 </ul>
             </li>
 
             <li>
                 <div class="link">DATE</div>
                 <ul class="submenu">
-                    <li class="sidemenu" name="oldest"><a href="#" name="oldest">OLDEST</a></li>
-                    <li class="sidemenu" name="newest"><a href="#" name="oldest">MOST RECENT</a></li>
-                    <li class="sidemenu" name="upcoming"><a href="#" name="upcoming">UPCOMING</a></li>
+                    <li><a href="#" name="oldest">OLDEST</a></li>
+                    <li><a href="#" name="oldest">MOST RECENT</a></li>
+                    <li><a href="#" name="upcoming">UPCOMING</a></li>
                 </ul>
             </li>
 
             <li>
                 <div class="link">MORE</div>
                 <ul class="submenu">
-                    <li class="sidemenu" name="time"><a href="#" name="time">TIME</a></li>
-                    <li class="sidemenu" name="location"><a href="#" name="location">LOCATION</a></li>
+                    <li><a href="#" name="time">TIME</a></li>
+                    <li><a href="#" name="location">LOCATION</a></li>
 
                 </ul>
             </li>
@@ -194,88 +222,40 @@ require('includes/pdocon.php');
         </ul>
 
 
+   
 
-        <! Side Bar Form with Filters><!--
-            <form id="sidemenuform" name="filter" onsubmit="return false" >
-<input class="sidemenu" type="submit" name="all" value="All Events" class="dropdown-btn" >
-<br>
-<button type="button" class="dropdown-btn">Event Type<i class="fa fa-caret-down"></i></button>
-<div class="dropdown-content">
-<input class="sidemenu" type="submit" name="FSC" value="FSC">
-<input class="sidemenu" type="submit" name="Club" value="Clubs">
-<input class="sidemenu" type="submit" name="Athletics" value="Athletics">
-<input class="sidemenu" type="submit" name="Tutoring" value="Tutoring">
-<input class="sidemenu" type="submit" name="Academics" value="Academics">
-<input class="sidemenu" type="submit" name="Admissions" value="Admissions">
-</div>
-<br>
-<button type="button" class="dropdown-btn">Date<i class="fa fa-caret-down"></i></button>
-<div class="dropdown-content">
-<input class="sidemenu" type="submit" name="oldest" value="Date (oldest)">
-<input class="sidemenu" type="submit" name="newest" value="Date (newest)">
-<input class="sidemenu" type="submit" name="upcoming" value="Date (upcoming)">
-</div>
-<br>
-<input class="sidemenu" type="submit" name="time" value="Time" class="dropdown-btn">
-<br>
-<input class="sidemenu" type="submit" name="location" value="Location" class="dropdown-btn">
-</form>
 
-    <form name="filter" method="GET" action="see_events.php">
 
-        <input type="submit" name="all" value="All Events" class="dropdown-btn test ">
 
-        <br>
 
-        <button type="button" class="dropdown-btn testdash">Event Type<i class="fa fa-caret-down"></i></button>
+        <! Side Bar Form with Filters>
+           <form id="sidemenuform" name="filter" onsubmit="return false" >
+            <input class="sidemenu" type="submit" name="all" value="All Events" class="dropdown-btn" >
+                <br>
+                <button type="button" class="dropdown-btn testdash">Event Type<i class="fa fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                   <input class="sidemenu" type="submit" name="FSC" value="FSC">
+                    <input class="sidemenu" type="submit" name="Club" value="Clubs">
+                    <input class="sidemenu" type="submit" name="Athletics" value="Athletics">
+                    <input class="sidemenu" type="submit" name="Tutoring" value="Tutoring">
+                    <input class="sidemenu" type="submit" name="Academics" value="Academics">
+                    <input class="sidemenu" type="submit" name="Admissions" value="Admissions">
+                </div>
+                <br>
+                <button type="button" class="dropdown-btn">Date<i class="fa fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                   <input class="sidemenu" type="submit" name="oldest" value="Date (oldest)">
+                    <input class="sidemenu" type="submit" name="newest" value="Date (newest)">
+                    <input class="sidemenu" type="submit" name="upcoming" value="Date (upcoming)">
+                </div>
+                <br>
+                <input class="sidemenu" type="submit" name="time" value="Time" class="dropdown-btn">
+                <br>
+                <input class="sidemenu" type="submit" name="location" value="Location" class="dropdown-btn">
+            </form>
 
-        <div class="dropdown-content">
 
-            <input type="submit" onclick="myFunction()" class="test" name="fsc" value="FSC">
 
-            <input type="submit" name="club" value="Club">
-
-            <input type="submit" name="athletics" value="Athletics">
-
-            <input type="submit" name="tutoring" value="Tutoring">
-
-            <input type="submit" name="academics" value="Academics">
-
-            <input type="submit" name="admissions" value="Admissions">
-
-        </div>
-
-        <br>
-
-        <button type="button" class="dropdown-btn">Date<i class="fa fa-caret-down"></i></button>
-
-        <div class="dropdown-content">
-
-            <input type="submit" name="oldest" value="Date (oldest)">
-
-            <input type="submit" name="oldest" value="Date (newest)">
-
-            <input type="submit" name="upcoming" value="Date (upcoming)">
-
-        </div>
-
-        <br>
-
-        <input type="submit" name="time" value="Time" class="dropdown-btn">
-
-        <br>
-
-        <input type="submit" name="location" value="Location" class="dropdown-btn">
-
-    </form>
-
--->
-	
-				
-				
-			
-				
-				
     </div>
 
 
@@ -283,7 +263,6 @@ require('includes/pdocon.php');
 <input type="text" name="searchItem" style="width:800px" placeholder="Enter a search term..">
 <input type="submit" name="search"  value="Search">
 </form>
-<div name="registerOutcome" id="registerOutcome"></div>
 
 
 
@@ -305,9 +284,9 @@ require('includes/pdocon.php');
 $db = new Pdocon;
 
 // Initial event count to be displayed
-$eventCount =6;
+$eventCount = 6;
 // Event count to be incremented when "More events" button is clicked
-$eventCountIncrement = 3;
+$eventCountIncrement = 6;
 // search variable used for load-events (needed because searchItem may be altered to %searchItem%)
 $searchI="";
 
@@ -485,7 +464,6 @@ if ($row) {
             <br>
             <! Table Header>
                 <! Table Row for each Event Entry>
-        <div id = "myDiv">
                     <tbody id="myTable">
 
 
@@ -497,21 +475,28 @@ if ($row) {
     {
         $time = $event["time"];
         $date = $event["date"];
-
+       
+       
+       
+     
+       
       echo'                           
+                                                
+
+  
   <div class="container card col-sm-3 upper">
       <h1 class="text-center">'.$event["event_Title"].'</h1>
-	  <div class="lfloat pad"><b>'. $event["location"].'</b>
-	  <i class="fa fa-street-view"></i>
-	  </div>
-          
-      <div class="pad"><i class="fa fa-building"></i>'. $event["event_Type"].'</div>
+	  <div class="lfloat pad"><b>'. $event["location"].'</b><i class="fa fa-street-view"></i></div>
+          <div class="pad"><i class="fa fa-building"></i>'. $event["event_Type"].'</div>
               
                       <div class="lfloat pad">'. date('n/d/Y', strtotime($date)) .'<i class="fa fa-calendar" aria-hidden="true"></i></div>
                           <div class="pad"><i class="fa fa-hourglass-half "></i>'. date('g:i A', strtotime($time)) . '</div>
                            <div class="hides">
 						 <i class="fa fa-list-ol"></i> Description<br>
 					'.$event["description"].'</div>';
+       
+       
+       
        if ($event["capacity"])
     { 
                 $event_Id = $event["event_Id"];
@@ -528,18 +513,13 @@ if ($row) {
            
              if ($row['user_Id'])
                 { ?>
-                     
+                     <button type="submit" action="see_events.php" name="unregister" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>">Unregister</a></button>
+                 
                  <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'><button type="submit" action="see_events.php" name='id' class="btn btn-link" value='<?php echo $event["event_Id"] ?>'>Leave a Comment</button></form> <?php
                 } 
            else 
                 { ?> 
-             <div class="form-group">
-                <div class="registerDiv">
-                    <button type="submit"  name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
-                    Register
-                    </button>
-                </div>
-             </div>
+                        <button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>">Sign up for this Event</a></button> 
               <?php  } 
                 
                 $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
@@ -571,16 +551,21 @@ if ($row) {
                     
                             
           echo '<button onclick="myFunction()" class="btn card_btn myclass">Read More</button>
-  </div>';
+  </div>
+
+  
+                                    
+      ';
     
     }
 
 ?>
-                 </tbody>
+                    </tbody>
 
-</div>
-                    <button id="moreEvents">Load More Events..</button>
 
+<!-- Load more events button.
+<button id="moreEvents">Load More Events..</button> 
+-->
                     <! Will execute if nothing is in the table>
                         <?php
 }
@@ -633,9 +618,8 @@ $(document).ready(function() {
     setInterval(update_content,60000); // 60 seconds
 
     // When "more events" button is clicked - Increases the limit
-   // of the query to be executed within update_content
+     // of the query to be executed within update_content
     $("#moreEvents").click(function(){
-        //alert("inside more events");
         eventCount = eventCount + eventCountInc;
          //alert("CLICKED");
         update_content();
@@ -643,7 +627,7 @@ $(document).ready(function() {
 
      // Runs load-events.php which updates the events table
     function update_content(){
-        //alert("inside update content");
+        //alert(event_type);
         $.get('includes/load-events.php',{
                 eventNewCount: eventCount,
                 event_Type: event_type,
@@ -654,7 +638,7 @@ $(document).ready(function() {
         {
             //alert(textStatus);
             //alert(data);
-            $('#myDiv').html(data);
+            $('#myTable').html(data);
 
         }).fail(function(jqXHR, textStatus, errorThrown)
         {
@@ -662,45 +646,19 @@ $(document).ready(function() {
             alert(errorThrown);
         });
     }
-      // Sends an AJAX request to the event_registry.php page when an
-    // events register button is pressed. Requests will contain the events ID
-    $(document).on("click", ".registerDiv button", function(){
-        // takes the event id from the register button value attribute
-        var event_id = $(this).attr('value');
-
-        // will execute the ajax request only if the confirm prompt returns true
-        if (confirm("Are you sure you would like to register for this event?")) {
-            $.post('includes/event_registry.php',{
-                    event_id: event_id
-                }
-            ).done(function(data, textStatus)
-            {
-                // loads the outcome into the #registerOutcome div at the top of the page
-                $('#registerOutcome').html(data);
-
-            }).fail(function(jqXHR, textStatus, errorThrown)
-            {
-                alert(textStatus);
-                alert(errorThrown);
-            });
-            // hides the register button after it is clicked
-            $(this).hide();
-
-        } else {
-
-        }
-        return false;
-    });
-
     //function will take the value in "name" and use it as the event type
     $(".sidemenu").click(function(){
         var val = $(this).attr('name');
         //alert(val);
         event_type = val;
-        eventCount = 6;
+        eventCount = 5;
         update_content();
     });
 });
-        
- </script>
+      </script>
+<?php include('includes/footer.php'); ?> 
+});
+      </script>
+
+
 </div>

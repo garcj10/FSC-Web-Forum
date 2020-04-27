@@ -1,3 +1,26 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@pacman10x 
+garcj10
+/
+FSC-Web-Forum
+2
+00
+ Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security 0 Insights
+FSC-Web-Forum/includes/event_registry.php /
+@garcj10 garcj10 Changes to the register button and converted it to an ajax request
+b6281bb 19 hours ago
+161 lines (123 sloc)  7.14 KB
+  
+Code navigation is available!
+Navigate your code with ease. Click on function and method calls to jump to their definitions or references in the same repository. Learn more
+
 <?php
     require('pdocon.php');
 ?>
@@ -15,7 +38,6 @@
               <input type="email" name="email" class="form-control" id="email" placeholder="Email" value=<?php echo $_SESSION['user_data']['email']; ?> required>
             </div>
           </div>
-
  <div class="form-group">
             <label class="control-label col-sm-2" for="email"></label>
             <div class="col-sm-10">  

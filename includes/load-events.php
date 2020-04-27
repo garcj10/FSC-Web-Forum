@@ -2,7 +2,7 @@
 require('pdocon.php');
 
 $db = new Pdocon;
-
+session_start();
 if(isset($_GET['eventNewCount']))
 {
     $rawCount = $_GET['eventNewCount'];
@@ -150,23 +150,77 @@ if ($row) {
          $time = $event["time"];
          $date = $event["date"];
 
-         echo "<tr><td>" . $event["event_Title"] . "</td><td>" . $event["event_Type"] . "</td><td>" . $event["description"] . "</td><td>" . $event["location"] . "</td><td>" . date('n/j/y', strtotime($date)) . "</td><td>" . date('g:iA', strtotime($time));
-
+         echo'                           
+  <div class="container card col-sm-3 upper">
+      <h1 class="text-center">'.$event["event_Title"].'</h1>
+	  <div class="lfloat pad"><b>'. $event["location"].'</b>
+	  <i class="fa fa-street-view"></i>
+	  </div>
+          
+      <div class="pad"><i class="fa fa-building"></i>'. $event["event_Type"].'</div>
+              
+                      <div class="lfloat pad">'. date('n/d/Y', strtotime($date)) .'<i class="fa fa-calendar" aria-hidden="true"></i></div>
+                          <div class="pad"><i class="fa fa-hourglass-half "></i>'. date('g:i A', strtotime($time)) . '</div>
+                           <div class="hides">
+						 <i class="fa fa-list-ol"></i> Description<br>
+					'.$event["description"].'</div>';
          // If an event row has a capacity, then allow them to sign up:
          if ($event["capacity"]) {
-             ?>
-             <div class="form-group">
-             <div class="registerDiv">
-                 <button type="submit"  name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
-                     Register
-                 </button>
-             </div>
+             $event_Id = $event["event_Id"];
 
-             <button type="submit" action="see_events.php" name="comment" class="btn btn-link"><a
-                     href="comments.php?event_id=<?php echo $event["event_Id"] ?>"/>Leave a Comment</button><?php
+             $db->query('SELECT * FROM events_list WHERE event_Id =:event_Id');
+             $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
+             $row = $db->fetchSingle();
+             $list_Id = $row['list_Id'];
+
+             $db->query('SELECT * FROM attendees WHERE user_Id =:user_Id AND list_Id=:list_Id');
+             $db->bindValue(':user_Id', $_SESSION['user_data']['id'], PDO::PARAM_INT);
+             $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
+             $row = $db->fetchSingle();
+
+             if ($row['user_Id'])
+             { ?>
+
+                 <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'><button type="submit" action="see_events.php" name='id' class="btn btn-link" value='<?php echo $event["event_Id"] ?>'>Leave a Comment</button></form> <?php
+             }
+             else
+             { ?>
+                 <div class="form-group">
+                     <div class="registerDiv">
+                         <button type="submit"  name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
+                             Register
+                         </button>
+                     </div>
+                 </div>
+             <?php  }
+
+             $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
+             $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
+             $row = $db->fetchMultiple();
+
+             // For each attendee for a particular event, retrieve and print all names on the list:
+             foreach($row as $attendee)
+             {
+                 $currentId = $attendee["user_Id"];
+                 $db->query('SELECT * FROM fsc_Users WHERE user_Id=:currentId');
+                 $db->bindValue(':currentId', $currentId, PDO::PARAM_INT);
+                 $row = $db->fetchSingle();
+                 $name = "<br>" . $row['first_Name'] . " " . $row['last_Name'];
+                 echo $name;
+             }
+
+             $db->query('SELECT COUNT(*) AS count FROM attendees WHERE list_Id =:list_Id');
+             $db->bindvalue(':list_Id', $list_Id, PDO::PARAM_INT);
+             $row = $db->fetchSingle();
+
+             $spotsRemaining = $event["capacity"] - $row['count'] . "<br>";
+
+             echo "<br>" . "Spots left: " . $spotsRemaining;
          };
 
-         echo "</td></tr>";
+         echo '<button onclick="myFunction()" class="btn card_btn myclass">Read More</button>
+  </div>';
+         //echo "<tr><td>".$_SESSION['user_data']['id']."</td></tr>";
      }
 }
 ?>

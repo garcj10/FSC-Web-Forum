@@ -158,7 +158,7 @@ if($run)
 <link href="css/style_dash.css" rel="stylesheet" type="text/css">
 
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
+body {font-family: Oswald, sans-serif;}
 
 /* The Modal (background) */
 .modal {
@@ -206,6 +206,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
             <form class="form-horizontal" role="form" method="post" action="" enctype="multipart/form-data">
 
                 <h2 align="center">Edit Event</h2>
+                
+                 <a href="my_account.php" class="pull-right"><button type="button" class="btn btn-link">Back to My Account</button></a>
 
                 <div class="form-group">
                     <label class="control-label " for="title"></label>
@@ -266,10 +268,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 
 			<form action='edit_event.php' method='post'><input type='hidden' name='id' value=' <?php echo $event_Id ?>'>
                <label class="control-label col-sm-12"></label>
-              <button type="update" class="pull-right btn btn-primary center" name="update_event" required>Submit Changes</button>
+              <button type="update" class="pull-right button" name="update_event" required>Submit Changes</button>
                 </form>
             
-			<button type="button" id="myBtn" class="pull-left btn btn-danger">Delete this Event</button>
+			<button type="button" id="myBtn" class="pull-left danger_button">Delete this Event</button>
             
             </div>
             

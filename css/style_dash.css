@@ -2,17 +2,31 @@ body {
     background-image: url(../images/background-img1.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: "Oswald, sans-serif";
+     font-weight:300;
+}
 
 }
 
 .myrow {
     background-color: white;
     margin: 8%;
+    font-family: "Oswald, sans-serif";
+    font-weight:300;
+    
+}
+
+::-webkit-input-placeholder
+{
+    font-family: "Oswald, sans-serif";
+     font-weight:300;
 }
 
 .events {
     
-     font-family: "Helvetica, sans-serif";
+    font-family: 'Oswald', sans-serif;
+    font-size: 50px;
+    font-weight:300;
     display: block;
     background-color: white;
     box-shadow: 0 0 30px #888;

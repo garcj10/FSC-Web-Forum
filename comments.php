@@ -10,6 +10,8 @@ body {
   margin: 0;
 margin-top: 70;
     background-color: #ddd;
+        font-family: 'Oswald', sans-serif;
+    font-weight:300;
 }
     
 textarea{
@@ -17,6 +19,8 @@ textarea{
 	height: 80px;
 	background-color: #fff;
 	resize:none;	
+        font-family: 'Oswald', sans-serif;
+    font-weight:300;
 }
 
 
@@ -27,10 +31,12 @@ height: 30px;
 background-color: #282828;
 border:none;
 color:#fff;
-font-family: "Helvetica, sans-serif";
-font-weight: 400;
 cursor: pointer;
 margin-bottom:4px;
+font-family: 'Oswald', sans-serif;
+font-weight:300;
+font-size: 15px;
+    size:auto;
 
 }
 
@@ -48,12 +54,12 @@ margin-bottom:4px;
 
 .comment-box p{
 	
-	font-family: "Helvetica, sans-serif";
+    font-family: 'Oswald', sans-serif;
+    font-weight:300;
 	font-size: 14px;
 	line-height:16px;
 	color: #282828;
-	font-weight:100;
-
+    font-size:20px;
 }
 
 .edit-form{
@@ -75,8 +81,6 @@ margin-bottom:4px;
 .edit-form button:hover{
 		opacity:1;
 }
-
-
 
 .delete-form{
 	position: absolute;
@@ -151,7 +155,7 @@ if (isset($_POST['edit_comment'])){
 <textarea class="form-control" autofocus rows="3" type="comment" name="update_comment" class="form-control" id="feedback_id"><?php echo $usercomment; ?></textarea>
                 
  <div class="form-group">
-    <button type="updateSubmit" name="updateSubmit">Send</button>
+    <button class="button" type="updateSubmit" name="updateSubmit">Send</button>
 </div>
 </form> <?php
     
