@@ -4,239 +4,373 @@ include('includes/functions.php');
 
 require('includes/pdocon.php');
 ?> 
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+
 <style>
-
-body {
-  margin: 0;
-margin-top: 70;
-    background-color: #ddd;
-        font-family: 'Oswald', sans-serif;
-    font-weight:300;
+.btn-grey{
+    background-color:#D8D8D8;
+	color:#FFF;
 }
-    
-textarea{
-	width: 500px;
-	height: 80px;
-	background-color: #fff;
-	resize:none;	
-        font-family: 'Oswald', sans-serif;
-    font-weight:300;
+.rating-block{
+	background-color:#FAFAFA;
+	border:1px solid #EFEFEF;
+	padding:15px 15px 20px 15px;
+	border-radius:3px;
 }
-
-
-button{
-	
-width: 100px;
-height: 30px;
-background-color: #282828;
-border:none;
-color:#fff;
-cursor: pointer;
-margin-bottom:4px;
-font-family: 'Oswald', sans-serif;
-font-weight:300;
-font-size: 15px;
-
+.bold{
+	font-weight:700;
+}
+.padding-bottom-7{
+	padding-bottom:7px;
 }
 
-.comment-box{
-	
-	width: 700px;
-	padding:20px;
-	margin-bottom:4px;
-	background-color:#fff;
-	border-radius: 4px;
-	position: relative;
-      box-shadow: 0 0 15px #888;
+.review-block{
+	background-color:#FAFAFA;
+	border:1px solid #EFEFEF;
+	padding:15px;
+	border-radius:3px;
+	margin-bottom:15px;
 }
-    
-
-.comment-box p{
-	
-    font-family: 'Oswald', sans-serif;
-    font-weight:300;
-	font-size: 14px;
-	line-height:16px;
-	color: #282828;
-    font-size:20px;
+.review-block-name{
+	font-size:12px;
+	margin:10px 0;
 }
-
-.edit-form{
-	position: absolute;
-	top:0px;
-	right:0px;
+.review-block-date{
+	font-size:12px;
 }
-
-
-.edit-form button{
-	width:40px;
-	height: 20px;
-	color:#202020;
-	background-color:transparent;
-	opacity:0.7;
-	
+.review-block-rate{
+	font-size:13px;
+	margin-bottom:15px;
 }
-
-.edit-form button:hover{
-		opacity:1;
+.review-block-title{
+	font-size:15px;
+	font-weight:700;
+	margin-bottom:10px;
 }
-
-
-
-.delete-form{
-	position: absolute;
-	top:0px;
-	right:60px;
+.review-block-description{
+	font-size:13px;
 }
-
-
-.delete-form button{
-	width:40px;
-	height: 20px;
-	color:#202020;
-	background-color:transparent;
-	opacity:0.7;
-	
-}
-
-.delete-form button:hover{
-		opacity:1;
-}
-    
 </style>
-<?php
-$db = new Pdocon;
+<div class="container">		
 
-$event_Id = $_POST['id'];
+  <?php
+	//include_once("db_connect.php");
 
-date_default_timezone_set('America/New_York');
-$fulldate = date('Y-m-d H:i:s');
+    $db = new Pdocon;
 
-if(isset($_POST['commentSubmit'])){	
-
-	    $user_Id = $_SESSION['user_data']['id'];
-
-	   $usercomment = $_POST['usercomment'];
-
-        $db->query("INSERT INTO feedback(feedback_Id, user_Id, event_Id, date, usercomment) VALUES(NULL, :user_Id, :event_Id, :fulldate, :usercomment)");
-
-        $db->bindValue(':usercomment', $usercomment, PDO::PARAM_STR);
-        $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
-        $db->bindValue(':user_Id', $user_Id, PDO::PARAM_INT);
-        $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
-
-        $run = $db->execute();
-	}
-
- if (isset($_POST['delete_comment'])){
-        
-            $feedback_Id = $_POST['feedback_id'];	
-
-            $db->query("DELETE FROM feedback WHERE feedback_Id=:feedback_Id");
-
-            $db->bindValue(':feedback_Id', $feedback_Id, PDO::PARAM_INT);
-
-            $run = $db->execute();         
-    }
-
-if (isset($_POST['edit_comment'])){
-     $feedback_Id = $_POST['feedback_id'];	
-
-    $db->query('SELECT * FROM feedback WHERE feedback_Id=:feedback_Id'); 
-
-    $db->bindValue(':feedback_Id', $feedback_Id, PDO::PARAM_INT);
-
-    $row = $db->fetchSingle(); 
-
-    $usercomment = $row['usercomment'];
-    ?> 
-    
-    <form action='comments.php' method='post'><input type='hidden' name='feedback_id' value='<?php echo $feedback_Id; ?>'><input type='hidden' name='id' value='<?php echo $feedback_Id; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'>
-
-<textarea class="form-control" autofocus rows="3" type="comment" name="update_comment" class="form-control" id="feedback_id"><?php echo $usercomment; ?></textarea>
-                
- <div class="form-group">
-    <button type="updateSubmit" name="updateSubmit">Send</button>
-</div>
-</form> <?php
-    
-} else { 
-    
-    if (isset($_POST['updateSubmit']))
-    {
-        $feedback_Id = $_POST['feedback_id'];
-        $update_comment = $_POST['update_comment'];
-
-        $db->query("UPDATE feedback SET usercomment=:update_comment, date=:fulldate WHERE feedback_Id=:feedback_Id");
-
-        $db->bindValue(':update_comment', $update_comment, PDO::PARAM_STR);
-        $db->bindValue(':feedback_Id', $feedback_Id, PDO::PARAM_INT);
-        $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
-
-        $run = $db->execute();      
-    }
-?>  
-               
-    <form action='comments.php' method='post'><input type='hidden' name='id' value=' <?php echo $event_Id; ?>'>
-
-<textarea class="form-control" rows="3" type="comment" name="usercomment" class="form-control" id="usercomment" placeholder="Add a comment.."></textarea>
-                
- <div class="form-group">
-    <button type="submit" name="commentSubmit">Send</button>
-</div>
-</form>
-<?php } 
-     
-    $db->query('SELECT * FROM feedback WHERE event_Id=:event_Id ORDER BY feedback_Id ASC');
-    $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
-
+	$event_Id = $_POST['id'];
+		
+	//$feedback_Id = $_POST['feedback_Id'];
+	//$db->query('SELECT * FROM feedback WHERE feedback_Id=:feedback_Id');
+	//$db->bindValue(':feedback_Id', $feedback_Id , PDO::PARAM_INT);
+	//$row = $db->fetchSingle();
+	//$rateResult = $row['ratingNumber'];
+	
+	//$ratingDetails = $db->query("SELECT ratingNumber FROM feedback");
+	//$rateResult = mysqli_query($conn, $ratingDetails) or die("database error:". mysqli_error($conn));
+	
+	$db->query('SELECT * FROM feedback WHERE event_Id=:event_Id');
+    $db->bindValue(':event_Id', $event_Id , PDO::PARAM_INT);
     $row = $db->fetchMultiple();
     
-foreach($row as $comment) { ?>
-<div class='comment-box'><p>
-    <?php  $db->query('SELECT * FROM fsc_Users WHERE user_Id=:user_Id'); 
+    if($row){
     
-    $db->bindValue(':user_Id', $comment['user_Id'], PDO::PARAM_INT);
+	$ratingNumber = 0;
+	$count = 0;
+	$fiveStarRating = 0;
+	$fourStarRating = 0;
+	$threeStarRating = 0;
+	$twoStarRating = 0;
+	$oneStarRating = 0;
     
-    $row = $db->fetchSingle(); 
-    $firstName = $row['first_Name'];
-    $lastName = $row['last_Name'];
-    $email = $row['email'];
-                           
-    $datetime = $comment['date']; 
-                           
-    $db->query('SELECT * FROM feedback WHERE user_Id=:user_Id');
-    $user_Id = $_SESSION['user_data']['id'];
-    $db->bindValue(':user_Id', $user_Id, PDO::PARAM_INT);
-    $row = $db->fetchSingle();
-    
-             
-            echo $firstName. " " . $lastName . " - " . $email . "<br><br>";
-			echo "Last updated: " . date('n/j/y, g:ia', strtotime($datetime)) . "<br><br>";
-			echo nl2br($comment['usercomment']);
-                 ?> </div>
-    
-        	<form class="delete-form" action='comments.php' method='post'><input type='hidden' name='feedback_id' value='<?php echo $comment['feedback_Id']; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'>
-        	
-			<input type='hidden' name='feedback_Id' value="<?php echo $comment['feedback_Id'] ?>"> 
+	//while($rate = mysqli_fetch_assoc($rateResult)) 
+    foreach($row as $rate) {
+        
+		$ratingNumber+= $rate['ratingNumber'];
+		$count += 1;
+		if($rate['ratingNumber'] == 5) {
+			$fiveStarRating +=1;
+		} else if($rate['ratingNumber'] == 4) {
+			$fourStarRating +=1;
+		} else if($rate['ratingNumber'] == 3) {
+			$threeStarRating +=1;
+		} else if($rate['ratingNumber'] == 2) {
+			$twoStarRating +=1;
+		} else if($rate['ratingNumber'] == 1) {
+			$oneStarRating +=1;
+		}
+	}
+	$average = 0;
+	if($ratingNumber && $count) {
+		$average = $ratingNumber/$count;
+	}	
+	?>		
+	<br>		
+	<div id="ratingDetails"> 		
+		<div class="row">			
+			<div class="col-sm-3">				
+				<h4>Rating and Reviews</h4>
+				<h2 class="bold padding-bottom-7"><?php printf('%.1f', $average); ?> <small>/ 5</small></h2>				
+				<?php
+				$averageRating = round($average, 0);
+				for ($i = 1; $i <= 5; $i++) {
+					$ratingClass = "btn-default btn-grey";
+					if($i <= $averageRating) {
+						$ratingClass = "btn-warning";
+					}
+				?>
+				<button type="button" class="btn btn-sm <?php echo $ratingClass; ?>" aria-label="Left Align">
+				  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+				</button>	
+				<?php } ?>				
+			</div>
+			<div class="col-sm-3">
+				<?php
+				$fiveStarRatingPercent = round(($fiveStarRating/5)*100);
+				$fiveStarRatingPercent = !empty($fiveStarRatingPercent)?$fiveStarRatingPercent.'%':'0%';	
+				
+				$fourStarRatingPercent = round(($fourStarRating/5)*100);
+				$fourStarRatingPercent = !empty($fourStarRatingPercent)?$fourStarRatingPercent.'%':'0%';
+				
+				$threeStarRatingPercent = round(($threeStarRating/5)*100);
+				$threeStarRatingPercent = !empty($threeStarRatingPercent)?$threeStarRatingPercent.'%':'0%';
+				
+				$twoStarRatingPercent = round(($twoStarRating/5)*100);
+				$twoStarRatingPercent = !empty($twoStarRatingPercent)?$twoStarRatingPercent.'%':'0%';
+				
+				$oneStarRatingPercent = round(($oneStarRating/5)*100);
+				$oneStarRatingPercent = !empty($oneStarRatingPercent)?$oneStarRatingPercent.'%':'0%';
+				
+				?>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">5 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" style="width: <?php echo $fiveStarRatingPercent; ?>">
+							<span class="sr-only"><?php echo $fiveStarRatingPercent; ?></span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;"><?php echo $fiveStarRating; ?></div>
+				</div>
+				
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">4 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" style="width: <?php echo $fourStarRatingPercent; ?>">
+							<span class="sr-only"><?php echo $fourStarRatingPercent; ?></span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;"><?php echo $fourStarRating; ?></div>
+				</div>
+				
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">3 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" style="width: <?php echo $threeStarRatingPercent; ?>">
+							<span class="sr-only"><?php echo $threeStarRatingPercent; ?></span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;"><?php echo $threeStarRating; ?></div>
+				</div>
+				
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">2 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" style="width: <?php echo $twoStarRatingPercent; ?>">
+							<span class="sr-only"><?php echo $twoStarRatingPercent; ?></span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;"><?php echo $twoStarRating; ?></div>
+				</div>
+				
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">1 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" style="width: <?php echo $oneStarRatingPercent; ?>">
+							<span class="sr-only"><?php echo $oneStarRatingPercent; ?></span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;"><?php echo $oneStarRating; ?></div>
+				</div>
+				
+			</div>	
 			
-			<?php if($comment['user_Id'] == $row['user_Id']) { ?>
-			<button type='submit' name='delete_comment'>Delete</button> <?php } ?>
-		    </form>
-    
-    	    <form class="edit-form" action='comments.php' method='post'><input type='hidden' name='feedback_id' value='<?php echo $feedback_Id; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'>
-               
-			<input type='hidden' name='feedback_id' value="<?php echo $comment['feedback_Id']; ?>">
-			<input type='hidden' name='user_Id' value="<?php echo $comment['user_Id']; ?>">
-			<input type='hidden' name='date' value="<?php echo $comment['date']; ?>" >
-			<input type='hidden' name='edit_comment' value="<?php echo $comment['usercomment']; ?>">
-          
-           <?php if($comment['user_Id'] == $row['user_Id']) { ?>
-            <button type="submit" name="edit_comment" value="<?php echo $comment['usercomment']; ?>">Edit</button> <?php } ?>
-            </form>
-    
-    
-    
-</div>    
-     <?php  }  ?>
-
+			<div class="col-sm-3">
+			
+                <form class="btn btn-default" id="rateProduct" action='saveRating.php' method='post'>Rate this Event<input type='hidden' name='event_id' value='<?php echo $event_Id; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'></form>
+                
+			</div>	
+			
+		</div>
+		<div class="row">
+			<div class="col-sm-7">
+				<hr/>
+				<div class="review-block">		
+				<?php
+				
+                $db->query('SELECT * FROM feedback WHERE event_Id=:event_Id');
+                $db->bindValue(':event_Id', $event_Id , PDO::PARAM_INT);
+                $row = $db->fetchMultiple();
+                    
+                    
+				//$ratingResult = mysqli_query($conn, $ratinguery) or die("database error:". mysqli_error($conn));
+				//while($rating = mysqli_fetch_assoc($ratingResult))
+                
+                foreach($row as $rating)
+                {
+					$date=date_create($rating['date']);
+					$reviewDate = date_format($date,"M d, Y");			
+				?>				
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="review-block-name">By <?php echo $rating['user_Id']; ?></div>
+							<div class="review-block-date"><?php echo $reviewDate; ?></div>
+						</div>
+						<div class="col-sm-9">
+							<div class="review-block-rate">
+								<?php
+								for ($i = 1; $i <= 5; $i++) {
+									$ratingClass = "btn-default btn-grey";
+									if($i <= $rating['ratingNumber']) {
+										$ratingClass = "btn-warning";
+									}
+								?>
+								<button type="button" class="btn btn-xs <?php echo $ratingClass; ?>" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>								
+								<?php } ?>
+							</div>
+							<div class="review-block-title"><?php echo $rating['title']; ?></div>
+							<div class="review-block-description"><?php echo $rating['usercomment']; ?></div>
+						</div>
+						
+						
+					</div>
+					<hr/>					
+				<?php } 
+    }   else {
+                        echo "No ratings posted yet!";
+                    } ?>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div id="ratingSection" style="display:none;">
+		<div class="row">
+			<div class="col-sm-12">
+				<form id="ratingForm" method="POST">					
+					<div class="form-group">
+						<h4>Rate this Event</h4>
+						<button type="button" class="btn btn-warning btn-sm rateButton" aria-label="Left Align">
+						  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						</button>
+						<button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
+						  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						</button>
+						<button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
+						  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						</button>
+						<button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
+						  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						</button>
+						<button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
+						  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						</button>
+						
+						
+						<!-- <input type="hidden" class="form-control" id="rating" name="rating" value="1"> -->
+						<!-- <input type="hidden" class="form-control" id="event_Id" name="event_Id" value="12345678"> -->
+						
+						<input type="hidden" class="form-control" id="rating" name="rating" >
+						<input type="hidden" class="form-control" id="event_Id" name="event_Id" >
+						
+						
+					</div>		
+					<div class="form-group">
+						<label for="usr">Title*</label>
+						<input type="text" class="form-control" id="title" name="title" required>
+					</div>
+					<div class="form-group">
+						<label for="comment">Comment*</label>
+						<textarea class="form-control" rows="5" id="comment" name="comment" required></textarea>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-info" id="saveReview">Save Review</button> 
+						<button type="button" class="btn btn-info" id="cancelReview">Cancel</button>
+					</div>			
+				</form>
+			</div>
+		</div>
+	</div>				
+	
+	<script>
+	
+	$(function() {
+	// rating form hide/show
+ 	$( "#rateProduct" ).click(function() {
+		$("#ratingDetails").hide();
+		$("#ratingSection").show();
+	});	
+	$( "#cancelReview" ).click(function() {
+		$("#ratingSection").hide();
+		$("#ratingDetails").show();		
+	});	
+	// implement start rating select/deselect
+	$( ".rateButton" ).click(function() {
+		if($(this).hasClass('btn-grey')) {			
+			$(this).removeClass('btn-grey btn-default').addClass('btn-warning star-selected');
+			$(this).prevAll('.rateButton').removeClass('btn-grey btn-default').addClass('btn-warning star-selected');
+			$(this).nextAll('.rateButton').removeClass('btn-warning star-selected').addClass('btn-grey btn-default');			
+		} else {						
+			$(this).nextAll('.rateButton').removeClass('btn-warning star-selected').addClass('btn-grey btn-default');
+		}
+		$("#rating").val($('.star-selected').length);		
+	});
+	// save review using Ajax
+	$('#ratingForm').on('submit', function(event){
+		event.preventDefault();
+		var formData = $(this).serialize();
+		$.ajax({
+			type : 'POST',
+			url : 'saveRating.php',
+			data : formData,
+			success:function(response){
+				 $("#ratingForm")[0].reset();
+				 window.setTimeout(function(){window.location.reload()},3000)
+			}
+		});		
+	});
+});
+	
+	
+	
+	
+	
+	</script>
+</div>	

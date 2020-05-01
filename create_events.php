@@ -147,7 +147,7 @@ if(isset($_POST['create_event'])){
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="date"></label>
                     <div class="col-sm-12">
-                        <input type="date" name="date" class="form-control" id="date" required>
+                        <input type="date" name="date" class="form-control" min="<?php echo date("Y-m-d");?>" id="date" required>
                     </div>
                 </div>
 
@@ -164,7 +164,7 @@ if(isset($_POST['create_event'])){
 
                 <div class="form-group">
                     <div class=" text-center">
-                        <button type="createEvent" class="btn btn-primary center" name="create_event">Create Event</button>
+                        <button class="button" type="createEvent" class="btn btn-primary center" name="create_event">Create Event</button>
                     </div>
                 </div>
         </div>

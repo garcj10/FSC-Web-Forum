@@ -25,9 +25,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="js/jquery.js"></script>
     <script src="js/scripts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
     <!--  CSS -->
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;700&display=swap" rel="stylesheet">
-   
     <link href="css/styles.css" rel="stylesheet" type="text/css">
 
     <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script> -->
@@ -45,7 +46,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand navbar-light" href="index.php" style="color: #f3f3f3">FSC<strong>EVENTS</strong></a>
+                    <a class="navbar-brand navbar-light">FSC<strong>EVENTS</strong></a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -54,11 +55,12 @@
 
                    <ul class="nav navbar-nav navbar-right">
      <?php if(isset($_SESSION['admin_data'])) { ?>
-      <li><a href="create_events.php" style="color: #f3f3f3">Create Events</a></li> 
+      <li><a href="create_events.php">Create Events</a></li> 
       <?php } ?>
-    <li><a href="my_account.php" style="color: #f3f3f3">My Account</a></li>
-      <li><a href="see_events.php" style="color: #f3f3f3">Dashboard</a></li>
-     <li><a href="includes/logout.php" style="color: #f3f3f3">Sign out</a></li></ul> </div>
+    <li><a href="my_account.php">My Account</a></li>
+      <li><a href="see_events.php" >Dashboard</a></li>
+     <li><a href="includes/logout.php">Sign out</a></li></ul> </div>
      </div>
     </nav>
     </div>
+    </body>

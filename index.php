@@ -4,16 +4,15 @@
 
         <div class="col-md-5 col-sm-12">
 
-            <div class="container-fluid ">
-
+            <div class="container-fluid">
                 <div class="index-login-form">
-                   
                     <div class="mylogin">
                         <div class="slide_one position">
                             <div class="text-box1">
                                 <h1>LOGIN</h1>
                             </div>
                         </div>
+                
                         
                          <a class="pull-right"><button type="button" class="btn btn-link button1">Register</button></a>
 
@@ -28,8 +27,7 @@
                                 <input type="password" name="password" class="form-control" id="pwd" placeholder="Enter Password" required>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary text-center" name="submit_login">Login</button>
-
+                                <button class="button" type="submit" class="btn btn-primary text-center" name="submit_login">Login</button>
                                 <!-- <a href="register_account.php">Register</a>-->
                             </div>
                         </form>
@@ -103,7 +101,7 @@
                         <!-- Register/Cancel Buttons -->
                         <div class="form-group">
                             <div class=" text-center">
-                                <button type="submit" class="btn btn-primary " name="submit_registry">Register</button>
+                                <button class="button" type="submit" class="btn btn-primary " name="submit_registry">Register</button>
                             </div>
                         </div>
                 </div>
@@ -141,7 +139,7 @@
 <script>
     $(document).ready(function() {
 
-        $(".myregister").hide();
+        $(".myregister").hide<();
         $(".button1").click(function() {
             $(".myregister").fadeIn("slow").show();
             $(".mylogin").hide();

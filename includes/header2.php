@@ -37,9 +37,9 @@ if(isset($_SESSION['user_is_logged_in'])){
     <link href="../css/styles.css" rel="stylesheet" type="text/css">
 </head>
 
-<body class="header_two">
+<body>
+   <div class="header_two">
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="background-color:#006f71">
-
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" style="background-color:#006f71" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
@@ -56,4 +56,5 @@ if(isset($_SESSION['user_is_logged_in'])){
             </div>
         </div>
     </nav>
+    </div>
     </body>

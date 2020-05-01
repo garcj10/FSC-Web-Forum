@@ -1,4 +1,6 @@
-<?php include('includes/header.php');
+<?php 
+//Include functions:
+include('includes/header.php'); 
 
 include('includes/functions.php');
 
@@ -6,284 +8,342 @@ require('includes/pdocon.php');
 ?>
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
+<link href="css/style_dash.css" rel="stylesheet" type="text/css">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
 
 <style>
+	
+    .fixedposition{
+        
+    }
     
-<!-- CSS that styles the side bar and table -->
-* {
-  box-sizing: border-box;
-}
-h2
-{
-    font-family: "Oswald, sans-serif";
-      font-weight:300;
-}
-.search-container {
-        font-family: "Oswald, sans-serif";
-          font-weight:300;
-}
+    .details
+    {
+      
+    }
+    
+    .titleSet
+    {
+        height:20vh;
+        font-size: 3vw;
+      }
+    
+	.pad{
+		padding:3%;
+	}
+    .upper{
+		color:rgb(255,223,0);
+	}
+    
+    .unRegisterDiv
+    {
+        position: absolute;
+      bottom: 8px;
+      right: 16px;
+    }
+    
+    .registerDiv
+    {
+        position: absolute;
+      bottom: 8px;
+      right: 16px;
+    }
+    
+    .readMore
+    {
+        position: absolute;
+      bottom: 8px;
+      left: 16px;
+    }
+    
+    .card {
+        
+        position: relative;
+        height: 50vh;
+        padding:2% 2% 2% 2%;
+        margin: 1% ;
+        background-color: #fbfbfd;
+        color: black;
+		
+    
+		
+		-webkit-box-shadow: 0px 0px 29px -8px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 29px -8px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 29px -8px rgba(0,0,0,0.75);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+
+    }
+
+    body {
+        background: white;
+       font-family: 'Oswald', sans-serif;
+    font-weight:300;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    a {
+        color: #b63b4d;
+        text-decoration: none;
+    }
+
+
+
+    /** =======================
+ * Contenedor Principal
+ ===========================*/
+
+    .accordion {
+        
+        width: 100%;
+        max-width: 360px;
+        background: #444359;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+
+    .accordion .link {
+        cursor: pointer;
+        display: block;
+        padding: 15px 15px 15px 42px;
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+        border-bottom: 1px solid black;
+        position: relative;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+.link:hover
+    {
+      background: #006f71;
+          color:#d1bda7;
+    }
+
+    .accordion li.open .link {
+        color: #006f71;
+    }
+
+    .accordion li.open i {
+        color: #006f71;
+    }
+
+    /**
+ * Submenu
+ -----------------------------*/
+
+    .submenu {
+
+        background-color: dimgray;
+        font-size: 14px;
+    }
     
 
-body {
-  margin: 0;
-margin-top: 70;
-      font-family: "Oswald, sans-serif";
-      font-weight:300;
-}
+    .submenu li {
+        border-bottom: 1px solid #4b4a5e;
+    }
 
-.verticalLine {
-  border-left: 2px solid black;
-  height: 120%;
-  position: absolute;
-  left: 15%;
-  margin-left: -3px;
-  top: 0;
-}
+    .submenu a {
+        display: block;
+        text-decoration: none;
+        color: #d9d9d9;
+        padding: 12px;
+        padding-left: 42px;
+        -webkit-transition: all 0.25s ease;
+        -o-transition: all 0.25s ease;
+        transition: all 0.25s ease;
+        
+    }
 
-/* Style the top navigation bar */
-.topnav {
-  overflow: hidden;
-  background-color: green;
-}
-
-/* Style the topnav links */
-.topnav a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-/* Change color on hover */
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-/* Create three unequal columns that floats next to each other */
-.column {
-  float: left;
-  padding: 10px;
-  margin-left: 10px;
-}
-
-/* Left and right column */
-.column.side {
-  width: 15%;
-  
-}
-
-/* Middle column */
-.column.middle {
-  width: 70%;
-  margin-left: 5px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column.side, .column.middle {
-    width: 100%;
-  }
-}
-
-/* Style the sidenav links and the dropdown button */
-.sidenav input, .dropdown-btn {
-  padding: 6px 8px 20px 6px;
-  text-decoration: none;
-  font-size: 20px;
-  color: #181818;
-  display: block;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  outline: none;
-}
-
-/* On mouse-over */
-.sidenav input:hover, .dropdown-btn:hover {
-  color: #1abc9c;
-  
-}
-
-/* Dropdown Menu Design */
-.sidenav button, .dropdown-btn {
-  padding: 6px 8px 20px 6px;
-  text-decoration: none;
-  font-size: 20px;
-  color: #181818;
-  display: block;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  outline: none;
-}
-
-/* On mouse-over */
-.sidenav button:hover, .dropdown-btn:hover {
-  color: #1abc9c;
-}
-
-/* Main content */
-.main {
-  margin-left: 200px; /* Same as the width of the sidenav */
-  font-size: 20px; /* Increased text to enable scrolling */
-  padding: 0px 10px;
-    
-}
-
-/* Add an active class to the active dropdown button */
-.active {
-  background-color: green;
-  color: white;
-}
-
-/* Dropdown container (hidden by default). */
-.dropdown-container {
-  display: none;
-  background-color: #eee;
-  padding-left: 8px;
-}
-
-/* Optional: Style the caret down icon */
-.fa-caret-down {
-  padding-left: 8px;
-}
-    
-/* Dropdown Box */
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: lightgrey;
-    min-width: 175px;
-    z-index: 1;
-}
-
-/* Dropdown Box Selection */
-
-.dropdown-content input {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Hover for Dropdown Buttons */
-.dropdown-content input:hover {background-color: white;}
-
-/* Table Design */
-table {
-font-family: "Oswald, sans-serif";
-  border-collapse: collapse;
-  width: 100%;
-
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
+    .submenu a:hover {
+        background: #006f71;
+          color:#d1bda7;
+    }
+	
+	
+	.rfloat{
+		float:right;
+	}
+	.lfloat{
+		float:right;
+	}
+	.pad{
+		padding:1%;
+	}
+	
 </style>
 
- <div class="row event_page">
-   <div class="column side">
- <div class="sidenav">
 
-<! Side Bar Form with Filters >
- <form name="filter" method="GET" action="see_events.php">
-<input type="submit" name="all" value="All Events" class="dropdown-btn">
+
+
+<div class="row totry">
+    <div class="col-sm-2 fixedposition">
+
+
+        <!-- Contenedor -->
+        <ul id="accordion" class="accordion">
+            <li>
+                <div class="link">
+
+                    </i>EVENT TYPE</>
+                </div>
+                <ul class="submenu">
+                   <form name="filter">
+                    <li class="sidemenu" name="all"><a href="# " class="all" name="all">ALL EVENTS</a></li>
+                    <li class="sidemenu" name="FSC"><a href="# " class="test" name="fsc">FSC</a></li>
+                    <li class="sidemenu" name="Club"><a href="#" name="club ">CLUB</a></li>
+                    <li class="sidemenu" name="Athletics"><a href="#" name="athletics">ATHLETICS</a></li>
+                    <li class="sidemenu" name="Tutoring"><a href="#" name="tutoring">TUTORING</a></li>
+                    <li class="sidemenu" name="Academics"><a href="#" name="academics">ACADEMICS</a></li>
+                    <li class="sidemenu" name="Admissions"><a href="#" name="admissions">ADMISSIONS</a></li>
+                    </form>
+                </ul>
+            </li>
+
+            <li>
+                <div class="link">DATE</div>
+                <ul class="submenu">
+                    <li class="sidemenu" name="oldest"><a href="#" name="oldest">OLDEST</a></li>
+                    <li class="sidemenu" name="newest"><a href="#" name="oldest">MOST RECENT</a></li>
+                    <li class="sidemenu" name="upcoming"><a href="#" name="upcoming">UPCOMING</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <div class="link">MORE</div>
+                <ul class="submenu">
+                    <li class="sidemenu" name="time"><a href="#" name="time">TIME</a></li>
+                    <li class="sidemenu" name="location"><a href="#" name="location">LOCATION</a></li>
+
+                </ul>
+            </li>
+        </ul>
+
+
+
+        <! Side Bar Form with Filters><!--
+            <form id="sidemenuform" name="filter" onsubmit="return false" >
+<input class="sidemenu" type="submit" name="all" value="All Events" class="dropdown-btn" >
 <br>
 <button type="button" class="dropdown-btn">Event Type<i class="fa fa-caret-down"></i></button>
 <div class="dropdown-content">
-<input type="submit" name="fsc" value="FSC">
-<input type="submit" name="clubs" value="Clubs">
-<input type="submit" name="athletics" value="Athletics">
-<input type="submit" name="tutoring" value="Tutoring">
-<input type="submit" name="academics" value="Academics">
-<input type="submit" name="admissions" value="Admissions">
+<input class="sidemenu" type="submit" name="FSC" value="FSC">
+<input class="sidemenu" type="submit" name="Club" value="Clubs">
+<input class="sidemenu" type="submit" name="Athletics" value="Athletics">
+<input class="sidemenu" type="submit" name="Tutoring" value="Tutoring">
+<input class="sidemenu" type="submit" name="Academics" value="Academics">
+<input class="sidemenu" type="submit" name="Admissions" value="Admissions">
 </div>
 <br>
 <button type="button" class="dropdown-btn">Date<i class="fa fa-caret-down"></i></button>
 <div class="dropdown-content">
-<input type="submit" name="oldest" value="Date (oldest)">
-<input type="submit" name="newest" value="Date (newest)">
-<input type="submit" name="upcoming" value="Date (upcoming)">
+<input class="sidemenu" type="submit" name="oldest" value="Date (oldest)">
+<input class="sidemenu" type="submit" name="newest" value="Date (newest)">
+<input class="sidemenu" type="submit" name="upcoming" value="Date (upcoming)">
 </div>
 <br>
-<input type="submit" name="time" value="Time" class="dropdown-btn">
+<input class="sidemenu" type="submit" name="time" value="Time" class="dropdown-btn">
 <br>
-<input type="submit" name="location" value="Location" class="dropdown-btn">
+<input class="sidemenu" type="submit" name="location" value="Location" class="dropdown-btn">
 </form>
-</div> 
 
-       
-<script>
-/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-var dropdown = document.getElementsByClassName("dropdown-btn");
-var i;
+    <form name="filter" method="GET" action="see_events.php">
 
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
-  this.classList.toggle("active");
-  var dropdownContent = this.nextElementSibling;
-  if (dropdownContent.style.display === "block") {
-  dropdownContent.style.display = "none";
-  } else {
-  dropdownContent.style.display = "block";
-  }
-  });
-}
-</script>
-  </div>
-  <div class="verticalLine"></div>
-  <div class="column middle">
-  <div class="search-container">
-  
-	<h2>Events</h2>
-<! If Statment for Filters >
+        <input type="submit" name="all" value="All Events" class="dropdown-btn test ">
+
+        <br>
+
+        <button type="button" class="dropdown-btn testdash">Event Type<i class="fa fa-caret-down"></i></button>
+
+        <div class="dropdown-content">
+
+            <input type="submit" onclick="myFunction()" class="test" name="fsc" value="FSC">
+
+            <input type="submit" name="club" value="Club">
+
+            <input type="submit" name="athletics" value="Athletics">
+
+            <input type="submit" name="tutoring" value="Tutoring">
+
+            <input type="submit" name="academics" value="Academics">
+
+            <input type="submit" name="admissions" value="Admissions">
+
+        </div>
+
+        <br>
+
+        <button type="button" class="dropdown-btn">Date<i class="fa fa-caret-down"></i></button>
+
+        <div class="dropdown-content">
+
+            <input type="submit" name="oldest" value="Date (oldest)">
+
+            <input type="submit" name="oldest" value="Date (newest)">
+
+            <input type="submit" name="upcoming" value="Date (upcoming)">
+
+        </div>
+
+        <br>
+
+        <input type="submit" name="time" value="Time" class="dropdown-btn">
+
+        <br>
+
+        <input type="submit" name="location" value="Location" class="dropdown-btn">
+
+    </form>
+
+-->
+	
+				
+				
+			
+				
+				
+    </div>
+
+
+<form name="filter" method="GET" action="see_events.php">
+<input type="text" name="searchItem" style="width:800px" placeholder="Enter a search term..">
+<input type="submit" name="search"  value="Search">
+</form>
+<div name="registerOutcome" id="registerOutcome"></div>
 
 <?php
 // Create connection
 $db = new Pdocon;
 
 // Initial event count to be displayed
-$eventCount = 5;
+$eventCount =6;
 // Event count to be incremented when "More events" button is clicked
-$eventCountIncrement = 5;
+$eventCountIncrement = 3;
 // search variable used for load-events (needed because searchItem may be altered to %searchItem%)
 $searchI="";
 
 date_default_timezone_set('America/New_York');
 $fulldate = date('Y-m-d');
       
- /* FOR FILTERING CURRENT DATE, FUTURE, OR PREVIOUS DATES:
-$db->query('SELECT * FROM events WHERE date =:fulldate'); 
-// VARIABLE TO STORE TOMORROW'S DATE
-$tomorrow = date('Y-m-d', strtotime("+1 day"));
+/* FOR FILTERING CURRENT DATE, FUTURE, OR PREVIOUS DATES:
+
+$db->query('SELECT * FROM events WHERE date >=:fulldate'); 
     
 $db->bindValue(':fulldate', $fulldate, PDO::PARAM_STR);
       
 $row = $db->fetchMultiple(); */
       
-// DISPLAYS ALL EVENTS BY DEFAULT
+// DISPLAYS ALL EVENTS BY DEFAULT (MOST RECENTLY CREATED)
 $db->query('SELECT * FROM events'); 
 $row = $db->fetchMultiple();
 if ($row) {
@@ -440,65 +500,175 @@ if ($row) {
         $event_Type = 'all';
     }
 ?>
-</script>
-<! Table that Displays Information >
-<?php echo "Date: " . date('n/j/y', strtotime($fulldate))?>
-<form name="filter" method="GET" action="see_events.php">
-<input type="text" name="searchItem" style="width:800px" placeholder="Enter a search term..">
-<input type="submit" name="search"  value="Search">
-</form>
-<br>
-<! Table Header >
-<table>
-  <thead>
-  <tr>
-	<th>Title</th>
-    <th>Type</th>
-	<th>Description</th>
-	<th>Location</th>
-	<th>Date</th>
-	<th>Time</th>
-  </tr>
-</thead>
-<! Table Row for each Event Entry >
-<tbody id="myTable">
 
-<?php
-//while($row = $result->fetch_assoc()){
+        <! Table that Displays Information>
+            <?php echo "Today's Date: " . date('n/d/Y', strtotime($fulldate))?>
+            <br>
+            <! Table Header>
+                <! Table Row for each Event Entry>
+        
+        
+        <div id = "myDiv">
+                    <tbody id="myTable">
+
+
+                        <?php
+        
+        
    foreach($row as $event)
-    {
+   {
         $time = $event["time"];
         $date = $event["date"];
-    
-        echo "<tr><td>" . $event["event_Title"] . "</td><td>" . $event["event_Type"] . "</td><td>" . $event["description"]. "</td><td>" . $event["location"]. "</td><td>" .  date('n/j/y', strtotime($date)) . "</td><td>" . date('g:iA', strtotime($time)); 
+
+      echo'                           
+  <div class="container card col-sm-3 upper">
+      <div class="details">
+      <h2 class="text-center titleSet">'.$event["event_Title"].'</h2>
+      
+	  <div class="lfloat pad"><b>'. $event["location"].'</b>
+	  <i class="fa fa-street-view"></i>
+	  </div>
+          
+      <div class="pad"><i class="fa fa-building"></i>'. $event["event_Type"].'</div>
+              
+                      <div class="lfloat pad">'. date('n/d/Y', strtotime($date)) .'<i class="fa fa-calendar" aria-hidden="true"></i></div>
+                          <div class="pad"><i class="fa fa-hourglass-half "></i>'. date('g:i A', strtotime($time)) . '</div></div>';
        
-    // If an event row has a capacity, then allow them to sign up:
-    if ($event["capacity"])
-    {
-    ?>  <div class="form-group"><button type="submit" action="see_events.php" name="signup" class="btn btn-link"><a href="includes/event_registry.php?event_id=<?php echo $event["event_Id"] ?>"/>Register</button>
+         if ($event["capacity"])
+    { 
+    
+                $event_Id = $event["event_Id"];
+        
+                $db->query('SELECT * FROM events_list WHERE event_Id =:event_Id');
+                $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+                $list_Id = $row['list_Id'];
+                
+                $db->query('SELECT * FROM attendees WHERE user_Id =:user_Id AND list_Id=:list_Id');
+                $db->bindValue(':user_Id', $_SESSION['user_data']['id'], PDO::PARAM_INT);
+                $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+
+             if ($row['user_Id'])
+                { 
+                 
+                    $db->query('SELECT COUNT(*) AS count FROM attendees WHERE list_Id =:list_Id');
+                    $db->bindvalue(':list_Id', $list_Id, PDO::PARAM_INT);
+                    $row = $db->fetchSingle();
+        
+                    $spotsRemaining = $event["capacity"] - $row['count'] . "<br>";
+           
+           echo '<i class="fa fa-check-square"></i>' . "Spots left: " . $spotsRemaining;
+                        
+                        ?>
+                     
+           
+                <div class="unRegisterDiv">
+                    <button class="btn card_btn myclass" type="submit" name="signup" value="<?php echo $event["event_Id"]; ?>"> 
+                    Unregister
+                    </button>
+                </div>
+            
+                      
+            <!-- "LEAVE COMMENT" BUTTON
+                 <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'><button type="submit" action="see_events.php" name='id' class="btn btn-link" value='<?php echo $event["event_Id"] ?>'>Leave a Comment</button></form> !--> <?php 
+                } 
+           else 
+                { ?> 
+            
+                <div class="registerDiv">
+                    <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
+                    Signup
+                    </button>
+                </div>
+        
+              <?php  } 
+                
+                $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
+                $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
+                $row = $db->fetchMultiple();
+        
+           /* For each attendee for a particular event, retrieve and print all names on the list:
+                foreach($row as $attendee)
+                {
+                    $currentId = $attendee["user_Id"];
+                    $db->query('SELECT * FROM fsc_Users WHERE user_Id=:currentId');
+                $db->bindValue(':currentId', $currentId, PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+                $name = "<br>" . $row['first_Name'] . " " . $row['last_Name'];
+                    echo $name; 
+                } */
+           
     
     
-        <div class="form-group"><form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'><button type="submit" action="see_events.php" name='id' class="btn btn-link" value='<?php echo $event["event_Id"] ?>'>Leave a Comment</button></form></div>  <?php  
       }; 
        
-       echo "</td></tr>";
+                         
+                       echo  '<div class="hides">
+						 <i class="fa fa-list-ol"></i> Description<br>
+					'.$event["description"];
+       
+        
+          
+    
+      echo '</div>';
+    
+                    
+                    
+                            
+        echo '<button onclick="myFunction()" class="btn card_btn readMore">Read More</button>
+  </div>'; 
+    
+    
     }
- 
-//}
-?>
-</tbody>	
-</table>
-<button id="moreEvents">Load More Events..</button>
-<! Will execute if nothing is in the table >
-<?php
-}  
-else { echo "No events found."; }
-?>	 
-  </div>
-  </div>
-</div>
 
-<script>
+?>
+                 </tbody>
+
+</div>
+                    <button class="button" id="moreEvents">Load More Events..</button>
+
+                    <! Will execute if nothing is in the table>
+                        <?php
+}
+else { echo "No events found."; }
+?>
+
+     <script>
+		
+			 $(".hides").hide();
+
+    
+			 $(".submenu").hide();
+           
+			 $( ".submenu:first" ).show();
+			 
+            $(".link").click(function() {
+
+                
+                $(this).next().toggle("slow");
+				 
+		
+
+            });
+
+
+			$(".readMore").click(function() {
+				
+              //  $(".hides").hide("slow");
+				  $(this).prev( ".hides" ).toggle("slow");
+				 
+            });
+
+            $(".hiding").click(function() {
+
+                alert("Hello! I am an alert box!!");
+            });
+
+         
+        </script>
+    <script>
+        
 
 $(document).ready(function() {
     var eventCount = <?php echo $eventCount ?>;
@@ -513,6 +683,7 @@ $(document).ready(function() {
     // When "more events" button is clicked - Increases the limit
    // of the query to be executed within update_content
     $("#moreEvents").click(function(){
+        //alert("inside more events");
         eventCount = eventCount + eventCountInc;
          //alert("CLICKED");
         update_content();
@@ -520,7 +691,7 @@ $(document).ready(function() {
 
      // Runs load-events.php which updates the events table
     function update_content(){
-        //alert(event_type);
+        //alert("inside update content");
         $.get('includes/load-events.php',{
                 eventNewCount: eventCount,
                 event_Type: event_type,
@@ -531,7 +702,7 @@ $(document).ready(function() {
         {
             //alert(textStatus);
             //alert(data);
-            $('#myTable').html(data);
+            $('#myDiv').html(data);
 
         }).fail(function(jqXHR, textStatus, errorThrown)
         {
@@ -539,6 +710,73 @@ $(document).ready(function() {
             alert(errorThrown);
         });
     }
-});
-      </script>
-<?php include('includes/footer.php'); ?>
+      // Sends an AJAX request to the event_registry.php page when an
+    // events register button is pressed. Requests will contain the events ID
+    $(document).on("click", ".registerDiv button", function(){
+        // takes the event id from the register button value attribute
+        var event_id = $(this).attr('value');
+
+        // will execute the ajax request only if the confirm prompt returns true
+        if (confirm("Are you sure you would like to sign up for this event?")) {
+            $.post('includes/event_registry.php',{
+                    event_id: event_id
+                }
+            ).done(function(data, textStatus)
+            {
+                // loads the outcome into the #registerOutcome div at the top of the page
+                $('#registerOutcome').html(data);
+
+            }).fail(function(jqXHR, textStatus, errorThrown)
+            {
+                alert(textStatus);
+                alert(errorThrown);
+            });
+            // hides the register button after it is clicked
+            $(this).hide();
+
+        } else {
+
+        }
+        return false;
+    });
+    
+      $(document).on("click", ".unRegisterDiv button", function(){
+        // takes the event id from the register button value attribute
+        var event_id = $(this).attr('value');
+
+        // will execute the ajax request only if the confirm prompt returns true
+        if (confirm("Are you sure you would like to unregister from this event?")) {
+            $.post('includes/event_unregister.php',{
+                    event_id: event_id
+                }
+            ).done(function(data, textStatus)
+            {
+                // loads the outcome into the #registerOutcome div at the top of the page
+                $('#registerOutcome').html(data);
+
+            }).fail(function(jqXHR, textStatus, errorThrown)
+            {
+                alert(textStatus);
+                alert(errorThrown);
+            });
+            // hides the register button after it is clicked
+            $(this).hide();
+
+        } else {
+
+        }
+        return false;
+    });
+
+    //function will take the value in "name" and use it as the event type
+    $(".sidemenu").click(function(){
+        var val = $(this).attr('name');
+        //alert(val);
+        event_type = val;
+        eventCount = 6;
+        update_content();
+    });
+}); 
+
+ </script> 
+</div>

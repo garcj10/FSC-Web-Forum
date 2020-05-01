@@ -248,7 +248,7 @@ body {font-family: Oswald, sans-serif;}
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="date"></label>
                     <div class="col-sm-12">
-                        <input type="date" name="date" class="form-control" id="date" value="<?php echo $date; ?>" required>
+                        <input type="date" name="date" class="form-control" min="<?php echo date("Y-m-d");?>" id="date" value="<?php echo $date; ?>" required>
                     </div>
                 </div>
 
@@ -268,10 +268,10 @@ body {font-family: Oswald, sans-serif;}
                 
 			<form action='edit_event.php' method='post'><input type='hidden' name='id' value=' <?php echo $event_Id ?>'>
                <label class="control-label col-sm-12"></label>
-              <button type="update" class="pull-right btn btn-primary center" name="update_event" required>Submit Changes</button>
+              <button type="update" class="pull-right button" name="update_event" required>Submit Changes</button>
                 </form>
             
-			<button type="button" id="myBtn" class="pull-left btn btn-danger">Delete this Event</button>
+			<button type="button" id="myBtn" class="pull-left danger_button">Delete this Event</button>
             
             </div>
             
