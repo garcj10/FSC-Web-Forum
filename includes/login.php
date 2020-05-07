@@ -105,13 +105,13 @@ if(isset($_POST['submit_login'])) {
         
         $_SESSION['user_is_logged_in']  =  true;
         
-          header("Refresh:0; url=my_account.php", true, 303);
+        redirect('see_events.php');
         
     } else {
         
-         echo '<div class="alert alert-danger text-center">
+         echo '<div class="alert alert-danger text-center"  style="font-family: Oswald, sans-serif; padding-top:70px;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Sorry!</strong> User does not exist.
+              <strong>Sorry!</strong> User does not exist or login info was incorrect.
             </div>';
     }    
 }

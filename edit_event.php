@@ -158,7 +158,7 @@ if($run)
 <link href="css/style_dash.css" rel="stylesheet" type="text/css">
 
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
+body {font-family: Oswald, sans-serif;}
 
 /* The Modal (background) */
 .modal {
@@ -206,6 +206,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
             <form class="form-horizontal" role="form" method="post" action="" enctype="multipart/form-data">
 
                 <h2 align="center">Edit Event</h2>
+                
+                 <a href="my_account.php" class="pull-right"><button type="button" class="btn btn-link">Back to My Account</button></a>
 
                 <div class="form-group">
                     <label class="control-label " for="title"></label>
@@ -246,7 +248,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="date"></label>
                     <div class="col-sm-12">
-                        <input type="date" name="date" class="form-control" id="date" value="<?php echo $date; ?>" required>
+                        <input type="date" name="date" class="form-control" min="<?php echo date("Y-m-d");?>" id="date" value="<?php echo $date; ?>" required>
                     </div>
                 </div>
 
@@ -257,7 +259,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                                 </div>
                           <label class="control-label" for="capacity"></label>
                          <div class="col-sm-6">
-                           <input type="capacity" name="capacity" class="form-control" id="capacity" placeholder="Capacity" value="<?php echo $capacity; ?>">
+                           <input type="number" min="0" name="capacity" class="form-control" id="capacity" placeholder="Capacity" value="<?php echo $capacity; ?>">
                          </div>
                        </div>
 
@@ -266,10 +268,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 
 			<form action='edit_event.php' method='post'><input type='hidden' name='id' value=' <?php echo $event_Id ?>'>
                <label class="control-label col-sm-12"></label>
-              <button type="update" class="pull-right btn btn-primary center" name="update_event" required>Submit Changes</button>
+              <button type="update" class="pull-right button" name="update_event" required>Submit Changes</button>
                 </form>
             
-			<button type="button" id="myBtn" class="pull-left btn btn-danger">Delete this Event</button>
+			<button type="button" id="myBtn" class="pull-left danger_button">Delete this Event</button>
             
             </div>
             

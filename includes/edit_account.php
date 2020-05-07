@@ -137,14 +137,15 @@ if(isset($_POST['submit_update'])){
     }
     
         if($run){
-            echo '<div class="alert alert-success text-center">
+            echo '<div class="alert alert-success text-center" style="font-family: Oswald, sans-serif;
+                    font-weight:300;">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                    User info updated successfully.
                   </div>';
             
         } else {
             
-             echo '<div class="alert alert-danger text-center">
+             echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; font-weight:300;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Sorry!</strong> User could not be updated. Please try again later
             </div>';

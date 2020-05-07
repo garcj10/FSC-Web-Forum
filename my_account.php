@@ -37,7 +37,8 @@ $db = new Pdocon;
 ?>
 <link href="css/style_dash.css" rel="stylesheet" type="text/css">
 
-<div class="row myrow ">
+<div class="row myrow">
+   
     <div class="box">
         <div class="col-sm-6 register_form">
 
@@ -48,7 +49,8 @@ $db = new Pdocon;
             <div class="form-group">
                 <label class="control-label col-sm-2" for="ramID"></label>
                 <div class="col-sm-10">
-                    <h3>ACCOUNT INFO</h3>
+                        <h1>ACCOUNT INFO</h1>
+                    <h4>RAM ID</h4>
                     <input type="ramID" name="ramID" class="form-control" id="ramID" placeholder="Enter RAM ID" value="<?php echo $ram_ID; ?>"required>
                 </div>
             </div>
@@ -56,15 +58,61 @@ $db = new Pdocon;
             <div class="form-group">
                 <label class="control-label col-sm-2" for="major"></label>
                 <div class="col-sm-10">
-                    <input type="major" name="major" class="form-control" id="major" placeholder="Enter Major" value="<?php echo $major; ?>"required>
+                  <h4>MAJOR</h4>
+                    <select multiple type="" name="major" class="form-control" id="major" required>
+                <option value="">AET</option>
+                <option value="ARC">ARC</option>
+                <option value="ART">ART</option>
+                <option value="AVN">AVN</option>
+                <option value="BCS">BCS</option>
+                <option value="BIO">BIO</option>
+                <option value="BUS">BUS</option>
+                <option value="CHM">CHM</option>
+                <option value="CIV">CIV</option>
+                <option value="CON">CON</option>
+                <option value="CPS">CPS</option>
+                <option value="CRJ">CRJ</option>
+                <option value="DEN">DEN</option>
+                <option value="ECO">ECO</option>
+                <option value="EET">EET</option>
+                <option value="EGL">EGL</option>
+                <option value="ENV">ENV</option>
+                <option value="GEO">GEO</option>
+                <option value="GIS">GIS</option>
+                <option value="GRO">GRO</option>
+                <option value="HIS">HIS</option>
+                <option value="HOR">HOR</option>
+                <option value="HPW">HPW</option>
+                <option value="HST">HST</option>
+                <option value="HUM">HUM</option>
+                <option value="IND">IND</option>
+                <option value="IXD">IXD</option>
+                <option value="MET">MET</option>
+                <option value="MLG">MLG</option>
+                <option value="MLS">MLS</option>
+                <option value="MTH">MTH</option>
+                <option value="NTR">NTR</option>
+                <option value="NUR">NUR</option>
+                <option value="PCM">PCM</option>
+                <option value="PHY">PHY</option>
+                <option value="PSY">PSY</option>
+                <option value="SET">SET</option>
+                <option value="SMT">SMT</option>
+                <option value="SOC">SOC</option>
+                <option value="SPE">SPE</option>
+                <option value="STS">STS</option>
+                <option value="VIS">VIS</option>
+
+                    </select>
                 </div>
             </div>
                     
                 <div class="form-group">
             <label class="control-label col-sm-2" for="collegeLevel"></label>
             <div class="col-sm-10">
+               <h4>YEAR OF STUDY</h4>
                <select type="" name="collegeLevel" class="form-control" id="collegeLevel" required>
-        <option value="">Year of Study</option>
+        <option value="">College Level</option>
                                     <option value="Freshman">Freshman</option>
                                     <option value="Sophomore">Sophmore</option>
                                      <option value="Junior">Junior</option>
@@ -99,19 +147,7 @@ $db = new Pdocon;
                 </div>
             </div>
 
-            <?php } if(!isset($_SESSION['admin_data'])) { ?>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="admin"></label>
-                <div class="col-sm-10">
-                    <select type="" name="admin" class="form-control" id="admin">
-                        <option value="">Would you like to become an admin?</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
-            </div>
-        <?php } ?>
+            <?php } ?>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10 ">
@@ -124,7 +160,7 @@ $db = new Pdocon;
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10 text-center">
-                    <button type="submit" class="btn btn-primary " name="submit_update">Update</button>
+                    <button class="button" type="submit" class="btn btn-primary " name="submit_update">Update</button>
                 </div>
             </div>
         </form>
@@ -200,13 +236,14 @@ $db = new Pdocon;
         
          if(isset($_SESSION['admin_data']))
         { ?>
-            <h4>Events You've Created:</h4>
+            <h3>Events You've Created:</h3>
         <?php  
          
         $admin_Id = $_SESSION['admin_data']['adminId'];
         $db->query('SELECT * FROM events WHERE admin_Id =:admin_Id');
         $db->bindValue(':admin_Id', $admin_Id, PDO::PARAM_INT);
         $row = $db->fetchMultiple();
+        if($row) {
             
             foreach($row as $event)
             { 
@@ -214,7 +251,11 @@ $db = new Pdocon;
 			<?php
             }
         } 
-        
+            else 
+         {
+            echo "You haven't created any events yet.";
+         }
+     } 
         
     ?> 
     </div>

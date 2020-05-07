@@ -52,7 +52,7 @@ session_start();
                 // Retrieves the event ID based on which event the user clicked.
                 $raw_id = $_POST['event_id'];
                 $event_Id = (int)$raw_id;
-                
+                    
                 $db->query('SELECT * FROM events WHERE event_Id =:event_id');
                 $db->bindValue(':event_id', $event_Id, PDO::PARAM_INT);
              
@@ -80,37 +80,16 @@ session_start();
                 $db->bindValue(':user_Id', $user_Id, PDO::PARAM_INT);
                 $row = $db->fetchSingle();
                 
-                if ($row['user_Id'])
+                if($row['user_Id'])
                 {
-                     echo '<div class="alert alert-danger text-center">
-                     <a href="#" class="close" data-dismiss="alert" aria-    label="close">&times;</a>You have already been signed up for this event.</a>
-                     </div>';
-                } else {
-                    
-                $db->query('SELECT COUNT(*) AS count FROM attendees WHERE list_Id =:list_Id');
-                $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
-                $row = $db->fetchSingle();
-                
-                $count = $row['count']; 
-                
-                if ($count == $capacity)
-                {
-                    echo '<div class="alert alert-danger text-center">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    Signup limit reached. Stay tuned for another posting similar to this one.</a>
-                    </div>';
-        
-                } else {     
-                    
                 $user_Id = $_SESSION['user_data']['id'];
                     
-                $db->query("INSERT INTO attendees(user_Id, list_Id) VALUES(:user_Id, :list_Id)");
-        
+                $db->query("DELETE FROM attendees WHERE user_Id=:user_Id AND list_Id=:list_Id");
                 $db->bindvalue(':list_Id', $list_Id, PDO::PARAM_INT);
                 $db->bindvalue(':user_Id', $user_Id, PDO::PARAM_INT);
     
-                $run = $db->execute(); 
-                
+                $run = $db->execute();
+                    
                 if($run)
                 {   
                     date_default_timezone_set('America/New_York');
@@ -120,36 +99,40 @@ session_start();
                             
                     $msg   =   $event_Title . "- " . date('n/d/Y', strtotime($date)) . ", " . date('g:i A', strtotime($time)) . "\n\n" . $description;
 
-                    /* Create and send email:
+                    // Create and send email:
                     $to        =   $email;
                   
                     $email_subject = "Event Confirmation for FSCEvents";
-                    $email_body = "\nDear $firstName, \n\nThis message is to confirm you've signed up for an event.\n\n"."Here are the details:" ."\n\n$msg \n\n";
+                    $email_body = "\nDear $firstName, \n\nThis message is to confirm you've unregistered from an event:.\n\n"."Here are the details:" ."\n\n$msg \n\n";
                     $headers = "From: noreply@fscevents.com"; 
          
-                    if(mail($to,$email_subject,$email_body,$headers))
+                 /*   if(mail($to,$email_subject,$email_body,$headers))
                     { */
                        
-                           echo "<div class='alert alert-success text-center' style='font-family: Oswald, sans-serif;
-                    font-weight:300;'>
+                           echo "<div class='alert alert-success text-center'>
                                   <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                                  Successfully registered. 
+                                Successfully removed from event list.</a>
                                  </div>";
-                    
+                            
                             } else {
                            
                             
-                            echo "<div class='alert alert-danger text-center' style='font-family: Oswald, sans-serif;
+                            echo "<div class='alert alert-danger text-center'>
                                   <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                                  <strong>Sorry!</strong> Registration failed. Please try again later.
+                                  <strong>Sorry!</strong>An error occurred. Please try again later.
                                  </div>";
                     }
-                
-                    
+               /* }
+                    return true; */
             }
         } 
+            else {
+                      echo '<div class="alert alert-danger text-center">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Invalid password. Please try again.
+            </div>';
                     
-      }      
-}
+    }
+    }   
+                
 
 ?>

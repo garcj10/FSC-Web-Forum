@@ -35,10 +35,12 @@ if(isset($_POST['submit_registry'])){
     
     if($row){
         
-        echo '<div class="alert alert-danger text-center">
+        echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; padding-top:30px;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              User already exists. Please <a href="index.php"> Login.</a>
+              User already exists. Please login.</a>
             </div>';
+        
+         header("Refresh:2; url=index.php", true, 303);
         
     } else {
         
@@ -120,18 +122,20 @@ if(isset($_POST['submit_registry'])){
                  'adminId' => $rowAdmin['admin_Id'],
              );
        } 
-            echo '<div class="alert alert-success text-center">
-                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                  <strong>Success!</strong> Registered successfully.
-                  </div>';
-                
-            header("Location: index.php");
+        
+        
+        echo '<div class="alert alert-success text-center" style="font-family: Oswald, sans-serif; padding-top:30px;">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              User registered successfully. Please <a href="index.php"> login.</a>
+            </div>';
+        
+            
             
         } else {
             
-             echo '<div class="alert alert-danger text-center">
+             echo  '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; padding-top:30px;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Sorry!</strong> User could not be registered. Please try again later
+              <strong>Sorry!</strong> User could not be registered. Please try again later.
             </div>';
         }
     }
