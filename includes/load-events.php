@@ -161,7 +161,7 @@ foreach($row as $event)
               
                       <div class="lfloat pad">'. date('n/d/Y', strtotime($date)) .'<i class="fa fa-calendar" aria-hidden="true"></i></div>
                           <div class="pad"><i class="fa fa-hourglass-half "></i>'. date('g:i A', strtotime($time)) . '</div></div>';
-       
+
 
        
     if ($event["capacity"])
@@ -179,6 +179,14 @@ foreach($row as $event)
                 $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
                 $row = $db->fetchSingle();
 
+                $eventStatus = "";
+                $fullD = "$date $time";
+                $now = new DateTime();
+                $now->format('Y-m-d H:i:s');
+                $eventDateTime = new DateTime($fullD);
+                $eventDateTime->format('Y-m-d H:i:s');
+                $isFutureDate = ($eventDateTime > $now ? true : false);
+
              if ($row['user_Id'])
                 { 
                  
@@ -195,30 +203,46 @@ foreach($row as $event)
                  
            
            echo '<i class="fa fa-check-square"></i>' . "Spots left: " . $spotsRemaining;
-                        
+
+                    if($isFutureDate) {
+                        $eventStatus = "OPEN";
                         ?>
-                     
-           
-                <div class="unRegisterDiv">
-                    <button class="btn card_btn myclass" type="submit" name="signup" value="<?php echo $event["event_Id"]; ?>"> 
-                    Unregister
-                    </button>
-                </div>
-            
-                
-                <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'><button type="submit" action="see_events.php" name='id' class="btn btn-link comment" value='<?php echo $event["event_Id"] ?>'>Leave a Comment</button></form>  <?php 
-                } 
-           else 
-                { ?> 
-            
-                <div class="registerDiv">
-                    <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
-                    Signup
-                    </button>
-                </div>
-        
-              <?php  } 
-                
+                        <div class="unRegisterDiv">
+                            <button class="btn card_btn myclass" type="submit" name="signup"
+                                    value="<?php echo $event["event_Id"]; ?>">
+                                Unregister
+                            </button>
+                        </div>
+                        <?php
+                    } else {
+                        $eventStatus = "CLOSED";
+                        ?>
+                        <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
+                            <div class = "commentDiv">
+                                <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
+                                    Rate Event</button>
+                            </div>
+                        </form>
+                        <?php
+                    }
+                }
+             else {
+                 if($isFutureDate) {
+                     $eventStatus = "OPEN";
+                     ?>
+                     <div class="registerDiv">
+                         <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link"
+                                 value=<?php echo $event["event_Id"] ?>>
+                             Signup
+                         </button>
+                     </div>
+                     <?php
+                 } else {
+                     $eventStatus = "CLOSED";
+                 }
+             }
+        echo '<div class="lfloat pad"><b>Status:  '.$eventStatus.'</b></div>';
+
                 $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
                 $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
                 $row = $db->fetchMultiple();

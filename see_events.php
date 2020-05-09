@@ -51,6 +51,13 @@ require('includes/pdocon.php');
       bottom: 8px;
       right: 16px;
     }
+
+    .commentDiv
+    {
+        position: absolute;
+        bottom: 8px;
+        right: 16px;
+    }
     
     .readMore
     {
@@ -329,7 +336,7 @@ require('includes/pdocon.php');
 $db = new Pdocon;
 
 // Initial event count to be displayed
-$eventCount =6;
+$eventCount = 6;
 // Event count to be incremented when "More events" button is clicked
 $eventCountIncrement = 3;
 // search variable used for load-events (needed because searchItem may be altered to %searchItem%)
@@ -539,7 +546,6 @@ if ($row) {
               
                       <div class="lfloat pad">'. date('n/d/Y', strtotime($date)) .'<i class="fa fa-calendar" aria-hidden="true"></i></div>
                           <div class="pad"><i class="fa fa-hourglass-half "></i>'. date('g:i A', strtotime($time)) . '</div></div>';
-       
 
        
     if ($event["capacity"])
@@ -557,9 +563,19 @@ if ($row) {
                 $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
                 $row = $db->fetchSingle();
 
+                $eventStatus = "";
+                $fullD = "$date $time";
+                $now = new DateTime("tomorrow");
+                $now->format('Y-m-d H:i:s');
+                $eventDateTime = new DateTime($fullD);
+                $eventDateTime->format('Y-m-d H:i:s');
+                $isFutureDate = ($eventDateTime > $now ? true : false);
+                //echo date_format($now, 'Y-m-d H:i:s');
+
              if ($row['user_Id'])
                 { 
-                 
+
+
                     $db->query('SELECT COUNT(*) AS count FROM attendees WHERE list_Id =:list_Id');
                     $db->bindvalue(':list_Id', $list_Id, PDO::PARAM_INT);
                     $row = $db->fetchSingle();
@@ -567,37 +583,54 @@ if ($row) {
                     $spotsRemaining = $event["capacity"] - $row['count'] . "<br>";
                     if ($spotsRemaining == 0)
                     {
-                        
+                        $eventStatus = "Full";
                         $spotsRemaining = "Sorry! This event is full.";
                     }
                  
            
-           echo '<i class="fa fa-check-square"></i>' . "Spots left: " . $spotsRemaining;
-                        
+                    echo '<i class="fa fa-check-square"></i>' . "Spots left: " . $spotsRemaining;
+
+                    if($isFutureDate) {
+                        $eventStatus = "OPEN";
                         ?>
-                     
-           
-                <div class="unRegisterDiv">
-                    <button class="btn card_btn myclass" type="submit" name="signup" value="<?php echo $event["event_Id"]; ?>"> 
-                    Unregister
-                    </button>
-                </div>
-            
-                
-                <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'><button type="submit" action="see_events.php" name='id' class="btn btn-link comment" value='<?php echo $event["event_Id"] ?>'>Leave a Comment</button></form>  <?php 
+                        <div class="unRegisterDiv">
+                            <button class="btn card_btn myclass" type="submit" name="signup"
+                                    value="<?php echo $event["event_Id"]; ?>">
+                                Unregister
+                            </button>
+                        </div>
+                        <?php
+                    } else {
+                        $eventStatus = "CLOSED";
+                        ?>
+                        <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
+                            <div class = "commentDiv">
+                                <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
+                                    Rate Event</button>
+                            </div>
+                        </form>
+                        <?php
+                    }
                 } 
-           else 
-                { ?> 
-            
-                <div class="registerDiv">
-                    <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link" value =<?php echo $event["event_Id"] ?> >
-                    Signup
-                    </button>
-                </div>
-        
-              <?php  } 
-                
-                $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
+           else {
+               if($isFutureDate) {
+                   $eventStatus = "OPEN";
+                   ?>
+                   <div class="registerDiv">
+                       <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link"
+                               value=<?php echo $event["event_Id"] ?>>
+                           Signup
+                       </button>
+                   </div>
+                   <?php
+               } else {
+                   $eventStatus = "CLOSED";
+               }
+           }
+        echo '<div class="lfloat pad"><b>Status:  '.$eventStatus.'</b></div>';
+
+
+        $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
                 $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
                 $row = $db->fetchMultiple();
         
@@ -680,14 +713,14 @@ else {   echo '<h2 class="text-center">No events found.</h2>'; }
         
 
 $(document).ready(function() {
-    var eventCount = <?php echo $eventCount ?>;
-    var eventCountInc = <?php echo $eventCountIncrement ?>;
+    var eventCount = "<?php echo $eventCount ?>";
+    var eventCountInc = "<?php echo $eventCountIncrement ?>";
     var event_type = "<?php echo $event_Type ?>";
     var fullDate = "<?php echo $fulldate ?>";
     var searchItem = "<?php echo $searchI ?>";
 
     // Refreshes the table being viewed on an interval
-    setInterval(update_content,60000); // 60 seconds
+    //setInterval(update_content,60000); // 60 seconds
 
     // When "more events" button is clicked - Increases the limit
    // of the query to be executed within update_content
@@ -788,6 +821,11 @@ $(document).ready(function() {
         eventCount = 6;
         update_content();
     });
+
+    function getStatus(){
+        var data= "<p><strong>worked</strong></p>";
+        $('.statusDiv').html(data);
+    }
 }); 
 
  </script> 
