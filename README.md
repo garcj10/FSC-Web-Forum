@@ -10,7 +10,25 @@ This Application uses the following technologies
 - jQuery
 - AJAX
 
-In order to run this project you will need the following database tables
+Screenshots
+
+Login Screen
+![image](https://user-images.githubusercontent.com/61335429/81853347-4eb6f680-952a-11ea-8e92-132f1479b86f.png)
+
+Register Page
+![image](https://user-images.githubusercontent.com/61335429/81853953-2d0a3f00-952b-11ea-8c25-bbb1575eee34.png)
+
+Dashboard
+![image](https://user-images.githubusercontent.com/61335429/81852788-9426f400-9529-11ea-994e-5a8a8df79a09.png)
+
+My Account Page
+![image](https://user-images.githubusercontent.com/61335429/81853518-84f47600-952a-11ea-83c6-0c1f541b22fd.png)
+
+Create Events Page
+![image](https://user-images.githubusercontent.com/61335429/81853647-b1a88d80-952a-11ea-83e1-5dcbcb9d9bc1.png)
+
+In order to run this project you will need the following database tables or alternatively, you can download a backup of the database 
+using the file fsc_events_data.sql
 
 CREATE TABLE `fsc_Users` (
  `user_Id` int(11) NOT NULL AUTO_INCREMENT,
