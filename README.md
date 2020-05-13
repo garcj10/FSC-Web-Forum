@@ -1,7 +1,16 @@
 # FSC-Web-Forum
 Repo for FSC Senior Project
 
-Tables necessary to run this project
+FSC EVENTS is a project created to help Farmingdale State college students create and share campus events with their peers, interact with faculty and event coordinators and gain feedback on past events. The goal of this project is to bring attention to new and upcoming
+activites and improve future ones using the student feedback.
+
+This Application uses the following technologies
+- PHP 
+- Javascript
+- jQuery
+- AJAX
+
+In order to run this project you will need the following database tables
 
 CREATE TABLE `fsc_Users` (
  `user_Id` int(11) NOT NULL AUTO_INCREMENT,
