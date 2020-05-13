@@ -6,9 +6,9 @@ include('includes/functions.php');
 
 require('includes/pdocon.php');
 ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src=  "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
@@ -18,59 +18,103 @@ require('includes/pdocon.php');
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
-    h2 {
-        font-weight: 600;
-    }
-
-    .desc_details {
-        padding-top: 1.5vh;
-        font-size: 18px;
-        height: 100%;
-        text-align: justify;
-    }
-
-    .loadMoreArea {
-        width: 100%;
-
-    }
-
-    .desc {
-        height: 8.2vh;
-        font-size: 1.2vw;
-        padding: 2%;
-        width: 100%;
-        text-align: center;
+    
+     h2,
+    h3,
+    .front, {
         font-weight: bold;
-        border-bottom: 5px solid #006f71;
+        color: black;
+    }
+    
+     .animation {
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
     }
 
-    .commentDiv {
+    
+     .card .front,
+    .card .back {
+        background-color: #fbfbfd;
+        display: block;
+        height: 100%;
+        width: 100%;
+        line-height: 260px;
+        color: white;
+        text-align: center;
+        font-size: 4em;
+        position: absolute;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -o-backface-visibility: hidden;
+        backface-visibility: hidden;
+
+
+    }
+    
+    .card .back {
+
+        font-size: 16px;
+        text-align: left;
+        line-height: 25px;
+
+    }
+    
+    .card .back {
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -o-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+
+        background-color: #fbfbfd;
+    }
+
+    .card .front {
+        background-color: #fbfbfd;
+    }
+
+    
+
+    
+    
+    .loadMoreArea
+    {
+        width:100%;
+        
+    }
+    
+     .commentDiv
+    {
         position: absolute;
         bottom: 8px;
         right: 16px;
     }
-
-    .loadMore {
+    
+    .loadMore
+    {
         width: 20%;
         margin-left: 30%;
         margin-top: 3%;
         margin-bottom: 3%;
     }
+    
 
-
-    .searchBar {
+    .searchBar
+    {
         margin-left: 1%;
-
-
+        
+       
     }
-
-    .searchBar input {
+     .searchBar input
+    {
         width: 69%;
         margin-right: 1%;
-        padding: 10px;
-        font-size: 20px;
+        padding:10px;
+        font-size:20px;
     }
-
+    
     .middleinfo {
         margin-left: 20%;
     }
@@ -80,69 +124,71 @@ require('includes/pdocon.php');
 
         position: fixed;
     }
-
+    
     ::-webkit-input-placeholder {
-        font-family: 'Oswald', sans-serif;
-        font-weight: 300;
+         font-family: 'Oswald', sans-serif;
+    font-weight:300;
     }
-
-    .filter {
-        font-size: 15;
+    
+    .filter
+    {
+        font-size:15;
     }
-
-    .titleSet {
-        height: 11vh;
-        font-size: 2vw;
-        width: 100%;
-    }
-
-    i {
-        padding: 2%;
-    }
-
-    .pad {
-
-        padding: 3%;
-
-
-    }
-
-    .upper {
-        color: rgb(255, 223, 0);
-    }
-
-    .unRegisterDiv {
+    .titleSet
+    {
+        height:20vh;
+        font-size: 3vw;
+      }
+    
+	.pad{
+		padding:3%;
+	}
+    .upper{
+		color:rgb(255,223,0);
+	}
+    
+    .unRegisterDiv
+    {
         position: absolute;
-        bottom: 8px;
-        right: 16px;
+      bottom: 8px;
+      right: 16px;
     }
-
-    .registerDiv {
+    
+    .registerDiv
+    {
         position: absolute;
-        bottom: 8px;
-        right: 16px;
+      bottom: 8px;
+      right: 16px;
     }
-
-    .readMore {
+    
+    .readMore
+    {
         position: absolute;
-        bottom: 8px;
-        left: 16px;
+      bottom: 8px;
+      left: 16px;
     }
-
+    
     .card {
-        text-transform: uppercase;
-        font-size: 1.2vw;
-        font-family: 'Oswald', sans-serif;
-        font-weight: 300;
+        
         height: 50vh;
-        padding: 2% 2% 2% 2%;
-        margin: 1%;
+        padding:2% 2% 2% 2%;
+        margin: 1% ;
         background-color: #fbfbfd;
         color: black;
-
-        -webkit-box-shadow: 0px 0px 29px -8px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 0px 0px 29px -8px rgba(0, 0, 0, 0.75);
-        box-shadow: 0px 0px 29px -8px rgba(0, 0, 0, 0.75);
+		
+		-webkit-box-shadow: 0px 0px 29px -8px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 29px -8px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 29px -8px rgba(0,0,0,0.75);
+        
+        /* Set the transition effects */
+        -webkit-transition: -webkit-transform 0.4s;
+        -moz-transition: -moz-transform 0.4s;
+        -o-transition: -o-transform 0.4s;
+        transition: transform 0.4s;
+        -webkit-transform-style: preserve-3d;
+        -moz-transform-style: preserve-3d;
+        -o-transform-style: preserve-3d;
+        transform-style: preserve-3d;
     }
 
     * {
@@ -150,12 +196,21 @@ require('includes/pdocon.php');
         padding: 0;
 
     }
+    
+      .card.flipped {
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -o-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+    
+    
 
     body {
         background: #f8f9fa;
-        font-family: 'Oswald', sans-serif;
-        font-weight: 300;
-
+       font-family: 'Oswald', sans-serif;
+    font-weight:300;
+        
     }
 
     ul {
@@ -174,13 +229,13 @@ require('includes/pdocon.php');
  ===========================*/
 
     .accordion {
-        width:100%;
+        
+        width: 100%;
         max-width: 360px;
         background: #444359;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
         border-radius: 4px;
-        
     }
 
     .accordion .link {
@@ -197,9 +252,10 @@ require('includes/pdocon.php');
         transition: all 0.4s ease;
     }
 
-    .link:hover {
-        background: #006f71;
-        color: #d1bda7;
+.link:hover
+    {
+      background: #006f71;
+          color:#d1bda7;
     }
 
     .accordion li.open .link {
@@ -215,11 +271,11 @@ require('includes/pdocon.php');
  -----------------------------*/
 
     .submenu {
-        
+
         background-color: dimgray;
         font-size: 14px;
     }
-
+    
 
     .submenu li {
         border-bottom: 1px solid #4b4a5e;
@@ -235,57 +291,58 @@ require('includes/pdocon.php');
         -o-transition: all 0.25s ease;
         transition: all 0.25s ease;
         
-
     }
 
     .submenu a:hover {
         background: #006f71;
-        color: #d1bda7;
+          color:#d1bda7;
     }
+	
+	
+	.rfloat{
+		float:right;
+	}
+	.lfloat{
+		float:right;
+	}
+	.pad{
+		padding:1%;
+	}
+    
+.ui-datepicker-header {
+    background: #4b4a5e;
+    color: #ffffff;
+     font: Oswald, sans-serif;
+    font-weight: 300px;
+    font-size: 20px;
+    text-transform:uppercase;
+}
 
-
-
-
-    .pad {
-        padding: 1%;
-    }
-
-   
-    .ui-datepicker-header {
-        background: #4b4a5e;
-        color: #ffffff;
-        font: Oswald, sans-serif;
-        font-weight: 300px;
-        font-size: 20px;
-        text-transform: uppercase;
-    }
-
-    .ui-datepicker-header:hover {
-        color: #d1bda7;
-    }
-
-    .ui-datepicker-calendar .ui-state-hover {
-        background: #006f71;
-        color: #ffffff;
-    }
-
-    .ui-datepicker {
-        
-        height: auto;
-        width:100%;
-        max-width: 360px;
-        font: 9pt Oswald, sans-serif;
-        -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
-        -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
-    }
+.ui-datepicker-header:hover {
+   color:#d1bda7;
+}
+.ui-datepicker-calendar .ui-state-hover {
+    background: #006f71;
+      color: #ffffff;
+}
+    
+.ui-datepicker {
+    
+  width: 216px;
+  height: auto;
+  margin: 5px auto 0;
+  font: 9pt Oswald, sans-serif;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+}
 
 </style>
 
 
 <div class="row totry">
     <div class="col-sm-2 sidenav">
-
+        
 
         <!-- Contenedor -->
         <ul id="accordion" class="accordion">
@@ -295,13 +352,13 @@ require('includes/pdocon.php');
                     </i>EVENT TYPE</>
                 </div>
                 <ul class="submenu">
-                    <form name="filter">
-                        <li class="sidemenu" name="FSC"><a href="# " class="test" name="fsc">FSC</a></li>
-                        <li class="sidemenu" name="Club"><a href="#" name="club ">CLUB</a></li>
-                        <li class="sidemenu" name="Athletics"><a href="#" name="athletics">ATHLETICS</a></li>
-                        <li class="sidemenu" name="Tutoring"><a href="#" name="tutoring">TUTORING</a></li>
-                        <li class="sidemenu" name="Academics"><a href="#" name="academics">ACADEMICS</a></li>
-                        <li class="sidemenu" name="Admissions"><a href="#" name="admissions">ADMISSIONS</a></li>
+                   <form name="filter">
+                    <li class="sidemenu" name="FSC"><a href="# " class="test" name="fsc">FSC</a></li>
+                    <li class="sidemenu" name="Club"><a href="#" name="club ">CLUB</a></li>
+                    <li class="sidemenu" name="Athletics"><a href="#" name="athletics">ATHLETICS</a></li>
+                    <li class="sidemenu" name="Tutoring"><a href="#" name="tutoring">TUTORING</a></li>
+                    <li class="sidemenu" name="Academics"><a href="#" name="academics">ACADEMICS</a></li>
+                    <li class="sidemenu" name="Admissions"><a href="#" name="admissions">ADMISSIONS</a></li>
                     </form>
                 </ul>
             </li>
@@ -324,8 +381,7 @@ require('includes/pdocon.php');
             </li>
         </ul>
 
-        <! Side Bar Form with Filters>
-            <!--
+        <! Side Bar Form with Filters><!--
             <form id="sidemenuform" name="filter" onsubmit="return false" >
 <input class="sidemenu" type="submit" name="all" value="All Events" class="dropdown-btn" >
 <br>
@@ -401,18 +457,16 @@ require('includes/pdocon.php');
 -->
 
 
-            <div>
-                <div id="datepicker"></div>
-            </div>
-
-
+    <div><div id="datepicker"></div></div>
+				
+				
     </div>
+            
+<div name="registerOutcome" id="registerOutcome"></div>
 
-    <div name="registerOutcome" id="registerOutcome"></div>
+<div class="col-lg-10 middleinfo">
 
-    <div class="col-lg-10 middleinfo">
-
-        <?php
+<?php
 // Create connection
 $db = new Pdocon;
 
@@ -592,36 +646,34 @@ if ($row) {
     }
 ?>
 
-        <div class="searchbar">
-            <h2><?php echo "Today's Date: " . date('n/d/y', strtotime($fulldate))?></h2>
-        </div>
+    <div class="searchbar"><h2><?php echo "Today's Date: " . date('n/d/y', strtotime($fulldate))?></h2></div>
+            
+            
+<div class="filter">
+<form name="filter" method="GET" action="see_events.php">
 
+<div class="searchBar">
+<form class="example" action="see_events.php">
+  <input  type="text" name="searchItem" placeholder="Enter a search term..">
+  <button type="submit" name="search"><i class="fa fa-search"></i></button>
+</form>
+    </div>
+    
 
-        <div class="filter">
-            <form name="filter" method="GET" action="see_events.php">
-
-                <div class="searchBar">
-                    <form class="example" action="see_events.php">
-                        <input type="text" name="searchItem" placeholder="Enter a search term..">
-                        <button type="submit" name="search"><i class="fa fa-search"></i></button>
-                    </form>
-                </div>
-
-
-            </form>
-        </div>
+</form>
+</div>
         <! Table that Displays Information>
             <! Table Header>
                 <! Table Row for each Event Entry>
+        
+        
+        <div id = "myDiv">
+                   
+                    <tbody id="myTable">
+                      
 
-
-                    <div id="myDiv">
-
-                        <tbody id="myTable">
-
-
-
-                            <?php
+                      
+                        <?php
         
             if($row == null)
             {
@@ -636,20 +688,17 @@ if ($row) {
         $date = $event["date"];
 
       echo'                
-      
-    
   <div class="container card col-sm-3 upper">
-  <div class="front">
-      <div class="details">
+      <div class="details front">
       <h2 class="text-center titleSet">'.$event["event_Title"].'</h2>
       
-	  <div class=" pad"><i class="fa fa-street-view"> </i>'. $event["location"].'
-	 
+	  <div class="pad"><b>'. $event["location"].'</b>
+	  <i class="fa fa-street-view"></i>
 	  </div>
           
       <div class="pad"><i class="fa fa-building"></i>'. $event["event_Type"].'</div>
               
-                      <div class=" pad"><i class="fa fa-calendar" aria-hidden="true"></i>'. date('n/d/y', strtotime($date)) .'</div>
+                      <div class="pad">'. date('n/d/y', strtotime($date)) .'<i class="fa fa-calendar" aria-hidden="true"></i></div>
                           <div class="pad"><i class="fa fa-hourglass-half "></i>'. date('g:i A', strtotime($time)) . '</div></div>';
         
 
@@ -699,46 +748,48 @@ if ($row) {
                     if($isFutureDate) {
                         $eventStatus = "OPEN";
                         ?>
-                            <div class="unRegisterDiv">
-                                <button class="btn card_btn myclass" type="submit" name="signup" value="<?php echo $event["event_Id"]; ?>">
-                                    Unregister
-                                </button>
-                            </div>
-                            <?php
+                        <div class="unRegisterDiv">
+                            <button class="btn card_btn myclass" type="submit" name="signup"
+                                    value="<?php echo $event["event_Id"]; ?>">
+                                Unregister
+                            </button>
+                        </div>
+                        <?php
                     } else {
                         $eventStatus = "CLOSED";
                         ?>
-
-                            <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
-                                <div class="commentDiv">
-                                    <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
-                                        Rate Event</button>
-                                </div>
-                            </form>
-                            <?php
+                        
+                        <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
+                            <div class = "commentDiv">
+                                <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
+                                    Rate Event</button>
+                            </div>
+                        </form>
+                        <?php
                     }
                 } 
            else {
                if($isFutureDate) {
                    $eventStatus = "OPEN";
                    ?>
-                            <div class="registerDiv">
-                                <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link" value='<?php echo $event["event_Id"] ?>'>
-                                    Signup
-                                </button>
-                            </div>
-                            <?php
+                   <div class="registerDiv">
+                       <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link"
+                               value='<?php echo $event["event_Id"] ?>'>
+                           Signup
+                       </button>
+                   </div>
+                   <?php
                } else { 
-                  ?> <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
-                                <div class="commentDiv">
-                                    <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
-                                        Event Reviews</button>
-                                </div>
-                            </form> <?php
+                  ?>  <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
+                            <div class = "commentDiv">
+                                <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
+                                    Event Reviews</button>
+                            </div>
+                        </form> <?php
                    $eventStatus = "CLOSED";
                }
            }
-        echo '<div class= pad"><b>Status:  '.$eventStatus.'</b></div>';
+        echo '<div class="lfloat pad"><b>Status:  '.$eventStatus.'</b></div>';
 
 
         $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
@@ -759,24 +810,23 @@ if ($row) {
     
     
       }; 
-                       echo  '</div>
-                       
-                       <button onclick="myFunction()" id="myBtn" class="btn card_btn readMore">Read More</button>
-                       
-                       <div class="hides ">
-                      
-                       <div class="desc">
-						 '.$event["event_Title"].'<br></div>
-                         <div class="desc_details">
+                       echo  
+                           
+                           
+                           '<div class="back" 
+                           "<div class="content">
+                           <h3 class="cardTitle"><i class="fa fa-list-ol"></i> Description<br></h3>
+                           
+						 <i class="fa fa-list-ol"></i> Description<br>
 					'.$event["description"];
        
         
           
     
-      echo ' </div></div>';
+      echo '</div>';
     
 
-        echo '
+        echo '<button onclick="myFunction()" id="myBtn" class="btn card_btn readMore">Read More</button>
   </div>'; 
     
    }
@@ -784,41 +834,75 @@ if ($row) {
 else {  echo '<h2 class="text-center">No events found.</h2>'; }
     
 
-?>
-                        </tbody>
+?> 
+                 </tbody>
 
-                    </div>
-                    <!--  <button class="button" id="moreEvents">Load More Events..</button> !-->
-                    <div class="loadMoreArea col-sm-10"><button class="button loadMore" id="moreEvents">Load More Events..</button></div>
+</div>
+                  <!--  <button class="button" id="moreEvents">Load More Events..</button> !-->
+    <div class="loadMoreArea col-sm-10"><button class="button loadMore" id="moreEvents">Load More Events..</button></div>
 
                     <! Will execute if nothing is in the table>
                         <?php
     
 
 ?>
+     
+     	<div id="myModal" class="modal">
 
-                        <div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+        <div class="modal-body">
+		<h2>Event Details Go Here</h2>
+        </div>
+        <div class="modal-footer">
+			<form action='edit_event.php' method='post'><input type='hidden' name='id' value=' <?php echo $event_Id ?>'>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Minimize</button>
+		 <!-- <button type="submit" class="btn btn-default" name="delete_event">Yes</button> !-->
+		  </form>
+        </div>
+      </div>
+  </div>
+     
 
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <h2>Event Details Go Here</h2>
-                                </div>
-                                <div class="modal-footer">
-                                    <form action='edit_event.php' method='post'><input type='hidden' name='id' value=' <?php echo $event_Id ?>'>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Minimize</button>
-                                        <!-- <button type="submit" class="btn btn-default" name="delete_event">Yes</button> !-->
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+<script>
+    
+    
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("btn btn-default")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+      
+      
+
+      <script>
+          
+          $('.card').click(function() {
+                                $(this).toggleClass('flipped');
+                            });
 
 
-
-
-
-                        <script>
-                            $(".front").show();
                             $(".hides").hide();
                             $(".submenu").hide();
 
@@ -836,9 +920,8 @@ else {  echo '<h2 class="text-center">No events found.</h2>'; }
 
                             $(".readmore").click(function() {
 
-                                $(this).prev().toggle("slow");
-
-                                $(this).next().toggle("slow");
+                                $(".hides").hide("slow");
+                                $(this).prev(".hides").toggle("slow");
 
                             });
 
@@ -849,135 +932,144 @@ else {  echo '<h2 class="text-center">No events found.</h2>'; }
                             });
 
                         </script>
+                        
+    <script>
+$(document).ready(function() {
+ var eventCount = <?php echo $eventCount ?>;
+    var eventCountInc = <?php echo $eventCountIncrement ?>;
+    var event_type = "<?php echo $event_Type ?>";
+    var fullDate = "<?php echo $fulldate ?>";
+    var searchItem = "<?php echo $searchI ?>";
 
-                        <script>
-                            $(document).ready(function() {
-                                var eventCount = <?php echo $eventCount ?>;
-                                var eventCountInc = <?php echo $eventCountIncrement ?>;
-                                var event_type = "<?php echo $event_Type ?>";
-                                var fullDate = "<?php echo $fulldate ?>";
-                                var searchItem = "<?php echo $searchI ?>";
+    // Refreshes the table being viewed on an interval
+    setInterval(update_content,60000); // 60 seconds
 
-                                // Refreshes the table being viewed on an interval
-                                setInterval(update_content, 60000); // 60 seconds
+    // When "more events" button is clicked - Increases the limit
+   // of the query to be executed within update_content
+    $("#moreEvents").click(function(){
+        //alert("inside more events");
+        eventCount = eventCount + eventCountInc;
+         //alert("CLICKED");
+        update_content();
+    });
 
-                                // When "more events" button is clicked - Increases the limit
-                                // of the query to be executed within update_content
-                                $("#moreEvents").click(function() {
-                                    //alert("inside more events");
-                                    eventCount = eventCount + eventCountInc;
-                                    //alert("CLICKED");
-                                    update_content();
-                                });
+     // Runs load-events.php which updates the events table
+    function update_content(){
+        //alert("inside update content");
+        $.get('includes/load-events.php',{
+                eventNewCount: eventCount,
+                event_Type: event_type,
+                fulldate: fullDate,
+                searchItem: searchItem
+            }
+        ).done(function(data, textStatus)
+        {
+            //alert(textStatus);
+            //alert(data);
+            $('#myDiv').html(data);
 
-                                // Runs load-events.php which updates the events table
-                                function update_content() {
-                                    //alert("inside update content");
-                                    $.get('includes/load-events.php', {
-                                        eventNewCount: eventCount,
-                                        event_Type: event_type,
-                                        fulldate: fullDate,
-                                        searchItem: searchItem
-                                    }).done(function(data, textStatus) {
-                                        //alert(textStatus);
-                                        //alert(data);
-                                        $('#myDiv').html(data);
+        }).fail(function(jqXHR, textStatus, errorThrown)
+        {
+            alert(textStatus);
+            alert(errorThrown);
+        });
+    }
+      // Sends an AJAX request to the event_registry.php page when an
+    // events register button is pressed. Requests will contain the events ID
+    $(document).on("click", ".registerDiv button", function(){
+        // takes the event id from the register button value attribute
+        var event_id = $(this).attr('value');
 
-                                    }).fail(function(jqXHR, textStatus, errorThrown) {
-                                        alert(textStatus);
-                                        alert(errorThrown);
-                                    });
-                                }
-                                // Sends an AJAX request to the event_registry.php page when an
-                                // events register button is pressed. Requests will contain the events ID
-                                $(document).on("click", ".registerDiv button", function() {
-                                    // takes the event id from the register button value attribute
-                                    var event_id = $(this).attr('value');
+        // will execute the ajax request only if the confirm prompt returns true
+        if (confirm("Are you sure you would like to sign up for this event?")) {
+            $.post('includes/event_registry.php',{
+                    event_id: event_id
+                }
+            ).done(function(data, textStatus)
+            {
+                // loads the outcome into the #registerOutcome div at the top of the page
+                $('#registerOutcome').html(data);
 
-                                    // will execute the ajax request only if the confirm prompt returns true
-                                    if (confirm("Are you sure you would like to sign up for this event?")) {
-                                        $.post('includes/event_registry.php', {
-                                            event_id: event_id
-                                        }).done(function(data, textStatus) {
-                                            // loads the outcome into the #registerOutcome div at the top of the page
-                                            $('#registerOutcome').html(data);
+            }).fail(function(jqXHR, textStatus, errorThrown)
+            {
+                alert(textStatus);
+                alert(errorThrown);
+            });
+            // hides the register button after it is clicked
+           $(this).hide();
+            update_content();
 
-                                        }).fail(function(jqXHR, textStatus, errorThrown) {
-                                            alert(textStatus);
-                                            alert(errorThrown);
-                                        });
-                                        // hides the register button after it is clicked
-                                        $(this).hide();
-                                        update_content();
+        } else {
 
-                                    } else {
+        }
+        return false;
+    });
+    
+      $(document).on("click", ".unRegisterDiv button", function(){
+        // takes the event id from the register button value attribute
+        var event_id = $(this).attr('value');
 
-                                    }
-                                    return false;
-                                });
+        // will execute the ajax request only if the confirm prompt returns true
+        if (confirm("Are you sure you would like to unregister from this event?")) {
+            $.post('includes/event_unregister.php',{
+                    event_id: event_id
+                }
+            ).done(function(data, textStatus)
+            {
+                // loads the outcome into the #registerOutcome div at the top of the page
+                $('#registerOutcome').html(data);
 
-                                $(document).on("click", ".unRegisterDiv button", function() {
-                                    // takes the event id from the register button value attribute
-                                    var event_id = $(this).attr('value');
+            }).fail(function(jqXHR, textStatus, errorThrown)
+            {
+                alert(textStatus);
+                alert(errorThrown);
+            });
+            // hides the unregister button after it is clicked
+            $(this).hide();
+            update_content();
+           
 
-                                    // will execute the ajax request only if the confirm prompt returns true
-                                    if (confirm("Are you sure you would like to unregister from this event?")) {
-                                        $.post('includes/event_unregister.php', {
-                                            event_id: event_id
-                                        }).done(function(data, textStatus) {
-                                            // loads the outcome into the #registerOutcome div at the top of the page
-                                            $('#registerOutcome').html(data);
+        } else {
 
-                                        }).fail(function(jqXHR, textStatus, errorThrown) {
-                                            alert(textStatus);
-                                            alert(errorThrown);
-                                        });
-                                        // hides the unregister button after it is clicked
-                                        $(this).hide();
-                                        update_content();
+        }
+        return false;
+    });
 
+    //function will take the value in "name" and use it as the event type
+    $(".sidemenu").click(function(){
+        var val = $(this).attr('name');
+        //alert(val);
+        event_type = val;
+        eventCount = 6;
+        update_content();
+    });
 
-                                    } else {
+    $( function() {
+        $('#datepicker').datepicker( {
+            onSelect: function(date) {
 
-                                    }
-                                    return false;
-                                });
+                date = date.toString();
+                event_type = "search";
+                eventCount = 6;
+                var tokens = date.split('/'),
+                    mm = tokens[0],
+                    dd = tokens[1];
 
-                                //function will take the value in "name" and use it as the event type
-                                $(".sidemenu").click(function() {
-                                    var val = $(this).attr('name');
-                                    //alert(val);
-                                    event_type = val;
-                                    eventCount = 6;
-                                    update_content();
-                                });
+                if (mm.charAt(0) === '0') tokens[0] = mm.replace("0", "");
+                if (dd.charAt(0) === '0') tokens[1] = dd.replace("0", "");
+                var newString = tokens[0] + "/" + tokens[1] + "/" + tokens[2];
+                searchItem = newString;
+                console.log(searchItem);
+                update_content();
 
-                                $(function() {
-                                    $('#datepicker').datepicker({
-                                        onSelect: function(date) {
-
-                                            date = date.toString();
-                                            event_type = "search";
-                                            eventCount = 6;
-                                            var tokens = date.split('/'),
-                                                mm = tokens[0],
-                                                dd = tokens[1];
-
-                                            if (mm.charAt(0) === '0') tokens[0] = mm.replace("0", "");
-                                            if (dd.charAt(0) === '0') tokens[1] = dd.replace("0", "");
-                                            var newString = tokens[0] + "/" + tokens[1] + "/" + tokens[2];
-                                            searchItem = newString;
-                                            console.log(searchItem);
-                                            update_content();
-
-                                        },
-                                        selectWeek: true,
-                                        inline: true,
-                                        startDate: '01/01/2000',
-                                        firstDay: 1
-                                    });
-                                });
-                            });
-
-                        </script>
-    </div>
+            },
+            selectWeek: true,
+            inline: true,
+            startDate: '01/01/2000',
+            firstDay: 1
+        });
+    });
+}); 
+        
+ </script> 
+</div>	

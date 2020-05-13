@@ -39,7 +39,13 @@ if(isset($_POST['update_event'])){
     $c_date          =   sanitize($raw_date);   
     $c_time           =   sanitize($raw_time);                          
     $c_capacity     = sanitize($raw_capacity);
-
+    
+    if(empty(cleandata($_POST['title'])) or (empty(cleandata($_POST['description']))) or (empty(cleandata($_POST['location']))))
+    {
+         echo '<div class="alert alert-danger text-center">
+              Event could not be updated. One or more fields missing input.
+            </div>';
+    } else {
         
           $default_capacity = null;
           
@@ -106,20 +112,18 @@ if(isset($_POST['update_event'])){
     
     if($run) {
            echo '<div class="alert alert-success text-center">
-                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Event updated successfully.
+                 Event updated successfully.
                   </div>';
         
-        header("Refresh:2; url=my_account.php", true, 303);
         
             } else {
                  echo '<div class="alert alert-danger text-center">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Sorry!</strong>Event could not be updated.
             </div>';
     }
-        
-      }
-
+}
+}
+    
 if(isset($_POST['delete_event'])){
 
 // Get the list_Id for the specified event.
@@ -148,11 +152,12 @@ if($row['list_Id'])
 if($run)
 {
      echo '<div class="alert alert-success text-center">
-                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Event has been deleted.
+                  Event has been deleted.
                   </div>';
         
         }
     } 
+
 ?> 
  
 <link href="css/style_dash.css" rel="stylesheet" type="text/css">
@@ -212,14 +217,14 @@ body {font-family: Oswald, sans-serif;}
                 <div class="form-group">
                     <label class="control-label " for="title"></label>
                     <div class="col-sm-12">
-                        <input type="title" name="title" class="form-control" id="title" placeholder="Enter Event Title" value="<?php echo $event_Title; ?>"required>
+                        <input type="title" maxlength="23" name="title" class="form-control" id="title" placeholder="Enter Event Title" value="<?php echo $event_Title; ?>"required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label " for="description"></label>
                     <div class="col-sm-12">
-                        <textarea class="form-control" style=resize:none rows="3" type="description" name="description" class="form-control" id="description" placeholder="Enter Description" required><?php echo $description; ?></textarea>
+                        <textarea class="form-control" maxlength="200" style=resize:none rows="3" type="description" name="description" class="form-control" id="description" placeholder="Enter Description" required><?php echo $description; ?></textarea>
                     </div>
                 </div>
 
@@ -241,7 +246,7 @@ body {font-family: Oswald, sans-serif;}
                 <div class="form-group">
                     <label class="control-label col-sm-12" for="location"></label>
                     <div class="col-sm-12">
-                        <input type="location" name="location" class="form-control" id="location" placeholder="Enter Location" value="<?php echo $location; ?>" required>
+                        <input type="location" maxlength="18" name="location" class="form-control" id="location" placeholder="Enter Location" value="<?php echo $location; ?>" required>
                     </div>
                 </div>
 

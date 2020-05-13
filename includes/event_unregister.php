@@ -110,7 +110,7 @@ session_start();
                     { */
                        
                            echo "<div class='alert alert-success text-center'>
-                                  <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+                                  <a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
                                 Successfully removed from event list.</a>
                                  </div>";
                             

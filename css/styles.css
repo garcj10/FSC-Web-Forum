@@ -296,12 +296,12 @@ label {
 .register_form {
 
     margin: 8% 0% 8% 0%;
-    border-right: 5px solid green;
+    border-right: 5px solid #006f71;
 
 }
 
 .register_view {
-    padding: 14% 0% 0% 5%;
+      margin: 8% 0% 8% 0%;
     font-size: 3vh;
     text-transform: uppercase;
 }

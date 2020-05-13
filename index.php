@@ -20,7 +20,7 @@
                         <form method="post" action="index.php">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" placeholder ="Enter Email" required>
+                                <input type="email" name="email" class="form-control" id="email" placeholder ="example@farmingdale.edu" required>
                                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                             <div class="form-group">
@@ -62,11 +62,11 @@
 
                             <div class="form-group">
                                 <label for="inputEmail4">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Enter Email" required>
+                                <input type="email" name="email" class="form-control" id="email" placeholder="example@farmingdale.edu" required>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword4">Password</label>
-                                <input type="password" name="password" class="form-control" id="pwd" placeholder="Enter Password" required>
+                                <input type="password" name="password" class="form-control" id="pwd" placeholder="Must be at least 8 characters" required>
                             </div>
 
                             <!-- Student/Faculty Registry -->
@@ -109,7 +109,7 @@
         </div>
 
         <div class="index_banner2">
-            <img src="images/graduation.jpeg" alt="" />
+            <img src="images/ram.png" alt="" />
         </div>
         
          <div class="index_banner3">

@@ -9,6 +9,10 @@ $event_Id = (int)$rawEventId;
 
 $rawRating = $_POST['rating'];
 $rating_Number = (int)$rawRating;
+if($rating_Number == 0)
+{
+    $rating_Number = 1;
+} 
 
 $title = $_POST['title'];
 
@@ -31,7 +35,7 @@ $row = $db->fetchSingle();
     if ($row)
     {
         echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif;
-             font-weight:300;">
+             font-weight:300; width: 80%;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Sorry!</strong> You have already left a review for this event.
             </div>';
@@ -53,14 +57,14 @@ else {
         if($run)
           {
                  echo '<div class="alert alert-success text-center" style="font-family: Oswald, sans-serif;
-             font-weight:300;">
+             font-weight:300; width: 80%;">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Rating posted successfully.
                   </div>';
               
 
             } else {
                  echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif;
-             font-weight:300;">
+             font-weight:300; width: 80%;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Sorry!</strong>Rating could not be posted.
             </div>';

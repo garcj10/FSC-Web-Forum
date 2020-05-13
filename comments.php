@@ -6,14 +6,25 @@ require('includes/pdocon.php');
 ?> 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
 
 
 <style>
+    
+    .ratingSection
+    {
+        display:none;
+        width: 90%;
+    }
+    
+.ratingTable
+    {
+        margin-left : 25%;
+       
+    }
+    
 .btn-grey{
     background-color:#D8D8D8;
 	color:#FFF;
@@ -58,6 +69,7 @@ require('includes/pdocon.php');
 	font-size:13px;
 }
 </style>
+<div class="ratingTable">
 <div class="container">		
 
   <?php
@@ -113,6 +125,7 @@ require('includes/pdocon.php');
 	}	
 	?>		
 	<br>
+   
     <div id="results">
     </div>
 	<div id="ratingDetails"> 		
@@ -223,11 +236,33 @@ require('includes/pdocon.php');
 				
 			</div>	
 			
-			<div class="col-sm-3">
-					
-                <form class="btn btn-default" id="rateProduct"  action="saveRating.php" method='post'>Rate this Event<input type='hidden' name='event_id' value='<?php echo $event_Id; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'></form>
-                <!--<button id="rateProducts">Rate this event</button>-->
-			</div>	
+            
+               
+               <?php
+                
+                $db->query('SELECT * FROM events_List WHERE event_Id=:event_Id');
+                $db->bindValue(':event_Id', $event_Id , PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+                $list_Id = $row['list_Id'];
+                
+                $user_Id = $_SESSION['user_data']['id'];
+        
+                $db->query('SELECT * FROM attendees WHERE list_Id=:list_Id AND user_Id=:user_Id');
+                $db->bindValue(':list_Id', $list_Id , PDO::PARAM_INT);
+                $db->bindValue(':user_Id', $user_Id , PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+            
+    
+                if($row){
+					?>
+               
+               <div class="col-sm-3"><form class="btn btn-default" id="rateProduct"  action="saveRating.php" method='post'>Rate this Event<input type='hidden' name='event_id' value='<?php echo $event_Id; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'></form>
+           
+			</div>	<?php 
+                } 
+        
+        ?>
+                
 			
 		</div>
 		<div class="row">
@@ -291,15 +326,38 @@ require('includes/pdocon.php');
 					<hr/>					
 				<?php } 
     }   else {
-                        echo "No ratings posted yet!";
-                    } 
-                    
+    
+                $db->query('SELECT * FROM events_List WHERE event_Id=:event_Id');
+                $db->bindValue(':event_Id', $event_Id , PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+                $list_Id = $row['list_Id'];
+                
+                $user_Id = $_SESSION['user_data']['id'];
+        
+                $db->query('SELECT * FROM attendees WHERE list_Id=:list_Id AND user_Id=:user_Id');
+                $db->bindValue(':list_Id', $list_Id , PDO::PARAM_INT);
+                $db->bindValue(':user_Id', $user_Id , PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+            
+    
+                if($row){
+				?> 
+                    <form class="btn btn-default" id="rateProduct"  action="saveRating.php" method='post'>Rate this Event<input type='hidden' name='event_id' value='<?php echo $event_Id; ?>'><input type='hidden' name='id' value='<?php echo $event_Id; ?>'></form> 
+                <?php
+                } 
+        
+                        echo '<h1 style="font-family: Oswald, sans-serif;">No ratings have been posted yet!</h1>'; 
+                        
+                    }
+                
 ?>
 				</div>
 			</div>
 		</div>	
 	</div>
-	<div id="ratingSection" style="display:none;">
+    </div>
+    
+	<div class="ratingSection" id="ratingSection">
 		<div class="row">
 			<div class="col-sm-12">
 				<form id="ratingForm" method="POST">
@@ -320,13 +378,12 @@ require('includes/pdocon.php');
 						<button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
 						  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 						</button>
-                        
-						
+                
 						
 						<!-- <input type="hidden" class="form-control" id="rating" name="rating" value="1"> -->
 						<!-- <input type="hidden" class="form-control" id="event_Id" name="event_Id" value="12345678"> -->
 						
-						<input type="hidden" class="form-control" id="rating" name="rating" >
+						<input type="hidden" class="form-control" id="rating" name="rating">
 				
 						
 						
@@ -349,8 +406,6 @@ require('includes/pdocon.php');
 	</div>				
 	<script>
         
-        
-	
 	//$(function() {
     //$(document).ready(function() {
 	// rating form hide/show
@@ -408,16 +463,17 @@ require('includes/pdocon.php');
             title: title,
             event_Id: event_Id
             }
+        
         ).done(function(data, textStatus)
         {
             $('#results').html(data);
             $("#ratingForm")[0].reset();
-            window.setTimeout(function(){window.location.reload()},3000)
+            window.setTimeout(function(){window.location.reload()},2000)
 
         }).fail(function(jqXHR, textStatus, errorThrown)
         {
             $("#ratingForm")[0].reset();
-            window.setTimeout(function(){window.location.reload()},3000)
+            window.setTimeout(function(){window.location.reload()},2000)
             //alert(textStatus);
             //alert(errorThrown);
         });
@@ -437,12 +493,12 @@ require('includes/pdocon.php');
            // alert("success");
            $('#results').html(data);
             //$("#ratingForm")[0].reset();
-             window.setTimeout(function(){window.location.reload()},3000) 
+             window.setTimeout(function(){window.location.reload()},2000) 
 
         }).fail(function(jqXHR, textStatus, errorThrown)
         {
             $("#ratingForm")[0].reset();
-            window.setTimeout(function(){window.location.reload()},3000)
+            window.setTimeout(function(){window.location.reload()},2000)
             //alert(textStatus);
             //alert(errorThrown);
         });

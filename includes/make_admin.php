@@ -35,7 +35,7 @@ session_start();
                       echo '<div class="alert alert-success text-center" style="font-family: Oswald, sans-serif;
                     font-weight:300;">
                             <a href="view_users.php" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            User: ' . $row['first_Name'] . " " . $row['last_Name'] . ' promoted to administrator.
+                            User: ' . $row['first_Name'] . " " . $row['last_Name'] . ' has been made an administrator.
                                 </div>';
                     
                 } else {

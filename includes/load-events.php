@@ -143,32 +143,34 @@ if ($row) {
         $row = $db->fetchMultiple();
     }
     
-foreach($row as $event)
+   foreach($row as $event)
    {
         $time = $event["time"];
         $date = $event["date"];
 
-      echo'                           
+      echo'                
+      
+     
+    
   <div class="container card col-sm-3 upper">
+  <div class="front">
       <div class="details">
       <h2 class="text-center titleSet">'.$event["event_Title"].'</h2>
       
-	  <div class="lfloat pad"><b>'. $event["location"].'</b>
-	  <i class="fa fa-street-view"></i>
+	  <div class=" pad"><i class="fa fa-street-view"> </i>'. $event["location"].'</b>
+	 
 	  </div>
           
       <div class="pad"><i class="fa fa-building"></i>'. $event["event_Type"].'</div>
               
-                      <div class="lfloat pad">'. date('n/d/Y', strtotime($date)) .'<i class="fa fa-calendar" aria-hidden="true"></i></div>
+                      <div class=" pad"><i class="fa fa-calendar" aria-hidden="true"></i>'. date('n/d/y', strtotime($date)) .'</div>
                           <div class="pad"><i class="fa fa-hourglass-half "></i>'. date('g:i A', strtotime($time)) . '</div></div>';
-
-
-       
-    if ($event["capacity"])
-    { 
-    
-                $event_Id = $event["event_Id"];
         
+
+    if($event["capacity"])
+    { 
+                $event_Id = $event["event_Id"];
+       
                 $db->query('SELECT * FROM events_list WHERE event_Id =:event_Id');
                 $db->bindValue(':event_Id', $event_Id, PDO::PARAM_INT);
                 $row = $db->fetchSingle();
@@ -178,72 +180,82 @@ foreach($row as $event)
                 $db->bindValue(':user_Id', $_SESSION['user_data']['id'], PDO::PARAM_INT);
                 $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
                 $row = $db->fetchSingle();
-
+            
+                $db->query('SELECT COUNT(*) AS count FROM attendees WHERE list_Id =:list_Id');
+                $db->bindvalue(':list_Id', $list_Id, PDO::PARAM_INT);
+                $row = $db->fetchSingle();
+        
                 $eventStatus = "";
-                $fullD = "$date $time";
-                $now = new DateTime();
-                $now->format('Y-m-d H:i:s');
-                $eventDateTime = new DateTime($fullD);
-                $eventDateTime->format('Y-m-d H:i:s');
-                $isFutureDate = ($eventDateTime > $now ? true : false);
+                $isFutureDate = (($date . " " . $time) >= date('Y-m-d H:i:s') ? true : false);
+
+                if($isFutureDate) {
+
+                    $spotsRemaining = $event["capacity"] - $row['count'] . "<br>";
+
+
+                    if ($spotsRemaining == 0) {
+                        $eventStatus = "Full";
+                        $spotsRemaining = "Sorry! This event is full.";
+                    }
+
+ 
+
+                    echo '<i class="fa fa-check-square"></i>' . "Spots left: " . $spotsRemaining;
+                }
+        
+                $db->query('SELECT * FROM attendees WHERE user_Id =:user_Id AND list_Id=:list_Id');
+                $db->bindValue(':user_Id', $_SESSION['user_data']['id'], PDO::PARAM_INT);
+                $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
+                $row = $db->fetchSingle();
 
              if ($row['user_Id'])
                 { 
-                 
-                    $db->query('SELECT COUNT(*) AS count FROM attendees WHERE list_Id =:list_Id');
-                    $db->bindvalue(':list_Id', $list_Id, PDO::PARAM_INT);
-                    $row = $db->fetchSingle();
-        
-                    $spotsRemaining = $event["capacity"] - $row['count'] . "<br>";
-                    if ($spotsRemaining == 0)
-                    {
-                        
-                        $spotsRemaining = "Sorry! This event is full.";
-                    }
-                 
-           
-           echo '<i class="fa fa-check-square"></i>' . "Spots left: " . $spotsRemaining;
-
                     if($isFutureDate) {
                         $eventStatus = "OPEN";
                         ?>
-                        <div class="unRegisterDiv">
-                            <button class="btn card_btn myclass" type="submit" name="signup"
-                                    value="<?php echo $event["event_Id"]; ?>">
-                                Unregister
-                            </button>
-                        </div>
-                        <?php
+<div class="unRegisterDiv">
+    <button class="btn card_btn myclass" type="submit" name="signup" value="<?php echo $event["event_Id"]; ?>">
+        Unregister
+    </button>
+</div>
+<?php
                     } else {
                         $eventStatus = "CLOSED";
                         ?>
-                        <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
-                            <div class = "commentDiv">
-                                <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
-                                    Rate Event</button>
-                            </div>
-                        </form>
-                        <?php
+
+<form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
+    <div class="commentDiv">
+        <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
+            Rate Event</button>
+    </div>
+</form>
+<?php
                     }
-                }
-             else {
-                 if($isFutureDate) {
-                     $eventStatus = "OPEN";
-                     ?>
-                     <div class="registerDiv">
-                         <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link"
-                                 value=<?php echo $event["event_Id"] ?>>
-                             Signup
-                         </button>
-                     </div>
-                     <?php
-                 } else {
-                     $eventStatus = "CLOSED";
-                 }
-             }
+                } 
+           else {
+               if($isFutureDate) {
+                   $eventStatus = "OPEN";
+                   ?>
+<div class="registerDiv">
+    <button class="btn card_btn myclass" type="submit" name="signup" class="btn btn-link" value='<?php echo $event["event_Id"] ?>'>
+        Signup
+    </button>
+</div>
+<?php
+               } else { 
+                  ?> <form action='comments.php' method="post"><input type='hidden' name='id' value='<?php echo $event["event_Id"] ?>'>
+    <div class="commentDiv">
+        <button type="submit" action="see_events.php" name='id' class="btn card_btn myclass" value='<?php echo $event["event_Id"] ?>'>
+            Event Reviews</button>
+    </div>
+</form> <?php
+                   $eventStatus = "CLOSED";
+               }
+           }
         echo '<div class="lfloat pad"><b>Status:  '.$eventStatus.'</b></div>';
 
-                $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
+
+        $db->query('SELECT * FROM attendees WHERE list_Id =:list_Id');
                 $db->bindValue(':list_Id', $list_Id, PDO::PARAM_INT);
                 $row = $db->fetchMultiple();
         
@@ -261,167 +273,158 @@ foreach($row as $event)
     
     
       }; 
-                       echo  '<div class="hides">
-						 <i class="fa fa-list-ol"></i> Description<br>
+          echo  '</div>
+                       
+                       <button onclick="myFunction()" id="myBtn" class="btn card_btn readMore">Read More</button>
+                       
+                       <div class="hides ">
+                      
+                       <div class="desc">
+						 '.$event["event_Title"].'<br></div>
+                         <div class="desc_details">
 					'.$event["description"];
        
         
           
     
-      echo '</div>';
+      echo ' </div></div>';
     
 
-        echo '<button onclick="myFunction()" class="btn card_btn readMore">Read More</button>
+        echo '
   </div>'; 
     
-    
-    } 
+   }
 
 }
 ?>
-     <script>
-		
-			 $(".hides").hide();
-
-			 $(".submenu").hide();
-           
-			 $( ".submenu:first" ).show();
-			 
-            $(".link").click(function() {
-
-                
-                $(this).next().toggle("slow");
-				 
-		
-
-            });
 
 
-			$(".readMore").click(function() {
-				
-              //  $(".hides").hide("slow");
-				  $(this).prev( ".hides" ).toggle("slow");
-				 
-            });
+<script>
+    $(".front").show();
+    $(".hides").hide();
 
-            $(".hiding").click(function() {
 
-                alert("Hello! I am an alert box!!");
-            });
+    $(".submenu:first").show();
 
-         
-        </script>
-        <script>
-        
 
-$(document).ready(function() {
-    var eventCount = <?php echo $eventCount ?>;
-    var eventCountInc = <?php echo $eventCountIncrement ?>;
-    var event_type = "<?php echo $event_Type ?>";
-    var fullDate = "<?php echo $fulldate ?>";
-    var searchItem = "<?php echo $searchI ?>";
 
-    // Refreshes the table being viewed on an interval
-    setInterval(update_content,60000); // 60 seconds
+    $(".readmore").click(function() {
 
-    // When "more events" button is clicked - Increases the limit
-   // of the query to be executed within update_content
-    $("#moreEvents").click(function(){
-        //alert("inside more events");
-        eventCount = eventCount + eventCountInc;
-         //alert("CLICKED");
-        update_content();
+        //$(".front").toggle("slow");
+        $(this).prev().toggle("slow");
+
+        $(this).next().toggle("slow");
+
     });
 
-     // Runs load-events.php which updates the events table
-    function update_content(){
-        //alert("inside update content");
-        $.get('includes/load-events.php',{
+
+    $(".hiding").click(function() {
+
+        alert("Hello! I am an alert box!!");
+    });
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        var eventCount = <?php echo $eventCount ?>;
+        var eventCountInc = <?php echo $eventCountIncrement ?>;
+        var event_type = "<?php echo $event_Type ?>";
+        var fullDate = "<?php echo $fulldate ?>";
+        var searchItem = "<?php echo $searchI ?>";
+
+        // Refreshes the table being viewed on an interval
+        setInterval(update_content, 60000); // 60 seconds
+
+        // When "more events" button is clicked - Increases the limit
+        // of the query to be executed within update_content
+        $("#moreEvents").click(function() {
+            //alert("inside more events");
+            eventCount = eventCount + eventCountInc;
+            //alert("CLICKED");
+            update_content();
+        });
+
+        // Runs load-events.php which updates the events table
+        function update_content() {
+            //alert("inside update content");
+            $.get('includes/load-events.php', {
                 eventNewCount: eventCount,
                 event_Type: event_type,
                 fulldate: fullDate,
                 searchItem: searchItem
+            }).done(function(data, textStatus) {
+                //alert(textStatus);
+                //alert(data);
+                $('#myDiv').html(data);
+
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+                alert(errorThrown);
+            });
+        }
+        // Sends an AJAX request to the event_registry.php page when an
+        // events register button is pressed. Requests will contain the events ID
+        $(document).on("click", ".registerDiv button", function() {
+            // takes the event id from the register button value attribute
+            var event_id = $(this).attr('value');
+
+            // will execute the ajax request only if the confirm prompt returns true
+            if (confirm("Are you sure you would like to sign up for this event?")) {
+                $.post('includes/event_registry.php', {
+                    event_id: event_id
+                }).done(function(data, textStatus) {
+                    // loads the outcome into the #registerOutcome div at the top of the page
+                    $('#registerOutcome').html(data);
+
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    alert(textStatus);
+                    alert(errorThrown);
+                });
+                // hides the register button after it is clicked
+                $(this).hide();
+
+            } else {
+
             }
-        ).done(function(data, textStatus)
-        {
-            //alert(textStatus);
-            //alert(data);
-            $('#myDiv').html(data);
-
-        }).fail(function(jqXHR, textStatus, errorThrown)
-        {
-            alert(textStatus);
-            alert(errorThrown);
+            return false;
         });
-    }
-      // Sends an AJAX request to the event_registry.php page when an
-    // events register button is pressed. Requests will contain the events ID
-    $(document).on("click", ".registerDiv button", function(){
-        // takes the event id from the register button value attribute
-        var event_id = $(this).attr('value');
 
-        // will execute the ajax request only if the confirm prompt returns true
-        if (confirm("Are you sure you would like to sign up for this event?")) {
-            $.post('includes/event_registry.php',{
+        $(document).on("click", ".unRegisterDiv button", function() {
+            // takes the event id from the register button value attribute
+            var event_id = $(this).attr('value');
+
+            // will execute the ajax request only if the confirm prompt returns true
+            if (confirm("Are you sure you would like to unregister from this event?")) {
+                $.post('includes/event_unregister.php', {
                     event_id: event_id
-                }
-            ).done(function(data, textStatus)
-            {
-                // loads the outcome into the #registerOutcome div at the top of the page
-                $('#registerOutcome').html(data);
+                }).done(function(data, textStatus) {
+                    // loads the outcome into the #registerOutcome div at the top of the page
+                    $('#registerOutcome').html(data);
 
-            }).fail(function(jqXHR, textStatus, errorThrown)
-            {
-                alert(textStatus);
-                alert(errorThrown);
-            });
-            // hides the register button after it is clicked
-            $(this).hide();
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    alert(textStatus);
+                    alert(errorThrown);
+                });
+                // hides the register button after it is clicked
+                $(this).hide();
 
-        } else {
 
-        }
-        return false;
-    });
-    
-      $(document).on("click", ".unRegisterDiv button", function(){
-        // takes the event id from the register button value attribute
-        var event_id = $(this).attr('value');
+            } else {
 
-        // will execute the ajax request only if the confirm prompt returns true
-        if (confirm("Are you sure you would like to unregister from this event?")) {
-            $.post('includes/event_unregister.php',{
-                    event_id: event_id
-                }
-            ).done(function(data, textStatus)
-            {
-                // loads the outcome into the #registerOutcome div at the top of the page
-                $('#registerOutcome').html(data);
+            }
+            return false;
+        });
 
-            }).fail(function(jqXHR, textStatus, errorThrown)
-            {
-                alert(textStatus);
-                alert(errorThrown);
-            });
-            // hides the register button after it is clicked
-            $(this).hide();
-           
-
-        } else {
-
-        }
-        return false;
+        //function will take the value in "name" and use it as the event type
+        $(".sidemenu").click(function() {
+            var val = $(this).attr('name');
+            //alert(val);
+            event_type = val;
+            eventCount = 6;
+            update_content();
+        });
     });
 
-    //function will take the value in "name" and use it as the event type
-    $(".sidemenu").click(function(){
-        var val = $(this).attr('name');
-        //alert(val);
-        event_type = val;
-        eventCount = 6;
-        update_content();
-    });
-}); 
-
- </script> 
+</script>
 </div>

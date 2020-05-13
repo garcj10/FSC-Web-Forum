@@ -18,30 +18,6 @@ tbody
     {
         color: #006f71;
     }
-    
-
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
 }
 
 </style>
@@ -94,22 +70,7 @@ tbody
                <td><?php echo "User";?></td> 
                
                </tr>   
-      <div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-        <div class="modal-body">
-		<h2>Would you like to make this user an administrator?</h2>
-       
-        </div>
-        <div class="modal-footer">
-			<form action='view_users.php' method='post'><input type='hidden' name="id" value='<?php echo $user['user_Id']; ?>'>
-          <button type="button" class="danger_button" data-dismiss="modal">Go Back</button>
-		  <button type="submit" class="button" style="background-color: #006f71;" name="update_user">Yes</button>
-            </form>
-        </div>
-      </div>
-  </div>
+  
     
     <?php } ?>
      
@@ -117,11 +78,6 @@ tbody
                 
          
   <?php }
-  if(isset($_POST['update_user']))
-           {
-               $user_Id = $_POST['myBtn'];
-                echo $user_Id;
-           }   
     ?>
  </tbody>
 </table>

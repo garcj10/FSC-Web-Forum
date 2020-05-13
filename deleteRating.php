@@ -18,7 +18,7 @@ $user_Id = $_SESSION['user_data']['id'];
         if($run)
           {
                  echo '<div class="alert alert-success text-center" style="font-family: Oswald, sans-serif;
-             font-weight:300;">
+             font-weight:300; width: 80%;">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Rating deleted successfully.
                   </div>';
               
@@ -26,7 +26,7 @@ $user_Id = $_SESSION['user_data']['id'];
 
             } else {
                  echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif;
-             font-weight:300;">
+             font-weight:300; width: 80%;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Sorry!</strong>Rating could not be deleted.
             </div>';

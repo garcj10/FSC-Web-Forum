@@ -132,7 +132,7 @@ session_start();
                        
                            echo "<div class='alert alert-success text-center' style='font-family: Oswald, sans-serif;
                     font-weight:300;'>
-                                  <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+                                  <a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
                                   Successfully registered. 
                                  </div>";
                     
@@ -140,7 +140,7 @@ session_start();
                            
                             
                             echo "<div class='alert alert-danger text-center' style='font-family: Oswald, sans-serif;
-                                  <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+                                  <a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
                                   <strong>Sorry!</strong> Registration failed. Please try again later.
                                  </div>";
                     }

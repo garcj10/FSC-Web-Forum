@@ -27,6 +27,23 @@ if(isset($_POST['submit_registry'])){
   
     $hashed_Pass        =   hashpassword($c_password);
     
+     if(!preg_match("/@farmingdale.edu/", $c_email))
+    {
+            
+  echo  '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; padding-top:70px;">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Sorry!</strong> Make sure you register with your Farmingdale email.  <a href="index.php">Try again.</a>
+            </div>';
+        } 
+    else if (strlen($c_password) < 8)
+    {
+       echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; padding-top:70px;">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+             Password length must be at least 8 characters.  <a href="index.php">Try again.</a>
+            </div>';
+    }
+      else {
+    
     $db->query("SELECT * FROM fsc_Users WHERE email = :email");
     
     $db->bindvalue(':email', $c_email, PDO::PARAM_STR);
@@ -35,7 +52,7 @@ if(isset($_POST['submit_registry'])){
     
     if($row){
         
-        echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; padding-top:30px;">
+        echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; padding-top:70px;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               User already exists. Please login.</a>
             </div>';
@@ -124,7 +141,7 @@ if(isset($_POST['submit_registry'])){
        } 
         
         
-        echo '<div class="alert alert-success text-center" style="font-family: Oswald, sans-serif; padding-top:30px;">
+        echo '<div class="alert alert-success text-center" style="font-family: Oswald, sans-serif; padding-top:70px;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               User registered successfully. Please <a href="index.php"> login.</a>
             </div>';
@@ -133,11 +150,12 @@ if(isset($_POST['submit_registry'])){
             
         } else {
             
-             echo  '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; padding-top:30px;">
+             echo  '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif; padding-top:70px;">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Sorry!</strong> User could not be registered. Please try again later.
             </div>';
         }
     }
+}
 }
 ?>

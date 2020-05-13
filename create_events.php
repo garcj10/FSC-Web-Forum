@@ -23,6 +23,15 @@ if(isset($_POST['create_event'])){
     $c_date          =   sanitize($raw_date);   
     $c_time           =   sanitize($raw_time);                          
     $c_capacity     = sanitize($raw_capacity);
+    
+     
+    if(empty(cleandata($_POST['title'])) or (empty(cleandata($_POST['description']))) or (empty(cleandata($_POST['location']))))
+    {
+         echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif;
+             font-weight:300;">
+              Event could not be created. One or more fields missing input.
+            </div>';
+    } else {
 
     $db->query("SELECT * FROM events WHERE event_Title = :title");
     
@@ -32,8 +41,9 @@ if(isset($_POST['create_event'])){
 
       if($row){
         
-        echo '<div class="alert alert-danger text-center">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif;
+             font-weight:300;">
+              <a href="create_events.php" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               Event has already been created.</a>
             </div>';
         
@@ -79,20 +89,21 @@ if(isset($_POST['create_event'])){
           
           if ($run)
           {
-                 echo '<div class="alert alert-success text-center">
-                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Event created successfully.
+                 echo '<div class="alert alert-success text-center" style="font-family: Oswald, sans-serif;
+             font-weight:300;">
+                  <a href="create_events.php" class="close" data-dismiss="alert" aria-label="close">&times;</a>Event created successfully.
                   </div>';
-              
-        header("Refresh:2; url=my_account.php", true, 303);
         
             } else {
-                 echo '<div class="alert alert-danger text-center">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                 echo '<div class="alert alert-danger text-center" style="font-family: Oswald, sans-serif;
+             font-weight:300;">
+              <a href="create_events.php" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Sorry!</strong>Event could not be created.
             </div>';
     }
 }
 
+}
 }
 ?> 
  
@@ -111,14 +122,14 @@ if(isset($_POST['create_event'])){
                 <div class="form-group">
                     <label class="control-label " for="title"></label>
                     <div class="col-sm-12">
-                        <input type="title" name="title" class="form-control" id="title" placeholder="Enter Event Title" required>
+                        <input type="title" maxlength="23" name="title" class="form-control" id="title" placeholder="Enter Event Title" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label " for="description"></label>
                     <div class="col-sm-12">
-                        <textarea class="form-control" rows="3" style=resize:none type="description" name="description" class="form-control" id="description" placeholder="Enter Description" required></textarea>
+                        <textarea class="form-control" rows="3" style=resize:none type="description" name="description" maxlength="200" class="form-control" id="description" placeholder="Enter Description" required></textarea>
                     </div>
                 </div>
 
@@ -140,7 +151,7 @@ if(isset($_POST['create_event'])){
                 <div class="form-group">
                     <label class="control-label col-sm-12" for="location"></label>
                     <div class="col-sm-12">
-                        <input type="location" name="location" class="form-control" id="location" placeholder="Enter Location" required>
+                        <input type="location" maxlength="18" name="location" class="form-control" id="location" placeholder="Enter Location" required>
                     </div>
                 </div>
 
@@ -158,7 +169,7 @@ if(isset($_POST['create_event'])){
                                 </div>
                           <label class="control-label" for="capacity"></label>
                          <div class="col-sm-6">
-                           <input type="number" name="capacity" class="form-control" id="capacity" placeholder="Capacity">
+                           <input type="number" min="0" name="capacity" class="form-control" id="capacity" placeholder="Capacity">
                          </div>
                        </div>
 
